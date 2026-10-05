@@ -176,11 +176,10 @@
 
         .project-view-content {
             flex: 1;
-            padding: 1.5rem;
             overflow-y: auto;
         }
 
-        .project-iframe {
+        .project-view-content iframe {
             width: 100%;
             height: 100%;
             border: none;
@@ -301,9 +300,7 @@
             }
 
             document.getElementById('viewTitle').textContent = project.title;
-            document.getElementById('viewContent').innerHTML = `
-                <iframe src="${project.url}" class="project-iframe"></iframe>
-            `;
+            document.getElementById('viewContent').innerHTML = `<iframe src="${project.url}" style="width: 100%; height: 100%; border: none;"></iframe>`;
             document.getElementById('projectView').classList.add('active');
         }
 
