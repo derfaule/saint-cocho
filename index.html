@@ -11,11 +11,6 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --primary-font: 'Georgia', serif;
-            --secondary-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        }
-
         html, body {
             height: 100%;
             width: 100%;
@@ -24,7 +19,7 @@
         body {
             background: #ffffff;
             color: #1a1a1a;
-            font-family: var(--secondary-font);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
             display: flex;
             overflow: hidden;
         }
@@ -41,7 +36,6 @@
         }
 
         .logo {
-            font-family: var(--primary-font);
             font-size: 2.5rem;
             font-weight: 400;
             margin-bottom: 0.5rem;
@@ -105,7 +99,6 @@
         }
 
         .project-title {
-            font-family: var(--primary-font);
             font-size: 1.6rem;
             font-weight: 400;
             color: #1a1a1a;
@@ -120,8 +113,7 @@
         .right-panel {
             width: 50%;
             background: #fafafa;
-            padding: 4rem 3rem;
-            overflow-y: auto;
+            overflow: hidden;
             display: none;
             flex-direction: column;
         }
@@ -131,14 +123,15 @@
         }
 
         .panel-header {
-            margin-bottom: 3rem;
+            padding: 2rem 3rem;
+            border-bottom: 1px solid #e0e0e0;
+            background: #ffffff;
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
         }
 
         .panel-title {
-            font-family: var(--primary-font);
             font-size: 2.2rem;
             font-weight: 400;
             color: #1a1a1a;
@@ -160,56 +153,13 @@
 
         .panel-content {
             flex: 1;
+            overflow-y: auto;
         }
 
-        .panel-content p {
-            font-size: 1rem;
-            line-height: 1.8;
-            color: #555;
-            margin-bottom: 1.5rem;
-        }
-
-        .panel-section {
-            margin-bottom: 2.5rem;
-        }
-
-        .panel-section h3 {
-            font-family: var(--primary-font);
-            font-size: 1.1rem;
-            font-weight: 400;
-            color: #1a1a1a;
-            margin-bottom: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.9rem;
-        }
-
-        .panel-section ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .panel-section li {
-            color: #666;
-            margin-bottom: 0.5rem;
-            font-size: 0.95rem;
-        }
-
-        .cta-link {
-            display: inline-block;
-            margin-top: 1rem;
-            padding: 0.75rem 1.5rem;
-            background: #1a1a1a;
-            color: #ffffff;
-            text-decoration: none;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: background 0.3s;
-        }
-
-        .cta-link:hover {
-            background: #333;
+        .project-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
         }
 
         /* RESPONSIVE */
@@ -227,7 +177,6 @@
                 bottom: 0;
                 width: 100%;
                 z-index: 100;
-                border-right: none;
             }
 
             .logo {
@@ -248,10 +197,6 @@
                 padding: 1.5rem;
             }
 
-            .right-panel {
-                padding: 1.5rem;
-            }
-
             nav {
                 gap: 1rem;
             }
@@ -263,6 +208,10 @@
 
             .tagline {
                 margin-bottom: 1.5rem;
+            }
+
+            .panel-header {
+                padding: 1.5rem;
             }
         }
     </style>
@@ -296,31 +245,19 @@
                 id: 'narrativas',
                 number: '01',
                 title: 'Narrativas Futboleros',
-                description: 'A scrollytelling experience about Colombian football culture, teams, and the beautiful game\'s place in our hearts.',
-                type: 'Interactive Narrative',
-                tech: ['HTML5', 'CSS3', 'JavaScript', 'SVG'],
-                year: '2026',
                 url: './narrativas-futboleros/'
             },
             {
                 id: 'proyecto2',
                 number: '02',
                 title: 'Proyecto 2',
-                description: 'Coming soon. Exploring new narratives and interactive experiences.',
-                type: 'To be announced',
-                tech: ['TBA'],
-                year: '2026',
-                url: '#'
+                url: null
             },
             {
                 id: 'proyecto3',
                 number: '03',
                 title: 'Proyecto 3',
-                description: 'Coming soon. More stories to tell.',
-                type: 'To be announced',
-                tech: ['TBA'],
-                year: '2026',
-                url: '#'
+                url: null
             }
         ];
 
@@ -336,26 +273,14 @@
 
         function openProject(projectId) {
             const project = projects.find(p => p.id === projectId);
-            if (!project) return;
+            if (!project || !project.url) return;
 
-            // Update right panel
+            // Update title
             document.getElementById('panelTitle').textContent = project.title;
-            document.getElementById('panelContent').innerHTML = `
-                <p>${project.description}</p>
-                <div class="panel-section">
-                    <h3>Project Type</h3>
-                    <p>${project.type}</p>
-                </div>
-                <div class="panel-section">
-                    <h3>Technologies</h3>
-                    <ul>${project.tech.map(t => `<li>${t}</li>`).join('')}</ul>
-                </div>
-                <div class="panel-section">
-                    <h3>Year</h3>
-                    <p>${project.year}</p>
-                </div>
-                <a href="${project.url}" target="_blank" class="cta-link">View Project</a>
-            `;
+
+            // Load project in iframe
+            const panelContent = document.getElementById('panelContent');
+            panelContent.innerHTML = `<iframe src="${project.url}" class="project-iframe"></iframe>`;
 
             // Show right panel
             document.getElementById('rightPanel').classList.add('active');
@@ -369,6 +294,7 @@
 
         function closePanel() {
             document.getElementById('rightPanel').classList.remove('active');
+            document.getElementById('panelContent').innerHTML = '';
             document.querySelectorAll('.project').forEach(el => {
                 el.classList.remove('active');
             });
