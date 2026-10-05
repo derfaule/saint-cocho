@@ -11,185 +11,212 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --primary-font: 'Georgia', serif;
+            --secondary-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+        }
+
         body {
-            background-color: #ffffff;
-            color: rgba(0, 0, 0, 0.85);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            min-height: 100vh;
+            background: #ffffff;
+            color: #1a1a1a;
+            font-family: var(--secondary-font);
+            display: flex;
             overflow: hidden;
         }
 
-        a {
-            color: rgba(0, 0, 0, 0.85);
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        a:hover {
-            opacity: 0.7;
-        }
-
-        a:active {
-            opacity: 0.7;
-        }
-
-        /* LEFT COLUMN */
+        /* LEFT PANEL */
         .left-panel {
-            border-right: 1px solid rgba(0, 0, 0, 0.1);
+            width: 50%;
+            background: #ffffff;
+            border-right: 1px solid #e0e0e0;
             overflow-y: auto;
+            padding: 4rem 3rem;
             display: flex;
             flex-direction: column;
         }
 
-        .header {
-            padding: 1.5rem;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        .header-title {
-            font-size: 1.2rem;
-            font-weight: 500;
-            margin-bottom: 1rem;
-        }
-
-        .header-nav {
-            display: flex;
-            gap: 1.5rem;
-            font-size: 0.9rem;
-        }
-
-        .header-nav a {
-            color: rgba(0, 0, 0, 0.85);
-        }
-
-        .project-list {
-            flex: 1;
-            padding: 1.5rem;
-            overflow-y: auto;
-        }
-
-        .project-list h1 {
-            font-family: 'Courier New', monospace;
+        .logo {
+            font-family: var(--primary-font);
             font-size: 2.5rem;
-            line-height: 1.2;
-            margin-bottom: 1rem;
-        }
-
-        .project-list ul {
-            margin: 0;
-            padding: 0;
-            list-style-type: none;
-        }
-
-        .project-list li {
+            font-weight: 400;
             margin-bottom: 0.5rem;
-            line-height: 1.3;
+            letter-spacing: -1px;
         }
 
-        .project-list li a {
+        .tagline {
+            font-size: 0.85rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 3rem;
+            font-weight: 400;
+        }
+
+        nav {
+            margin-bottom: 4rem;
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        nav a {
+            font-size: 0.9rem;
+            color: #1a1a1a;
+            text-decoration: none;
+            text-transform: capitalize;
+            letter-spacing: 0.5px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #666;
+        }
+
+        .projects-section {
+            flex: 1;
+        }
+
+        .project {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #f0f0f0;
             cursor: pointer;
-            padding: 0.25rem 0;
-            display: block;
+            transition: opacity 0.3s;
         }
 
-        .project-list li a:hover {
+        .project:last-child {
+            border-bottom: none;
+        }
+
+        .project:hover {
             opacity: 0.6;
         }
 
-        .project-list li a.active {
-            font-weight: 600;
-            text-decoration: underline;
-        }
-
-        /* RIGHT COLUMN */
-        .right-panel {
-            background-color: #ffffff;
-            border-left: 1px solid rgba(0, 0, 0, 0.1);
-            overflow-y: auto;
-            padding: 2rem;
-            display: none;
-        }
-
-        .right-panel.active {
-            display: block;
-        }
-
-        .panel-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        .panel-title {
-            font-size: 1.8rem;
-            font-weight: 500;
-        }
-
-        .close-btn {
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: rgba(0, 0, 0, 0.5);
-        }
-
-        .close-btn:hover {
-            color: rgba(0, 0, 0, 0.85);
-        }
-
-        .panel-content {
-            font-size: 1rem;
-            line-height: 1.6;
-            color: rgba(0, 0, 0, 0.8);
-        }
-
-        .panel-content p {
-            margin-bottom: 1.5rem;
-        }
-
-        .panel-content h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-top: 2rem;
+        .project-number {
+            font-size: 0.85rem;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             margin-bottom: 0.5rem;
         }
 
-        .panel-content ul {
-            margin-left: 1.5rem;
+        .project-title {
+            font-family: var(--primary-font);
+            font-size: 1.6rem;
+            font-weight: 400;
+            color: #1a1a1a;
+            line-height: 1.3;
+        }
+
+        .project.active .project-title {
+            font-weight: 600;
+        }
+
+        /* RIGHT PANEL */
+        .right-panel {
+            width: 50%;
+            background: #fafafa;
+            padding: 4rem 3rem;
+            overflow-y: auto;
+            display: none;
+            flex-direction: column;
+        }
+
+        .right-panel.active {
+            display: flex;
+        }
+
+        .panel-header {
+            margin-bottom: 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .panel-title {
+            font-family: var(--primary-font);
+            font-size: 2.2rem;
+            font-weight: 400;
+            color: #1a1a1a;
+        }
+
+        .close-btn {
+            font-size: 1.8rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s;
+            line-height: 1;
+        }
+
+        .close-btn:hover {
+            color: #1a1a1a;
+        }
+
+        .panel-content {
+            flex: 1;
+        }
+
+        .panel-content p {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #555;
             margin-bottom: 1.5rem;
         }
 
-        .panel-content li {
-            margin-bottom: 0.3rem;
+        .panel-section {
+            margin-bottom: 2.5rem;
         }
 
-        /* FOOTER */
-        .footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
+        .panel-section h3 {
+            font-family: var(--primary-font);
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: #1a1a1a;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .panel-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .panel-section li {
+            color: #666;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .cta-link {
+            display: inline-block;
+            margin-top: 1rem;
             padding: 0.75rem 1.5rem;
-            font-size: 0.8rem;
-            color: rgba(0, 0, 0, 0.4);
-            background: #ffffff;
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
-            grid-column: 1 / -1;
-            text-align: right;
-            z-index: 10;
+            background: #1a1a1a;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background 0.3s;
         }
 
-        .footer a {
-            color: rgba(0, 0, 0, 0.4);
+        .cta-link:hover {
+            background: #333;
         }
 
         /* RESPONSIVE */
-        @media (max-width: 1200px) {
-            body {
-                grid-template-columns: 1fr;
+        @media (max-width: 1024px) {
+            .left-panel {
+                width: 100%;
+                padding: 2rem;
             }
 
             .right-panel {
@@ -199,127 +226,156 @@
                 right: 0;
                 bottom: 0;
                 width: 100%;
-                border-left: none;
                 z-index: 100;
+                border-right: none;
             }
 
-            .left-panel {
-                z-index: 50;
-                max-height: calc(100vh - 60px);
+            .logo {
+                font-size: 2rem;
+            }
+
+            .project-title {
+                font-size: 1.3rem;
+            }
+
+            .panel-title {
+                font-size: 1.8rem;
             }
         }
 
         @media (max-width: 768px) {
-            body {
-                grid-template-columns: 1fr;
-            }
-
-            .project-list h1 {
-                font-size: 1.8rem;
-            }
-
             .left-panel {
-                padding-bottom: 60px;
+                padding: 1.5rem;
+            }
+
+            .right-panel {
+                padding: 1.5rem;
+            }
+
+            nav {
+                gap: 1rem;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .tagline {
+                margin-bottom: 1.5rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- LEFT PANEL: Navigation & Projects -->
+    <!-- LEFT PANEL -->
     <div class="left-panel">
-        <div class="header">
-            <div class="header-title">Saint.Cocho</div>
-            <div class="header-nav">
-                <a href="#info">Info</a>
-                <a href="#blog">Blog</a>
-            </div>
-        </div>
+        <div class="logo">Saint.Cocho</div>
+        <div class="tagline">portfolio + essays</div>
 
-        <div class="project-list">
-            <h1>
-                <ul>
-                    <li><a class="project-link" data-project="narrativas">Narrativas Futboleros</a></li>
-                    <li><a class="project-link" data-project="proyecto2">Proyecto 2</a></li>
-                    <li><a class="project-link" data-project="proyecto3">Proyecto 3</a></li>
-                </ul>
-            </h1>
-        </div>
+        <nav>
+            <a href="#info">Info</a>
+            <a href="#blog">Essays</a>
+        </nav>
+
+        <div class="projects-section" id="projectsList"></div>
     </div>
 
-    <!-- RIGHT PANEL: Project Details -->
-    <div class="right-panel">
+    <!-- RIGHT PANEL -->
+    <div class="right-panel" id="rightPanel">
         <div class="panel-header">
-            <div class="panel-title" id="panelTitle">Select a project</div>
-            <div class="close-btn" onclick="closePanel()">✕</div>
+            <div class="panel-title" id="panelTitle"></div>
+            <button class="close-btn" onclick="closePanel()">✕</button>
         </div>
-        <div class="panel-content" id="panelContent">
-            <p>Click on a project to view details.</p>
-        </div>
-    </div>
-
-    <!-- FOOTER -->
-    <div class="footer">
-        <a href="#">Last Updated: 2026-10-05</a>
+        <div class="panel-content" id="panelContent"></div>
     </div>
 
     <script>
-        const projects = {
-            narrativas: {
+        const projects = [
+            {
+                id: 'narrativas',
+                number: '01',
                 title: 'Narrativas Futboleros',
-                content: `
-                    <p>A scrollytelling experience about Colombian football culture, teams, and the beautiful game's place in our hearts.</p>
-                    <h3>Project Type</h3>
-                    <p>Interactive Narrative / Scrollytelling</p>
-                    <h3>Technologies</h3>
-                    <ul>
-                        <li>HTML5</li>
-                        <li>CSS3</li>
-                        <li>JavaScript</li>
-                        <li>Data Visualization</li>
-                    </ul>
-                    <h3>Explore</h3>
-                    <p><a href="./narrativas-futboleros/" target="_blank">Open Project →</a></p>
-                `
+                description: 'A scrollytelling experience about Colombian football culture, teams, and the beautiful game\'s place in our hearts.',
+                type: 'Interactive Narrative',
+                tech: ['HTML5', 'CSS3', 'JavaScript', 'SVG'],
+                year: '2026',
+                url: './narrativas-futboleros/'
             },
-            proyecto2: {
+            {
+                id: 'proyecto2',
+                number: '02',
                 title: 'Proyecto 2',
-                content: '<p>Coming soon...</p>'
+                description: 'Coming soon. Exploring new narratives and interactive experiences.',
+                type: 'To be announced',
+                tech: ['TBA'],
+                year: '2026',
+                url: '#'
             },
-            proyecto3: {
+            {
+                id: 'proyecto3',
+                number: '03',
                 title: 'Proyecto 3',
-                content: '<p>Coming soon...</p>'
+                description: 'Coming soon. More stories to tell.',
+                type: 'To be announced',
+                tech: ['TBA'],
+                year: '2026',
+                url: '#'
             }
-        };
+        ];
 
-        function openProject(projectKey) {
-            const project = projects[projectKey];
-            if (project) {
-                document.getElementById('panelTitle').textContent = project.title;
-                document.getElementById('panelContent').innerHTML = project.content;
-                document.querySelector('.right-panel').classList.add('active');
+        function renderProjects() {
+            const projectsList = document.getElementById('projectsList');
+            projectsList.innerHTML = projects.map(p => `
+                <div class="project" onclick="openProject('${p.id}')">
+                    <div class="project-number">${p.number}</div>
+                    <div class="project-title">${p.title}</div>
+                </div>
+            `).join('');
+        }
 
-                // Update active state
-                document.querySelectorAll('.project-link').forEach(link => {
-                    link.classList.remove('active');
-                });
-                document.querySelector(`[data-project="${projectKey}"]`).classList.add('active');
-            }
+        function openProject(projectId) {
+            const project = projects.find(p => p.id === projectId);
+            if (!project) return;
+
+            // Update right panel
+            document.getElementById('panelTitle').textContent = project.title;
+            document.getElementById('panelContent').innerHTML = `
+                <p>${project.description}</p>
+                <div class="panel-section">
+                    <h3>Project Type</h3>
+                    <p>${project.type}</p>
+                </div>
+                <div class="panel-section">
+                    <h3>Technologies</h3>
+                    <ul>${project.tech.map(t => `<li>${t}</li>`).join('')}</ul>
+                </div>
+                <div class="panel-section">
+                    <h3>Year</h3>
+                    <p>${project.year}</p>
+                </div>
+                <a href="${project.url}" target="_blank" class="cta-link">View Project</a>
+            `;
+
+            // Show right panel
+            document.getElementById('rightPanel').classList.add('active');
+
+            // Update active state
+            document.querySelectorAll('.project').forEach(el => {
+                el.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
         }
 
         function closePanel() {
-            document.querySelector('.right-panel').classList.remove('active');
-            document.querySelectorAll('.project-link').forEach(link => {
-                link.classList.remove('active');
+            document.getElementById('rightPanel').classList.remove('active');
+            document.querySelectorAll('.project').forEach(el => {
+                el.classList.remove('active');
             });
         }
 
-        // Add event listeners
-        document.querySelectorAll('.project-link').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                openProject(link.dataset.project);
-            });
-        });
+        // Initialize
+        renderProjects();
     </script>
 </body>
 </html>
