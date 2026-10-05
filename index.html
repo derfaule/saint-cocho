@@ -58,7 +58,29 @@
         }
 
         .hero {
-            margin-bottom: 120px;
+            margin: -60px -40px 120px -40px;
+            padding: 120px 40px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                radial-gradient(circle at 20% 50%, rgba(76, 175, 80, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(33, 150, 243, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
         }
 
         .hero h1 {
@@ -67,12 +89,13 @@
             margin-bottom: 20px;
             line-height: 1.1;
             max-width: 600px;
+            color: #fff;
         }
 
         .hero p {
-            font-size: 16px;
-            color: #666;
-            max-width: 500px;
+            font-size: 18px;
+            color: #ccc;
+            max-width: 550px;
         }
 
         .projects {
@@ -195,8 +218,10 @@
             </header>
 
             <section class="hero">
-                <h1>Historias de Fútbol</h1>
-                <p>Interactive narratives exploring the culture, history, and passion of Colombian football through scrollytelling and data visualization.</p>
+                <div class="hero-content">
+                    <h1>Historias de Fútbol</h1>
+                    <p>Interactive narratives exploring the culture, history, and passion of Colombian football through scrollytelling and data visualization.</p>
+                </div>
             </section>
 
             <section class="projects" id="projects">
