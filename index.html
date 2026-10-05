@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Narrativas Futboleras</title>
+    <title>Saint.Cocho</title>
     <style>
         * {
             margin: 0;
@@ -101,13 +101,63 @@
         .footer a:hover {
             color: rgba(0, 0, 0, 0.85);
         }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 1rem;
+            border-bottom: 0.1rem solid rgba(0, 0, 0, 0.1);
+            margin-bottom: 1rem;
+        }
+
+        .header-title {
+            font-size: 1rem;
+            font-weight: 400;
+            margin: 0;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .header-nav a {
+            color: rgba(0, 0, 0, 0.85);
+            text-decoration: none;
+        }
+
+        .header-nav a:hover {
+            opacity: 0.6;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .header-nav {
+                gap: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
+    <div class="header">
+        <div class="header-title">Saint.Cocho</div>
+        <div class="header-nav">
+            <a href="#projects">Projects</a>
+            <a href="#info">Info</a>
+            <a href="#blog">Blog</a>
+        </div>
+    </div>
+
     <div class="page-content">
         <h1>
             <ul class="lineated">
-                <li><a href="#home">Narrativas Futboleras</a></li>
+                <li><a href="#home">Saint.Cocho</a></li>
                 <li><a href="./narrativas-futboleros/">Narrativas Futboleros</a></li>
                 <li><a href="#">Proyecto 2</a></li>
                 <li><a href="#">Proyecto 3</a></li>
