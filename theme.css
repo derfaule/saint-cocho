@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,100;9..144,400;9..144,700&display=swap');
+
 /* Saint.Cocho — shared design tokens
    Loaded by the visualizador iframe so style changes here
    propagate without redeploying the app. */
@@ -9,4 +11,8 @@
   --sc-text: #1a1a1a;
   --sc-text-muted: #666666;
   --sc-graph-bg: #faf8f4;
+}
+
+p {
+  font-family: 'Fraunces', serif;
 }
