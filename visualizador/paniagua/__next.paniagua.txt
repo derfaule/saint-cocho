@@ -1,4 +1,4 @@
 1:"$Sreact.fragment"
 2:I[39756,["/saint-cocho/visualizador/_next/static/chunks/0dbhjjzl8qfwv.js"],"default"]
 3:I[37457,["/saint-cocho/visualizador/_next/static/chunks/0dbhjjzl8qfwv.js"],"default"]
-0:{"rsc":["$","$1","c",{"children":[null,["$","div",null,{"className":"h-full overflow-y-auto","children":["$","$L2",null,{"parallelRouterKey":"children","template":["$","$L3",null,{}]}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"kpd4nVvVKg3HWTqj2nzS3"}
+0:{"rsc":["$","$1","c",{"children":[null,["$","div",null,{"className":"h-full overflow-y-auto","children":["$","$L2",null,{"parallelRouterKey":"children","template":["$","$L3",null,{}]}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"4FfygjbWcgtNSHJBBGxkl"}

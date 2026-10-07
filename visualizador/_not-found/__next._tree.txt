@@ -1,2 +1,3 @@
-:HL["/saint-cocho/visualizador/_next/static/chunks/0_j78wa9p.7sl.css","style"]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"kpd4nVvVKg3HWTqj2nzS3"}
+:HL["/saint-cocho/visualizador/_next/static/chunks/13v.7i8csv3nl.css","style"]
+:HL["https://derfaule.github.io/saint-cocho/theme.css","style"]
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"4FfygjbWcgtNSHJBBGxkl"}
