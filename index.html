@@ -181,6 +181,11 @@
             max-width: none;
             z-index: 1000;
             border-left: none;
+            transform: translateX(50%);
+        }
+
+        .project-view.fullpage.active {
+            transform: translateX(0);
         }
 
         .overlay {
@@ -254,8 +259,12 @@
             .project-view.fullpage {
                 width: 100%;
                 max-width: none;
-                transform: translateX(0);
+                transform: translateX(50%);
                 z-index: 1000;
+            }
+
+            .project-view.fullpage.active {
+                transform: translateX(0);
             }
 
             .overlay.active {
