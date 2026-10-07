@@ -6,7 +6,7 @@
     <title>Saint.Cocho</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Fraunces:opsz,wght@9..144,100;9..144,400;9..144,700&display=swap" rel="stylesheet">
+    <link href="./theme.css" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -20,7 +20,7 @@
         }
 
         body {
-            font-family: 'Archivo', sans-serif;
+            font-family: var(--font-sans);
             background: #f5f0e8;
             color: #1a1a1a;
             display: flex;
@@ -61,8 +61,8 @@
         }
 
         p {
-            font-family: 'Fraunces', serif;
-            font-weight: 300;
+            font-family: var(--font-serif);
+            font-weight: var(--font-weight-paragraph);
         }
 
         /* MAIN CONTAINER */
@@ -103,8 +103,9 @@
 
         .project-title-scroll {
             font-size: 12rem;
-            font-weight: 800;
-            line-height: 1.1;
+            font-family: var(--font-sans);
+            font-weight: var(--font-weight-heading);
+            line-height: var(--line-height-heading);
             white-space: nowrap;
             animation: scroll 50s linear infinite;
             padding: 0 2rem;
