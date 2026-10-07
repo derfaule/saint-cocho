@@ -1,2 +1,2 @@
-:HL["/saint-cocho/visualizador/_next/static/chunks/0buzn5anl9cpo.css","style"]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"GUbunEKZLSQi_yxQhw84a"}
+:HL["/saint-cocho/visualizador/_next/static/chunks/0_j78wa9p.7sl.css","style"]
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"kpd4nVvVKg3HWTqj2nzS3"}
