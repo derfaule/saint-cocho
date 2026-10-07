@@ -18,7 +18,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #f5efe7;
+            background: #f5f0e8;
             color: #1a1a1a;
             display: flex;
             flex-direction: column;
@@ -98,13 +98,22 @@
             font-weight: 800;
             line-height: 1.1;
             white-space: nowrap;
-            animation: scroll 15s linear infinite;
+            animation: scroll 25s linear infinite;
             padding: 0 2rem;
         }
 
         @keyframes scroll {
             0% {
                 transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        @keyframes scroll-loop {
+            0% {
+                transform: translateX(0);
             }
             100% {
                 transform: translateX(-100%);
@@ -190,6 +199,13 @@
         .project-view-title {
             font-size: 1.8rem;
             font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .project-view-description {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 400;
         }
 
         .close-btn {
@@ -299,18 +315,18 @@
         <div class="projects-area">
             <a class="project-block green" onclick="openProject('narrativas', event)">
                 <div class="project-title-scroll">
-                    Narrativas Futboleros — Narrativas Futboleros — Narrativas Futboleros — Narrativas Futboleros —
+                    Narrativas Futboleros / Narrativas Futboleros / Narrativas Futboleros / Narrativas Futboleros —
                 </div>
             </a>
             <a class="project-block yellow" onclick="openProject('visualizador', event)">
                 <div class="project-title-scroll">
-                    Visualizador de Artistas — Visualizador de Artistas — Visualizador de Artistas — Visualizador de Artistas —
+                    Visualizador de Artistas Medellín Tropical / Visualizador de Artistas Medellín Tropical / Visualizador de Artistas Medellín Tropical / Visualizador de Artistas —
                 </div>
             </a>
             <a class="project-block red" onclick="openProject('proyecto2', event)">
             <a class="project-block blue" onclick="openProject('proyecto3', event)">
                 <div class="project-title-scroll">
-                    Proyecto 3 — Proyecto 3 — Proyecto 3 — Proyecto 3 — Proyecto 3 — Proyecto 3 —
+                    Proyecto 3 / Proyecto 3 / Proyecto 3 / Proyecto 3 / Proyecto 3 / Proyecto 3 —
                 </div>
             </a>
         </div>
@@ -318,7 +334,10 @@
         <!-- RIGHT: PROJECT VIEW -->
         <div class="project-view" id="projectView">
             <div class="project-view-header">
-                <div class="project-view-title" id="viewTitle"></div>
+                <div>
+                    <div class="project-view-title" id="viewTitle"></div>
+                    <div class="project-view-description" id="viewDescription"></div>
+                </div>
                 <button class="close-btn" onclick="closeProject()">✕</button>
             </div>
             <div class="project-view-content" id="viewContent"></div>
@@ -333,7 +352,8 @@
                 fullpage: false
             },
             visualizador: {
-                title: 'Visualizador de Artistas',
+                title: 'Visualizador de Artistas Medellín Tropical',
+                description: 'Colombian music bands network',
                 url: './visualizador/index.html',
                 fullpage: true
             },
@@ -357,6 +377,7 @@
             }
 
             document.getElementById('viewTitle').textContent = project.title;
+            document.getElementById('viewDescription').textContent = project.description || '';
             document.getElementById('viewContent').innerHTML = `<iframe src="${project.url}" style="width: 100%; height: 100%; border: none;" allow="popup"></iframe>`;
 
             const projectView = document.getElementById('projectView');
