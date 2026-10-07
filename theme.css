@@ -1,0 +1,12 @@
+/* Saint.Cocho — shared design tokens
+   Loaded by the visualizador iframe so style changes here
+   propagate without redeploying the app. */
+:root {
+  --sc-font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --sc-bg: #f5efe7;
+  --sc-surface: #ffffff;
+  --sc-border: #e0e0e0;
+  --sc-text: #1a1a1a;
+  --sc-text-muted: #666666;
+  --sc-graph-bg: #faf8f4;
+}
