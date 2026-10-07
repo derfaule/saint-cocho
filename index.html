@@ -157,6 +157,7 @@
             overflow-y: auto;
             display: none;
             flex-direction: column;
+            position: relative;
         }
 
         .project-view.active {
@@ -189,35 +190,17 @@
             display: block;
         }
 
-        .project-view-header {
-            padding: 1.5rem;
-            background: #ffffff;
-            border-bottom: 1px solid #e0e0e0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-shrink: 0;
-        }
-
-        .project-view-title {
-            font-size: 1.8rem;
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-        }
-
-        .project-view-description {
-            font-size: 0.9rem;
-            color: #666;
-            font-weight: 400;
-        }
-
         .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
             background: none;
             border: none;
-            font-size: 1.5rem;
+            font-size: 2rem;
             cursor: pointer;
             color: #999;
             transition: color 0.2s;
+            z-index: 1000;
         }
 
         .close-btn:hover {
@@ -340,13 +323,7 @@
 
         <!-- RIGHT: PROJECT VIEW -->
         <div class="project-view" id="projectView">
-            <div class="project-view-header">
-                <div>
-                    <div class="project-view-title" id="viewTitle"></div>
-                    <div class="project-view-description" id="viewDescription"></div>
-                </div>
-                <button class="close-btn" onclick="closeProject()">✕</button>
-            </div>
+            <button class="close-btn" onclick="closeProject()">✕</button>
             <div class="project-view-content" id="viewContent"></div>
         </div>
     </div>
@@ -383,8 +360,6 @@
                 return;
             }
 
-            document.getElementById('viewTitle').textContent = project.title;
-            document.getElementById('viewDescription').textContent = project.description || '';
             document.getElementById('viewContent').innerHTML = `<iframe src="${project.url}" style="width: 100%; height: 100%; border: none;" allow="popup"></iframe>`;
 
             const projectView = document.getElementById('projectView');
