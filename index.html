@@ -163,21 +163,24 @@
             display: none;
             flex-direction: column;
             position: relative;
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .project-view.active {
             display: flex;
+            transform: translateX(0);
         }
 
         .project-view.fullpage {
             position: fixed;
             top: 0;
             right: 0;
-            width: 100%;
+            width: 60%;
             height: 100vh;
             max-width: none;
             z-index: 1000;
-            border-left: none;
+            border-left: 1px solid #e0e0e0;
         }
 
         .overlay {
@@ -239,17 +242,19 @@
                 height: 100vh;
                 z-index: 100;
                 border-left: none;
+                transform: translateX(100%);
+                transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             }
 
             .project-view.active {
                 display: flex;
+                transform: translateX(0);
             }
 
             .project-view.fullpage {
                 width: 100%;
                 max-width: none;
-                left: 0;
-                right: auto;
+                transform: translateX(0);
                 z-index: 1000;
             }
 
@@ -369,7 +374,6 @@
             document.getElementById('viewContent').innerHTML = `<iframe src="${project.url}" style="width: 100%; height: 100%; border: none;" allow="popup"></iframe>`;
 
             const projectView = document.getElementById('projectView');
-            projectView.classList.add('active');
 
             if (project.fullpage) {
                 projectView.classList.add('fullpage');
@@ -378,6 +382,8 @@
                 projectView.classList.remove('fullpage');
                 document.getElementById('overlay').classList.remove('active');
             }
+
+            projectView.classList.add('active');
         }
 
         function closeProject() {
