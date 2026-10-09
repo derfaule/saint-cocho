@@ -1,3 +1,4 @@
 *.af
 .git
 .wrangler
+wrangler.jsonc
