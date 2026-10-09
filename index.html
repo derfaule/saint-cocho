@@ -71,7 +71,8 @@
         .projects-area {
             position: absolute;
             inset: 0;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
             transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
@@ -94,15 +95,15 @@
 
         .project-block {
             flex: 0.2;
-            min-height: 0;
+            min-height: min-content;
             cursor: pointer;
             text-decoration: none;
             color: var(--color-fg);
             background: var(--color-bg);
-            overflow: hidden;
             display: flex;
             align-items: center;
             position: relative;
+            padding: 0.5em 0;
             transition: background-color 0.35s ease, color 0.35s ease;
         }
 
@@ -110,8 +111,10 @@
             font-family: var(--font-heading);
             font-weight: var(--font-weight-heading);
             font-size: clamp(2.25rem, 1.1rem + 5.75vw, 10rem);
-            line-height: 1.05;
+            line-height: 1.15;
             padding: 0 2rem;
+            max-width: 100%;
+            overflow-wrap: break-word;
         }
 
         .project-block.green:hover {
