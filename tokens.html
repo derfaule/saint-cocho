@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design tokens</title>
+    <link rel="stylesheet" href="./theme.css">
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; background: #ffffff; color: #1a1a1a; }
+        .layout { display: grid; grid-template-columns: minmax(260px, 340px) 1fr; min-height: 100vh; }
+        aside { padding: 2rem 1.5rem; border-right: 1px solid #e0e0e0; background: #faf8f4; }
+        aside h1 { font-size: 1.1rem; margin-bottom: 1.25rem; }
+        label { display: block; font-size: 0.8rem; margin: 0.9rem 0 0.25rem; color: #555; }
+        input { width: 100%; padding: 0.45rem 0.6rem; border: 1px solid #ccc; border-radius: 6px; font: inherit; font-size: 0.9rem; }
+        .note { font-size: 0.8rem; color: #666; line-height: 1.5; margin-top: 1rem; }
+        button { margin-top: 1.25rem; width: 100%; padding: 0.7rem; border: none; border-radius: 6px; background: #1a1a1a; color: #fff; font: inherit; cursor: pointer; }
+        button:hover { opacity: 0.85; }
+        #status { font-size: 0.8rem; color: #2a7; margin-top: 0.5rem; min-height: 1em; }
+        main { padding: 2.5rem 3rem; }
+        .specimen h2 { font-size: 3.5rem; margin-bottom: 1rem; }
+        .specimen h3 { font-size: 1.75rem; margin-bottom: 1.5rem; }
+        .specimen p { font-size: 1.2rem; max-width: 38rem; margin-bottom: 1.25rem; }
+        .sample-label { font-size: 0.75rem; color: #888; text-transform: uppercase; letter-spacing: 0.08em; margin: 2.5rem 0 0.5rem; }
+        .projects { margin-top: 3rem; border-top: 1px solid #e0e0e0; padding-top: 1.5rem; }
+        .projects code { background: #f2f2f2; padding: 0.1rem 0.35rem; border-radius: 4px; }
+        @media (max-width: 800px) {
+            .layout { grid-template-columns: 1fr; }
+            aside { border-right: none; border-bottom: 1px solid #e0e0e0; }
+            main { padding: 1.5rem; }
+            .specimen h2 { font-size: 2.25rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="layout">
+    <aside>
+        <h1>Design tokens</h1>
+
+        <label for="font-heading">Heading family</label>
+        <input id="font-heading" data-var="--font-heading" data-kind="family">
+
+        <label for="font-body">Body family</label>
+        <input id="font-body" data-var="--font-body" data-kind="family">
+
+        <label for="weight-heading">Heading weight</label>
+        <input id="weight-heading" data-var="--font-weight-heading" data-kind="raw" type="number" min="100" max="900" step="100">
+
+        <label for="weight-body">Body weight</label>
+        <input id="weight-body" data-var="--font-weight-body" data-kind="raw" type="number" min="100" max="900" step="100">
+
+        <label for="weight-paragraph">Paragraph weight</label>
+        <input id="weight-paragraph" data-var="--font-weight-paragraph" data-kind="raw" type="number" min="100" max="900" step="100">
+
+        <label for="lh-heading">Heading line height</label>
+        <input id="lh-heading" data-var="--line-height-heading" data-kind="raw" type="number" min="0.8" max="2" step="0.05">
+
+        <label for="lh-body">Body line height</label>
+        <input id="lh-body" data-var="--line-height-body" data-kind="raw" type="number" min="1" max="2.5" step="0.05">
+
+        <button id="copy">Copy edited block</button>
+        <div id="status"></div>
+
+        <p class="note">
+            Changes here preview live on this page only. To keep them, click <em>Copy edited block</em> and paste it over the
+            <code>EDIT HERE</code> section of <code>theme.css</code>.
+            Font families must already be loaded by the <code>@import</code> at the top of <code>theme.css</code>; add a family there
+            before using it.
+        </p>
+    </aside>
+
+    <main>
+        <div class="specimen">
+            <p class="sample-label">Heading</p>
+            <h2>Bandas y músicos de Colombia</h2>
+
+            <p class="sample-label">Subheading</p>
+            <h3>Narrativas Futboleros</h3>
+
+            <p class="sample-label">Paragraph</p>
+            <p>hola, este es mi espacio donde escribo y hago cosas porque me da la gana, ya saben, diseñar y perder el tiempo</p>
+            <p>No sabré muy bien por qué estoy escribiendo todo esto en un futuro; lo que sí siento hoy es que a veces las manifestaciones artísticas tienden a ser alabadas como si se tratara de una estratagema.</p>
+        </div>
+
+        <div class="projects">
+            <p class="sample-label">Where these tokens apply</p>
+            <p>
+                <code>index.html</code> (portfolio), <code>narrativas-futboleros/index.html</code>, <code>sancocho-vallenato/styles.css</code>.
+                Sancocho and Narrativas load this file through <code>theme.css</code>.
+            </p>
+        </div>
+    </main>
+</div>
+
+<script>
+    const root = document.documentElement;
+    const inputs = document.querySelectorAll('input[data-var]');
+    const computed = getComputedStyle(root);
+
+    inputs.forEach((input) => {
+        input.value = computed.getPropertyValue(input.dataset.var).trim();
+        input.addEventListener('input', () => {
+            root.style.setProperty(input.dataset.var, input.value);
+        });
+    });
+
+    document.getElementById('copy').addEventListener('click', async () => {
+        const lines = ['  /* ===== EDIT HERE: typography ===== */'];
+        inputs.forEach((input) => {
+            lines.push(`  ${input.dataset.var}: ${input.value};`);
+        });
+        lines.push('  /* ================================ */');
+        const block = lines.join('\n');
+        const status = document.getElementById('status');
+        try {
+            await navigator.clipboard.writeText(block);
+            status.textContent = 'Copied. Paste over the EDIT HERE block in theme.css.';
+        } catch (err) {
+            status.textContent = block;
+        }
+    });
+</script>
+</body>
+</html>

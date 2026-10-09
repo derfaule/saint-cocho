@@ -1,24 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Fraunces:opsz,wght@9..144,100;9..144,400;9..144,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;700;800&family=Spectral:wght@200;300;400;500;600;700;800&display=swap');
 
-/* Saint.Cocho — shared design tokens
-   Loaded by the visualizador iframe so style changes here
-   propagate without redeploying the app. */
+/* Saint.Cocho — shared design tokens.
+   EDIT THE VALUES IN THE "EDIT HERE" BLOCK. Every project that links this file
+   (portfolio, Narrativas, Sancocho) picks up changes after a reload.
+   Preview and copy values from tokens.html. */
 :root {
-  /* Typography - Fonts */
-  --font-sans: 'Archivo', sans-serif;
-  --font-serif: 'Fraunces', serif;
+  /* ===== EDIT HERE: typography ===== */
+  --font-heading: 'Archivo', sans-serif;
+  --font-body: 'Spectral', serif;
 
-  /* Typography - Weights */
   --font-weight-heading: 800;
   --font-weight-body: 400;
   --font-weight-paragraph: 300;
 
-  /* Typography - Line Heights */
   --line-height-heading: 1.1;
   --line-height-body: 1.6;
+  /* ================================ */
 
-  /* Colors */
-  --sc-font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --sc-bg: #f5efe7;
   --sc-surface: #ffffff;
   --sc-border: #e0e0e0;
@@ -27,23 +25,20 @@
   --sc-graph-bg: #faf8f4;
 }
 
-/* Default body typography */
 body {
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
   font-weight: var(--font-weight-body);
   line-height: var(--line-height-body);
 }
 
-/* Paragraph typography */
 p {
-  font-family: var(--font-serif);
+  font-family: var(--font-body);
   font-weight: var(--font-weight-paragraph);
   line-height: var(--line-height-body);
 }
 
-/* Heading typography */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-sans);
+  font-family: var(--font-heading);
   font-weight: var(--font-weight-heading);
   line-height: var(--line-height-heading);
 }
