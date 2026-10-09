@@ -20,6 +20,7 @@
         }
 
         body {
+            --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
             font-family: var(--font-sans);
             background: #f5f0e8;
             color: #1a1a1a;
@@ -73,10 +74,18 @@
         }
 
         .projects-area {
-            height: 100%;
+            position: absolute;
+            inset: 0;
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+        }
+
+        .projects-area.is-hidden {
+            opacity: 0;
+            transform: translateX(-3rem);
+            pointer-events: none;
         }
 
         .project-block {
@@ -131,12 +140,21 @@
         }
 
         .project-view {
-            height: 100%;
-            display: none;
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transform: translateY(2rem);
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out), visibility 0s linear 0.5s;
         }
 
         .project-view.active {
-            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+            pointer-events: auto;
+            transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out), visibility 0s;
         }
 
         .project-view iframe {
@@ -144,6 +162,20 @@
             height: 100%;
             border: none;
             display: block;
+            opacity: 0;
+            transition: opacity 0.4s ease 0.15s;
+        }
+
+        .project-view iframe.is-loaded {
+            opacity: 1;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .projects-area,
+            .project-view,
+            .project-view iframe {
+                transition: none;
+            }
         }
 
         @media (max-width: 768px) {
@@ -211,15 +243,19 @@
 
             const view = document.getElementById('projectView');
             view.innerHTML = `<iframe src="${url}" allow="popup"></iframe>`;
+            view.querySelector('iframe').addEventListener('load', (e) => e.target.classList.add('is-loaded'));
+            document.getElementById('home').classList.add('is-hidden');
             view.classList.add('active');
-            document.getElementById('home').style.display = 'none';
         }
 
         function showHome(event) {
             event.preventDefault();
-            document.getElementById('projectView').innerHTML = '';
-            document.getElementById('projectView').classList.remove('active');
-            document.getElementById('home').style.display = '';
+            const view = document.getElementById('projectView');
+            view.classList.remove('active');
+            document.getElementById('home').classList.remove('is-hidden');
+            setTimeout(() => {
+                if (!view.classList.contains('active')) view.innerHTML = '';
+            }, 500);
         }
     </script>
 </body>
