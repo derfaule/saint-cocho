@@ -88,53 +88,47 @@
             pointer-events: none;
         }
 
+        .home-intro {
+            flex: none;
+            padding: 2rem 2rem 1.5rem;
+            max-width: 40rem;
+            font-size: 1.25rem;
+            line-height: 1.5;
+            color: #1a1a1a;
+        }
+
         .project-block {
             flex: 1;
             min-height: 0;
             cursor: pointer;
-            transition: opacity 0.2s;
             text-decoration: none;
-            color: inherit;
+            color: #1a1a1a;
+            background: #f5f0e8;
+            border-bottom: 1px solid #e0e0e0;
             overflow: hidden;
             display: flex;
             align-items: center;
             position: relative;
+            transition: background-color 0.35s ease, color 0.35s ease;
         }
 
-        .project-block:hover {
-            opacity: 0.9;
-        }
-
-        .project-title-scroll {
-            font-size: 12rem;
+        .project-title {
             font-family: var(--font-sans);
             font-weight: var(--font-weight-heading);
-            line-height: var(--line-height-heading);
-            white-space: nowrap;
-            animation: scroll 90s linear infinite;
+            font-size: clamp(2.25rem, 1.1rem + 5.75vw, 10rem);
+            line-height: 1.05;
             padding: 0 2rem;
         }
 
-        @keyframes scroll {
-            0% {
-                transform: translateX(0%);
-            }
-            100% {
-                transform: translateX(-100%);
-            }
-        }
-
-        .project-block.green {
+        .project-block.green:hover {
             background: #52C41A;
-            color: #1a1a1a;
         }
 
-        .project-block.yellow {
+        .project-block.yellow:hover {
             background: #FADB14;
-            color: #1a1a1a;
         }
 
-        .project-block.purple {
+        .project-block.purple:hover {
             background: #6366f1;
             color: #ffffff;
         }
@@ -192,9 +186,6 @@
                 font-size: 0.85rem;
             }
 
-            .project-title-scroll {
-                font-size: 2.5rem;
-            }
         }
     </style>
 </head>
@@ -209,20 +200,15 @@
 
     <main>
         <div class="projects-area" id="home">
+            <p class="home-intro">hola, este es mi espacio donde escribo y hago cosas porque me da la gana, ya saben, diseñar y perder el tiempo</p>
             <a class="project-block green" onclick="openProject('narrativas', event)">
-                <div class="project-title-scroll">
-                    Narrativas Futboleros / Narrativas Futboleros / Narrativas Futboleros / Narrativas Futboleros / Narrativas Futboleros / Narrativas Futboleros / Narrativas Futboleros / Narrativas Futboleros / Narrativas Futboleros / Narrativas Futboleros / Narrativas Futboleros / Narrativas Futboleros / Narrativas Futboleros /
-                </div>
+                <div class="project-title">Narrativas Futboleros</div>
             </a>
             <a class="project-block yellow" onclick="openProject('visualizador', event)">
-                <div class="project-title-scroll">
-                    Visualizador de Artistas Medellín Tropical / Visualizador de Artistas Medellín Tropical / Visualizador de Artistas Medellín Tropical / Visualizador de Artistas Medellín Tropical / Visualizador de Artistas Medellín Tropical / Visualizador de Artistas Medellín Tropical / Visualizador de Artistas Medellín Tropical / Visualizador de Artistas Medellín Tropical / Visualizador de Artistas Medellín Tropical /
-                </div>
+                <div class="project-title">Visualizador de Artistas Medellín Tropical</div>
             </a>
             <a class="project-block purple" onclick="openProject('sancocho', event)">
-                <div class="project-title-scroll">
-                    Sancocho Vallenato / Sancocho Vallenato / Sancocho Vallenato / Sancocho Vallenato / Sancocho Vallenato / Sancocho Vallenato / Sancocho Vallenato / Sancocho Vallenato / Sancocho Vallenato / Sancocho Vallenato / Sancocho Vallenato / Sancocho Vallenato /
-                </div>
+                <div class="project-title">Sancocho Vallenato</div>
             </a>
         </div>
 
