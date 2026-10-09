@@ -3,17 +3,15 @@
 /* Saint.Cocho — shared design tokens
    Loaded by the visualizador iframe so style changes here
    propagate without redeploying the app. */
+
+
 :root {
-  /* Typography - Fonts */
-  --font-sans: 'Archivo', sans-serif;
-  --font-serif: 'Fraunces', serif;
 
-  /* Typography - Weights */
-  --font-weight-heading: 800;
-  --font-weight-body: 400;
+  --font-heading: 'Archivo', sans-serif;
+  --font-body: 'Spectral', serif;
+  --font-weight-heading: 100;
+  --font-weight-body: 300;
   --font-weight-paragraph: 300;
-
-  /* Typography - Line Heights */
   --line-height-heading: 1.1;
   --line-height-body: 1.6;
 
