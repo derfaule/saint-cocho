@@ -1,7 +1,7 @@
 /* Sancocho Vallenato - Minimal Black & White */
 :root {
-    --primary-white: #ffffff;
-    --primary-black: #000000;
+    --primary-white: var(--color-bg);
+    --primary-black: var(--color-fg);
 }
 
 * {

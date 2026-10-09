@@ -58,6 +58,18 @@
         <label for="lh-body">Body line height</label>
         <input id="lh-body" data-var="--line-height-body" data-kind="raw" type="number" min="1" max="2.5" step="0.05">
 
+        <label for="color-bg">Background</label>
+        <input id="color-bg" data-var="--color-bg" data-kind="color" type="text">
+
+        <label for="color-fg">Foreground</label>
+        <input id="color-fg" data-var="--color-fg" data-kind="color" type="text">
+
+        <label for="color-fg-muted">Muted foreground</label>
+        <input id="color-fg-muted" data-var="--color-fg-muted" data-kind="color" type="text">
+
+        <label for="color-border">Border</label>
+        <input id="color-border" data-var="--color-border" data-kind="color" type="text">
+
         <button id="copy">Copy edited block</button>
         <div id="status"></div>
 
@@ -105,12 +117,14 @@
     });
 
     document.getElementById('copy').addEventListener('click', async () => {
-        const lines = ['  /* ===== EDIT HERE: typography ===== */'];
-        inputs.forEach((input) => {
-            lines.push(`  ${input.dataset.var}: ${input.value};`);
-        });
-        lines.push('  /* ================================ */');
-        const block = lines.join('\n');
+        const typography = [...inputs].filter((i) => i.dataset.kind !== 'color');
+        const colors = [...inputs].filter((i) => i.dataset.kind === 'color');
+        const section = (title, group) => [
+            `  /* ===== EDIT HERE: ${title} ===== */`,
+            ...group.map((input) => `  ${input.dataset.var}: ${input.value};`),
+            '  /* ' + '='.repeat(title.length + 14) + ' */'
+        ];
+        const block = [...section('typography', typography), ...section('color', colors)].join('\n');
         const status = document.getElementById('status');
         try {
             await navigator.clipboard.writeText(block);

@@ -17,18 +17,26 @@
   --line-height-body: 1.6;
   /* ================================ */
 
-  --sc-bg: #f5efe7;
-  --sc-surface: #ffffff;
-  --sc-border: #e0e0e0;
-  --sc-text: #1a1a1a;
-  --sc-text-muted: #666666;
-  --sc-graph-bg: #faf8f4;
+  /* ===== EDIT HERE: color ===== */
+  --color-bg: #ffffff;
+  --color-fg: #1a2030;
+  --color-fg-muted: #5a6275;
+  --color-border: #dfe3ea;
+  /* ============================= */
+
+  --sc-bg: var(--color-bg);
+  --sc-surface: var(--color-bg);
+  --sc-border: var(--color-border);
+  --sc-text: var(--color-fg);
+  --sc-text-muted: var(--color-fg-muted);
 }
 
 body {
   font-family: var(--font-body);
   font-weight: var(--font-weight-body);
   line-height: var(--line-height-body);
+  background: var(--color-bg);
+  color: var(--color-fg);
 }
 
 p {

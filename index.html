@@ -22,8 +22,8 @@
         body {
             --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
             font-family: var(--font-body);
-            background: #f5f0e8;
-            color: #1a1a1a;
+            background: var(--color-bg);
+            color: var(--color-fg);
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -34,15 +34,15 @@
             justify-content: space-between;
             align-items: center;
             padding: 1rem 1.5rem;
-            background: #ffffff;
-            border-bottom: 1px solid #e0e0e0;
+            background: var(--color-bg);
+            border-bottom: 1px solid var(--color-border);
             flex-shrink: 0;
         }
 
         .logo {
             font-size: 0.95rem;
             font-weight: 500;
-            color: #1a1a1a;
+            color: var(--color-fg);
             text-decoration: none;
         }
 
@@ -53,7 +53,7 @@
         }
 
         nav a {
-            color: #1a1a1a;
+            color: var(--color-fg);
             text-decoration: none;
             transition: opacity 0.2s;
         }
@@ -89,7 +89,7 @@
             max-width: 40rem;
             font-size: 1.25rem;
             line-height: 1.5;
-            color: #1a1a1a;
+            color: var(--color-fg);
         }
 
         .project-block {
@@ -97,9 +97,9 @@
             min-height: 0;
             cursor: pointer;
             text-decoration: none;
-            color: #1a1a1a;
-            background: #f5f0e8;
-            border-bottom: 1px solid #e0e0e0;
+            color: var(--color-fg);
+            background: var(--color-bg);
+            border-bottom: 1px solid var(--color-border);
             overflow: hidden;
             display: flex;
             align-items: center;
