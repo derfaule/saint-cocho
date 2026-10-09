@@ -21,6 +21,7 @@
 
         body {
             --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+            --home-display-size: clamp(1.9rem, 0.95rem + 4.9vw, 8.5rem);
             font-family: var(--font-body);
             background: var(--color-bg);
             color: var(--color-fg);
@@ -88,7 +89,7 @@
             flex: none;
             font-family: var(--font-heading);
             padding: 2rem 2rem 1.5rem;
-            font-size: clamp(2.25rem, 1.1rem + 5.75vw, 10rem);
+            font-size: var(--home-display-size);
             line-height: 1.05;
             color: var(--color-fg);
         }
@@ -110,7 +111,7 @@
         .project-title {
             font-family: var(--font-heading);
             font-weight: var(--font-weight-heading);
-            font-size: clamp(2.25rem, 1.1rem + 5.75vw, 10rem);
+            font-size: var(--home-display-size);
             line-height: 1.15;
             padding: 0 2rem;
             max-width: 100%;
