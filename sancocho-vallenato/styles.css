@@ -1,7 +1,7 @@
 /* Sancocho Vallenato - Minimal Black & White */
 :root {
-    --primary-white: #ffffff;
-    --primary-black: #000000;
+    --primary-white: var(--color-bg);
+    --primary-black: var(--color-fg);
 }
 
 * {
@@ -16,7 +16,7 @@ html, body {
 }
 
 body {
-    font-family: 'Spectral', serif;
+    font-family: var(--font-body);
     background-color: var(--primary-white);
     color: var(--primary-black);
     line-height: 1.6;
@@ -24,7 +24,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Spectral', serif;
+    font-family: var(--font-heading);
     font-weight: 700;
 }
 
@@ -124,7 +124,7 @@ h1, h2, h3, h4, h5, h6 {
     border: none;
     cursor: pointer;
     text-transform: uppercase;
-    font-family: 'Spectral', serif;
+    font-family: var(--font-body);
 }
 
 .btn-primary {
