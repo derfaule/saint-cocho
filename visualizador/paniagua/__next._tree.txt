@@ -1,3 +1,3 @@
-:HL["/saint-cocho/visualizador/_next/static/chunks/0bi4n9~s.ya2n.css","style"]
+:HL["/visualizador/_next/static/chunks/0bi4n9~s.ya2n.css","style"]
 :HL["https://derfaule.github.io/saint-cocho/theme.css","style"]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"paniagua","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"aA4z6Zj_2pTjVqqix_GmA"}
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"paniagua","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"-82Y4aZv6YFFk1S0VDBhC"}
