@@ -25,9 +25,14 @@
             color: #1a1a1a;
             display: flex;
             flex-direction: column;
+            overflow: hidden;
         }
 
-        /* HEADER */
+        p {
+            font-family: var(--font-serif);
+            font-weight: var(--font-weight-paragraph);
+        }
+
         header {
             display: flex;
             justify-content: space-between;
@@ -36,12 +41,13 @@
             background: #ffffff;
             border-bottom: 1px solid #e0e0e0;
             flex-shrink: 0;
-            z-index: 10;
         }
 
         .logo {
             font-size: 0.95rem;
             font-weight: 500;
+            color: #1a1a1a;
+            text-decoration: none;
         }
 
         nav {
@@ -60,32 +66,22 @@
             opacity: 0.6;
         }
 
-        p {
-            font-family: var(--font-serif);
-            font-weight: var(--font-weight-paragraph);
-        }
-
-        /* MAIN CONTAINER */
-        .container {
-            display: flex;
+        main {
             flex: 1;
-            overflow: hidden;
+            min-height: 0;
+            position: relative;
         }
 
-        /* LEFT SIDE - PROJECTS */
         .projects-area {
-            flex: 1;
-            overflow-y: auto;
-            overflow-x: hidden;
-            padding: 0;
+            height: 100%;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
-            gap: 0;
         }
 
         .project-block {
             flex: 1;
-            min-height: 200px;
+            min-height: 0;
             cursor: pointer;
             transition: opacity 0.2s;
             text-decoration: none;
@@ -93,7 +89,6 @@
             overflow: hidden;
             display: flex;
             align-items: center;
-            justify-content: center;
             position: relative;
         }
 
@@ -120,29 +115,9 @@
             }
         }
 
-        @keyframes scroll-loop {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(-100%);
-            }
-        }
-
-        /* COLOR VARIANTS */
         .project-block.green {
             background: #52C41A;
             color: #1a1a1a;
-        }
-
-        .project-block.red {
-            background: #FF4D4F;
-            color: #ffffff;
-        }
-
-        .project-block.blue {
-            background: #1890FF;
-            color: #ffffff;
         }
 
         .project-block.yellow {
@@ -155,123 +130,20 @@
             color: #ffffff;
         }
 
-        /* RIGHT SIDE - PROJECT VIEW */
         .project-view {
-            width: 50%;
-            background: #f5f5f5;
-            border-left: 1px solid #e0e0e0;
-            overflow-y: auto;
+            height: 100%;
             display: none;
-            flex-direction: column;
-            position: relative;
-            transform: translateX(100%);
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .project-view.active {
-            display: flex;
-            transform: translateX(0);
-        }
-
-        .project-view.fullpage {
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 100%;
-            height: 100vh;
-            max-width: none;
-            z-index: 1000;
-            border-left: none;
-            transform: translateX(50%);
-        }
-
-        .project-view.fullpage.active {
-            transform: translateX(0);
-        }
-
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 999;
-            display: none;
-            cursor: pointer;
-        }
-
-        .overlay.active {
             display: block;
         }
 
-        .close-btn {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: none;
-            border: none;
-            font-size: 2rem;
-            cursor: pointer;
-            color: #999;
-            transition: color 0.2s;
-            z-index: 1000;
-        }
-
-        .close-btn:hover {
-            color: #1a1a1a;
-        }
-
-        .project-view-content {
-            flex: 1;
-            min-height: 0;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .project-view-content iframe {
-            flex: 1;
-            min-height: 0;
+        .project-view iframe {
             width: 100%;
+            height: 100%;
             border: none;
-        }
-
-        /* MOBILE */
-        @media (max-width: 1024px) {
-            .project-view {
-                position: fixed;
-                top: 0;
-                right: 0;
-                width: 100%;
-                max-width: 500px;
-                height: 100vh;
-                z-index: 100;
-                border-left: none;
-                transform: translateX(100%);
-                transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            }
-
-            .project-view.active {
-                display: flex;
-                transform: translateX(0);
-            }
-
-            .project-view.fullpage {
-                width: 100%;
-                max-width: none;
-                transform: translateX(50%);
-                z-index: 1000;
-            }
-
-            .project-view.fullpage.active {
-                transform: translateX(0);
-            }
-
-            .overlay.active {
-                display: block;
-                z-index: 999;
-            }
+            display: block;
         }
 
         @media (max-width: 768px) {
@@ -291,35 +163,20 @@
             .project-title-scroll {
                 font-size: 2.5rem;
             }
-
-            .project-view {
-                width: 100%;
-                max-width: none;
-            }
-
-            .project-view-title {
-                font-size: 1.4rem;
-            }
         }
     </style>
 </head>
 <body>
-    <!-- HEADER -->
     <header>
-        <div class="logo">Saint.Cocho</div>
+        <a href="#" class="logo" onclick="showHome(event)">Saint.Cocho</a>
         <nav>
-            <a href="#info">Information</a>
+            <a href="#" onclick="showHome(event)">Work</a>
             <a href="https://substack.com/@saintcocho" target="_blank">Essays</a>
         </nav>
     </header>
 
-    <!-- OVERLAY -->
-    <div class="overlay" id="overlay" onclick="closeProject()"></div>
-
-    <!-- MAIN CONTAINER -->
-    <div class="container">
-        <!-- LEFT: PROJECTS -->
-        <div class="projects-area">
+    <main>
+        <div class="projects-area" id="home">
             <a class="project-block green" onclick="openProject('narrativas', event)">
                 <div class="project-title-scroll">
                     Narrativas Futboleros / Narrativas Futboleros / Narrativas Futboleros / Narrativas Futboleros / Narrativas Futboleros / Narrativas Futboleros / Narrativas Futboleros / Narrativas Futboleros / Narrativas Futboleros / Narrativas Futboleros / Narrativas Futboleros / Narrativas Futboleros / Narrativas Futboleros /
@@ -337,69 +194,33 @@
             </a>
         </div>
 
-        <!-- RIGHT: PROJECT VIEW -->
-        <div class="project-view" id="projectView">
-            <button class="close-btn" onclick="closeProject()">✕</button>
-            <div class="project-view-content" id="viewContent"></div>
-        </div>
-    </div>
+        <div class="project-view" id="projectView"></div>
+    </main>
 
     <script>
         const projects = {
-            narrativas: {
-                title: 'Narrativas Futboleros',
-                url: './narrativas-futboleros/index.html',
-                fullpage: false
-            },
-            visualizador: {
-                title: 'Visualizador de Artistas Medellín Tropical',
-                description: 'Colombian music bands network',
-                url: './visualizador/index.html',
-                fullpage: true
-            },
-            sancocho: {
-                title: 'Sancocho Vallenato',
-                url: './sancocho-vallenato/index.html',
-                fullpage: true
-            }
+            narrativas: './narrativas-futboleros/index.html',
+            visualizador: './visualizador/index.html',
+            sancocho: './sancocho-vallenato/index.html'
         };
 
         function openProject(projectId, event) {
             event.preventDefault();
-            const project = projects[projectId];
+            const url = projects[projectId];
+            if (!url) return;
 
-            if (!project || !project.url) {
-                alert('Coming soon');
-                return;
-            }
-
-            document.getElementById('viewContent').innerHTML = `<iframe src="${project.url}" style="width: 100%; height: 100%; border: none;" allow="popup"></iframe>`;
-
-            const projectView = document.getElementById('projectView');
-
-            if (project.fullpage) {
-                projectView.classList.add('fullpage');
-                document.getElementById('overlay').classList.add('active');
-            } else {
-                projectView.classList.remove('fullpage');
-                document.getElementById('overlay').classList.remove('active');
-            }
-
-            projectView.classList.add('active');
+            const view = document.getElementById('projectView');
+            view.innerHTML = `<iframe src="${url}" allow="popup"></iframe>`;
+            view.classList.add('active');
+            document.getElementById('home').style.display = 'none';
         }
 
-        function closeProject() {
-            document.getElementById('projectView').classList.remove('active', 'fullpage');
-            document.getElementById('overlay').classList.remove('active');
-            document.getElementById('viewContent').innerHTML = '';
+        function showHome(event) {
+            event.preventDefault();
+            document.getElementById('projectView').innerHTML = '';
+            document.getElementById('projectView').classList.remove('active');
+            document.getElementById('home').style.display = '';
         }
-
-        // Close on ESC
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeProject();
-            }
-        });
     </script>
 </body>
 </html>
