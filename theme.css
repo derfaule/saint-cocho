@@ -1,18 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;700;800&family=Spectral:wght@200;300;400;500;600;700;800&display=swap');
 
-/* Saint.Cocho — shared design tokens.
-   EDIT THE VALUES IN THE "EDIT HERE" BLOCK. Every project that links this file
-   (portfolio, Narrativas, Sancocho) picks up changes after a reload.
-   Preview and copy values from tokens.html. */
+/* Saint.Cocho — shared design tokens
+   Loaded by the visualizador iframe so style changes here
+   propagate without redeploying the app. */
+
+
 :root {
-  /* ===== EDIT HERE: typography ===== */
+
   --font-heading: 'Archivo', sans-serif;
   --font-body: 'Spectral', serif;
-
-  --font-weight-heading: 300;
-  --font-weight-body: 400;
+  --font-weight-heading: 100;
+  --font-weight-body: 300;
   --font-weight-paragraph: 300;
-
   --line-height-heading: 1.1;
   --line-height-body: 1.6;
   /* ================================ */
