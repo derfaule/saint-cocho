@@ -22,6 +22,7 @@
         body {
             --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
             --home-display-size: clamp(1.9rem, 0.95rem + 3.9vw, 8.5rem);
+            --page-gutter: 2rem;
             font-family: var(--font-body);
             background: var(--color-bg);
             color: var(--color-fg);
@@ -36,7 +37,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 1.5rem;
+            padding: 1rem var(--page-gutter);
             background: var(--color-bg);
             border-bottom: 1px solid var(--color-border);
             flex-shrink: 0;
@@ -75,9 +76,15 @@
             inset: 0;
             overflow-x: hidden;
             overflow-y: auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: start;
+            transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+        }
+
+        .home-projects {
             display: flex;
             flex-direction: column;
-            transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
         }
 
         .projects-area.is-hidden {
@@ -87,25 +94,23 @@
         }
 
         .home-intro {
-            flex: none;
             font-family: var(--font-heading);
-            padding: 2rem 2rem 1.5rem;
+            padding: 2rem var(--page-gutter) 1.5rem;
             font-size: var(--home-display-size);
             line-height: 1.05;
             color: var(--color-fg);
         }
 
         .project-block {
-            flex: 0.2;
-            min-height: min-content;
             cursor: pointer;
             text-decoration: none;
             color: var(--color-fg);
             background: var(--color-bg);
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            gap: 0.75rem;
             position: relative;
-            padding: 0.5em 0;
+            padding: 1.5rem var(--page-gutter);
             transition: background-color 0.35s ease, color 0.35s ease;
         }
 
@@ -114,9 +119,14 @@
             font-weight: var(--font-weight-heading);
             font-size: var(--home-display-size);
             line-height: 1.15;
-            padding: 0 2rem;
-            max-width: 100%;
             overflow-wrap: break-word;
+        }
+
+        .project-desc {
+            font-size: 1rem;
+            line-height: 1.5;
+            opacity: 0.75;
+            max-width: 30rem;
         }
 
         .project-block.green:hover {
@@ -172,8 +182,12 @@
         }
 
         @media (max-width: 768px) {
-            header {
-                padding: 1rem;
+            body {
+                --page-gutter: 1.25rem;
+            }
+
+            .projects-area {
+                grid-template-columns: 1fr;
             }
 
             nav {
@@ -200,12 +214,16 @@
     <main>
         <div class="projects-area" id="home">
             <p class="home-intro">hola, este es mi espacio donde escribo y hago cosas porque me da la gana, ya saben, diseñar y perder el tiempo.<br>Aquí algunos ejemplos:</p>
-            <a class="project-block green" onclick="openProject('narrativas', event)">
-                <div class="project-title">Narrativas Futboleros</div>
-            </a>
-            <a class="project-block purple" onclick="openProject('sancocho', event)">
-                <div class="project-title">Sancocho Vallenato</div>
-            </a>
+            <div class="home-projects">
+                <a class="project-block green" onclick="openProject('narrativas', event)">
+                    <div class="project-title">Narrativas Futboleros</div>
+                    <div class="project-desc">Descripción breve del proyecto, por escribir.</div>
+                </a>
+                <a class="project-block purple" onclick="openProject('sancocho', event)">
+                    <div class="project-title">Sancocho Vallenato</div>
+                    <div class="project-desc">Descripción breve del proyecto, por escribir.</div>
+                </a>
+            </div>
         </div>
 
         <div class="project-view" id="projectView"></div>
