@@ -277,6 +277,10 @@
             'mixtape': '/mixtape/index.html'
         };
 
+        const englishProjects = {
+            'narrativas-futboleros': '/narrativas-futboleros/en/index.html'
+        };
+
         function slugFromPath() {
             if (!location.pathname.startsWith(basePath)) return null;
             return location.pathname.slice(basePath.length).replace(/\/$/, '');
@@ -298,7 +302,7 @@
 
         function openProject(slug, event, { push = true } = {}) {
             event?.preventDefault();
-            const src = projects[slug];
+            const src = (lang === 'en' && englishProjects[slug]) || projects[slug];
             if (!src) return;
 
             const view = document.getElementById('projectView');

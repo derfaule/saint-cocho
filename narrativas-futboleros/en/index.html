@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../../theme.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Special+Elite&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/rough-notation@0.5.1/lib/rough-notation.iife.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const allSections = document.querySelectorAll('.scrolly-section');
+
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('is-visible');
+                });
+            }, { threshold: 0 });
+            allSections.forEach(section => revealObserver.observe(section));
+
+            // Rough Notation annotations for headings
+            const annotations = [];
+            const headings = document.querySelectorAll('.scrolly-text h2');
+
+            headings.forEach((heading, index) => {
+                const annotation = RoughNotation.annotate(heading, {
+                    type: 'underline',
+                    color: '#d4a574',
+                    strokeWidth: 2,
+                    padding: [5, 0]
+                });
+                annotations.push({ element: heading, annotation: annotation, visible: false });
+            });
+
+
+            // Rough Notation crossed-off for strikethrough text
+            const strikethroughs = document.querySelectorAll('s');
+            strikethroughs.forEach((strike) => {
+                const annotation = RoughNotation.annotate(strike, {
+                    type: 'crossed-off',
+                    color: '#dc2626',
+                    strokeWidth: 1.5,
+                    roughness: 1.2
+                });
+                annotations.push({ element: strike, annotation: annotation, visible: false });
+            });
+
+            // Trigger annotations on scroll
+            function checkAnnotations() {
+                annotations.forEach((item, index) => {
+                    const { element, annotation, visible } = item;
+                    const rect = element.getBoundingClientRect();
+                    const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+
+                    if (isVisible && !visible) {
+                        annotation.show();
+                        annotations[index].visible = true;
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', checkAnnotations, { passive: true });
+            checkAnnotations();
+
+            // Reset contract scroll position to top after layout
+            requestAnimationFrame(() => {
+                const contractScroll = document.querySelector('[data-section="periodismo"] .scrolly-images');
+                if (contractScroll) {
+                    contractScroll.scrollTop = 0;
+                }
+            });
+
+        });
+    </script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fictional Football</title>
+    <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <filter id="squiggle">
+                <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" result="noise" seed="2"/>
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G"/>
+            </filter>
+        </defs>
+    </svg>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--color-bg);
+            color: var(--color-fg);
+            line-height: var(--line-height-body);
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 32px;
+            background: transparent;
+            border-bottom: none;
+        }
+
+        header img {
+            max-width: 300px;
+            height: auto;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: var(--color-fg-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ========== SCROLLY SECTION LAYOUT ========== */
+        .scrolly-section {
+            display: flex;
+            flex-direction: row;
+            gap: 80px;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 60px 32px;
+            align-items: flex-start;
+        }
+
+        .scrolly-images {
+            flex: 1;
+            position: sticky;
+            top: 48px;
+            height: calc(100vh - 96px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-stack {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            overflow: visible;
+            z-index: 5;
+            transition: opacity 0.6s ease-in-out;
+        }
+
+        .image-stack img,
+        .image-stack svg {
+            position: absolute;
+            width: auto;
+            height: auto;
+            max-width: 90%;
+            max-height: 100%;
+            object-fit: contain;
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out;
+            z-index: 1;
+        }
+
+        .image-stack img:not([style*="display"]),
+        .image-stack svg:not([style*="display"]) {
+            opacity: 0;
+        }
+
+        .scrolly-img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform: scale(0.95);
+        }
+
+        .scrolly-img.active {
+            opacity: 1;
+            z-index: 10;
+            transform: scale(1);
+        }
+
+        .image-stack img.active,
+        .image-stack svg.active {
+            opacity: 1 !important;
+            z-index: 2;
+        }
+
+        .gabo-image {
+            opacity: 1 !important;
+            transition: opacity 0.6s ease-in-out;
+            position: relative;
+            width: 100%;
+            max-width: 280px;
+            height: auto;
+            display: block !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+            margin-bottom: 20px !important;
+            aspect-ratio: 2638 / 2751;
+        }
+
+        .image-stack {
+            width: 100% !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            overflow: visible;
+        }
+
+        .gabo-caption {
+            opacity: 1 !important;
+            padding: 15px 0 !important;
+            text-align: center;
+            border-top: 2px solid #d4a574;
+            padding-top: 15px;
+            width: 100% !important;
+            margin-top: 15px;
+            display: block !important;
+            clear: both !important;
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .gabo-caption p {
+            font-size: 1rem;
+            color: var(--color-fg-muted);
+            line-height: 1.5;
+            margin: 5px 0;
+            width: 100%;
+        }
+
+        .gabo-caption p strong {
+            font-weight: 600;
+            color: var(--color-fg);
+        }
+
+        .gabo-caption a {
+            color: #2563eb;
+            text-decoration: underline dotted;
+            font-size: 1rem;
+        }
+
+        .gabo-caption-standalone {
+            opacity: 1 !important;
+            text-align: center;
+            padding: 30px 32px !important;
+            border-top: 2px solid #d4a574;
+            margin: 40px 0;
+            display: block !important;
+            width: 100%;
+        }
+
+        .gabo-caption-standalone p {
+            font-size: 1rem;
+            color: var(--color-fg-muted);
+            line-height: 1.5;
+            margin: 5px 0;
+            width: 100%;
+        }
+
+        .gabo-caption-standalone p strong {
+            font-weight: 600;
+            color: var(--color-fg);
+        }
+
+        .gabo-caption-standalone a {
+            color: #2563eb;
+            text-decoration: underline dotted;
+            font-size: 1rem;
+        }
+
+        .periodismo-image {
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out;
+            position: absolute;
+        }
+
+        .actores-image {
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out;
+            position: absolute;
+        }
+
+        /* Make map visible as background */
+        #colombia-map {
+            opacity: 1 !important;
+            z-index: 1 !important;
+        }
+
+        #colombia-map.inactive {
+            opacity: 0 !important;
+        }
+
+        .scrolly-text {
+            flex: 1;
+            padding-right: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            max-width: 600px;
+        }
+
+        .scrolly-text h2 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: var(--color-fg);
+        }
+
+        .scrolly-text p {
+            font-size: 1.05em;
+            margin-bottom: 15px;
+            color: var(--color-fg);
+            line-height: 1.8;
+        }
+
+        .scrolly-text a {
+            color: #2563eb;
+            font-weight: 500;
+            text-decoration: underline dotted;
+            cursor: pointer;
+        }
+
+        .scrolly-text a:hover {
+            color: #1d4ed8;
+        }
+
+        /* Shield badges on map */
+        .shield-badge {
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+            transform: scale(1) rotateY(0deg) !important;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4)) !important;
+        }
+
+        .shield-badge:hover {
+            transform: scale(1.2) rotateY(-15deg) !important;
+            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.6)) !important;
+            z-index: 10 !important;
+        }
+
+        .shield-badge:active {
+            transform: scale(0.95) !important;
+        }
+
+        /* Dynamic badge pile */
+        .badge-pile {
+            position: relative !important;
+            width: 100% !important;
+            height: 100% !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        .badge-pile .shield-badge {
+            position: absolute !important;
+            width: 280px !important;
+            height: auto !important;
+            opacity: 0;
+            transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+            transform: translateY(150px) scale(0) rotateZ(720deg) !important;
+            filter: drop-shadow(0 12px 24px rgba(0,0,0,0.35)) !important;
+            z-index: 1;
+        }
+
+        .badge-pile .shield-badge.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1) rotateZ(0deg) !important;
+            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.4)) !important;
+        }
+
+        .badge-pile .shield-badge[data-badge-index="0"] { top: 5%; left: 50%; z-index: 6; }
+        .badge-pile .shield-badge[data-badge-index="1"] { top: 25%; left: 5%; z-index: 5; }
+        .badge-pile .shield-badge[data-badge-index="2"] { top: 30%; left: 50%; z-index: 4; }
+        .badge-pile .shield-badge[data-badge-index="3"] { top: 25%; right: 5%; z-index: 3; }
+        .badge-pile .shield-badge[data-badge-index="4"] { bottom: 10%; left: 20%; z-index: 2; }
+        .badge-pile .shield-badge[data-badge-index="5"] { bottom: 10%; right: 20%; z-index: 1; }
+
+        .badge-pile .shield-badge.visible[data-badge-index="0"] { top: 5%; left: 50%; transform: translateX(-50%) translateY(0) scale(1) rotateZ(0deg) !important; }
+        .badge-pile .shield-badge.visible[data-badge-index="1"] { top: 25%; left: 5%; transform: translateX(-50%) translateY(0) scale(1) rotateZ(-8deg) !important; }
+        .badge-pile .shield-badge.visible[data-badge-index="2"] { top: 30%; left: 50%; transform: translateX(-50%) translateY(0) scale(1) rotateZ(0deg) !important; }
+        .badge-pile .shield-badge.visible[data-badge-index="3"] { top: 25%; right: 5%; transform: translateX(50%) translateY(0) scale(1) rotateZ(8deg) !important; }
+        .badge-pile .shield-badge.visible[data-badge-index="4"] { bottom: 10%; left: 20%; transform: translateX(-50%) translateY(0) scale(1) rotateZ(-12deg) !important; }
+        .badge-pile .shield-badge.visible[data-badge-index="5"] { bottom: 10%; right: 20%; transform: translateX(50%) translateY(0) scale(1) rotateZ(12deg) !important; }
+
+        #shields-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 850px;
+            height: 850px;
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        #shields-container.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Mobile image interleaving */
+        .mobile-image {
+            display: none;
+        }
+
+        /* Show mobile collages */
+        .mobile-collage-1,
+        .mobile-collage-2,
+        .mobile-collage-3 {
+            display: none !important;
+        }
+
+        /* Mobile styles */
+        @media (max-width: 768px) {
+            .mobile-collage-1,
+            .mobile-collage-2,
+            .mobile-collage-3 {
+                display: block !important;
+            }
+
+            .scrolly-section {
+                flex-direction: column;
+                gap: 40px;
+                padding: 40px 32px;
+            }
+
+            .scrolly-images {
+                height: auto;
+                position: static;
+                flex: none;
+                width: 100%;
+            }
+
+            .image-stack {
+                position: relative !important;
+                transform: none !important;
+                top: auto !important;
+                height: auto;
+                width: 100%;
+                min-height: 300px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .image-stack img,
+            .image-stack svg {
+                position: relative !important;
+                width: 100% !important;
+                height: auto !important;
+                max-width: 500px;
+                opacity: 1 !important;
+                z-index: 1;
+            }
+
+            .scrolly-img {
+                position: relative !important;
+                width: 100% !important;
+                height: auto !important;
+                max-width: 500px;
+                margin: 20px 0;
+                opacity: 1 !important;
+                transform: scale(1) !important;
+            }
+
+            .badge-pile {
+                min-height: 350px !important;
+            }
+
+            .badge-pile .shield-badge {
+                position: relative !important;
+                width: 150px !important;
+                height: auto !important;
+                opacity: 1 !important;
+                transform: scale(1) rotateZ(0deg) !important;
+                margin: 10px;
+                display: inline-block;
+            }
+
+            .badge-pile .shield-badge.visible {
+                opacity: 1;
+            }
+
+            .scrolly-text {
+                max-width: 100%;
+            }
+
+            .mobile-image {
+                display: block;
+                width: 100%;
+                margin: 20px 0;
+            }
+
+            .mobile-image img,
+            .mobile-image svg {
+                width: 100%;
+                height: auto;
+                object-fit: contain;
+            }
+
+            h2 {
+                font-size: 1.4em;
+            }
+
+            p {
+                font-size: 1em;
+            }
+
+            /* Mobile El Periodismo */
+            .scrolly-section[data-section="periodismo"] {
+                flex-direction: column;
+                min-height: auto;
+            }
+
+            .scrolly-section[data-section="periodismo"] .scrolly-text {
+                flex: none;
+                max-width: 100%;
+            }
+
+            .scrolly-section[data-section="periodismo"] .scrolly-images {
+                flex: none;
+                width: 100%;
+                position: static;
+                height: auto;
+                max-height: 600px;
+                overflow-y: auto;
+            }
+        }
+
+        /* El Periodismo specific styling */
+        .scrolly-section[data-section="periodismo"] {
+            min-height: 100vh;
+            align-items: stretch;
+        }
+
+        .scrolly-section[data-section="periodismo"] .scrolly-text {
+            max-width: none;
+            flex: 0 0 45%;
+            overflow: hidden;
+        }
+
+        .scrolly-images-scrollable {
+            flex: 1;
+            height: 100vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 0;
+            margin: 0;
+            scroll-behavior: smooth;
+            scroll-padding-top: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .scrolly-images-scrollable .section--six {
+            margin: 0;
+            padding: 0 32px 40px 32px;
+            flex-shrink: 0;
+            width: 100%;
+        }
+
+        .scrolly-section[data-section="periodismo"] .scrolly-images {
+            flex: 1;
+            height: 100vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 0;
+            margin: 0;
+            scroll-behavior: smooth;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: flex-start;
+        }
+
+        .scrolly-section[data-section="periodismo"] .scrolly-images::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .scrolly-section[data-section="periodismo"] .scrolly-images::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .scrolly-section[data-section="periodismo"] .scrolly-images::-webkit-scrollbar-thumb {
+            background: #d4a574;
+            border-radius: 4px;
+        }
+
+        .scrolly-section[data-section="periodismo"] .section--six {
+            padding: 40px 32px;
+            margin: 0;
+            min-height: auto;
+        }
+
+        .scrolly-section[data-section="periodismo"] .section--six h3 {
+            margin-top: 0;
+            padding-top: 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 60px 32px;
+            background: var(--color-bg);
+            border-top: 1px solid #eee;
+            color: var(--color-fg-muted);
+            font-size: 1rem;
+        }
+
+        /* ========== SECTION 6 - CONTRACT PAPER AESTHETIC ========== */
+        .section--six {
+            background: var(--color-bg);
+            padding: 150px 32px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1),
+                        inset 0 1px 0 rgba(255,255,255,0.6);
+            position: relative;
+            transform: rotate(0deg);
+            margin-bottom: 100px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .section--six::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(212, 165, 116, 0.03) 2px,
+                    rgba(212, 165, 116, 0.03) 4px
+                ),
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 1px,
+                    rgba(212, 165, 116, 0.02) 1px,
+                    rgba(212, 165, 116, 0.02) 2px
+                );
+            pointer-events: none;
+        }
+
+        .section--six > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .section--six h2 {
+            color: var(--color-fg);
+            font-size: 1.2rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            border-bottom: 3px dashed #d4a574;
+            padding-bottom: 10px;
+            transform: skewX(0.5deg);
+        }
+
+        .section--six p {
+            color: var(--color-fg);
+            font-size: 1em;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            text-align: justify;
+            font-family: 'Special Elite', cursive;
+        }
+
+        .section--six .highlight {
+            background: rgba(255, 220, 77, 0.3);
+            padding: 2px 4px;
+            font-weight: bold;
+        }
+
+        .section--six .stamp {
+            display: inline-block;
+            font-family: 'Special Elite';
+            border: 3px solid #d4a574;
+            padding: 10px 20px;
+            transform: rotate(-15deg);
+            font-weight: bold;
+            color: #d4a574;
+            font-size: 1.2em;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 768px) {
+            .section--six {
+                padding: 50px 32px;
+            }
+
+            .section--six h2 {
+                font-size: 22px;
+            }
+
+            .section--six p {
+                font-size: 16px;
+            }
+        }
+        /* Static reveal: images show with their own section, no scroll-driven motion */
+        .scrolly-section .image-stack img,
+        .scrolly-section .image-stack svg,
+        .scrolly-section .scrolly-img,
+        .scrolly-section .actores-image,
+        .scrolly-section .periodismo-image,
+        .scrolly-section .gabo-image,
+        .scrolly-section .shield-badge {
+            transform: none !important;
+            transition: opacity 0.6s ease-in-out !important;
+        }
+
+        .scrolly-section:not(.is-visible) .image-stack img,
+        .scrolly-section:not(.is-visible) .image-stack svg,
+        .scrolly-section:not(.is-visible) .scrolly-img,
+        .scrolly-section:not(.is-visible) .actores-image,
+        .scrolly-section:not(.is-visible) .periodismo-image,
+        .scrolly-section:not(.is-visible) .gabo-image,
+        .scrolly-section:not(.is-visible) .shield-badge {
+            opacity: 0 !important;
+        }
+
+        .scrolly-section.is-visible .image-stack img,
+        .scrolly-section.is-visible .image-stack svg,
+        .scrolly-section.is-visible .scrolly-img,
+        .scrolly-section.is-visible .actores-image,
+        .scrolly-section.is-visible .periodismo-image,
+        .scrolly-section.is-visible .gabo-image,
+        .scrolly-section.is-visible .shield-badge {
+            opacity: 1 !important;
+        }
+
+        .scrolly-section .shield-badge:hover {
+            transform: none !important;
+        }
+
+        .scrolly-section .badge-pile .shield-badge[data-badge-index] {
+            transform: none !important;
+        }
+
+        .scrolly-section .badge-pile .shield-badge[data-badge-index="0"],
+        .scrolly-section .badge-pile .shield-badge[data-badge-index="2"] {
+            left: 50% !important;
+            margin-left: -140px;
+        }
+
+        .scrolly-section[data-section="genero"] .scrolly-images {
+            position: relative;
+            top: auto;
+            height: auto;
+        }
+
+        .scrolly-section[data-section="genero"] .image-stack {
+            height: auto;
+            gap: 2rem;
+            justify-content: flex-start;
+        }
+
+        .scrolly-section[data-section="genero"] .scrolly-img {
+            position: relative !important;
+            width: 100%;
+            height: auto;
+        }
+
+        @media (max-width: 768px) {
+            .scrolly-section[data-section="genero"] .scrolly-images {
+                display: none;
+            }
+        }
+        @media (max-width: 768px) {
+            .scrolly-section .badge-pile {
+                position: relative !important;
+                height: 480px !important;
+                min-height: 0 !important;
+                display: block !important;
+            }
+
+            .scrolly-section .badge-pile .shield-badge[data-badge-index] {
+                position: absolute !important;
+                width: 42% !important;
+                max-width: none !important;
+                height: auto !important;
+            }
+
+            .scrolly-section .badge-pile .shield-badge[data-badge-index="0"],
+            .scrolly-section .badge-pile .shield-badge[data-badge-index="2"] {
+                margin-left: -21%;
+            }
+        }
+        .image-stack > a {
+            display: flex !important;
+            justify-content: center;
+            width: 100%;
+        }
+
+        #gabo-img {
+            margin: 0 auto !important;
+        }
+    </style>
+</head>
+<body>
+<!-- ============== HEADER ============== -->
+<header><img src="../images/logo-dimayor.svg" alt="Futbol Ficticio"></header>
+
+<!-- ============== SECTION 1: PREFACIO (Single Column, Centered) ============== -->
+<div class="scrolly-section" data-section="prefacio" style="justify-content: center;">
+<div class="scrolly-text" style="margin: 0 auto; max-width: 700px;">
+<h2>Preface</h2>
+<p>I'm not quite sure why I'm writing all this in some future (ha!); what I do feel today is that artistic manifestations often get praised as if they were a stratagem, a holy grail that existed beyond the imperfections and cronyism proper to the so-called human experience.</p>
+<p>Well then, for the one writing these lines, making things, whether you call it art or anything else, is my way of accepting the cyclical and timeless nature of things. I write so that, at some later point, I can remember what I was doing or what troubled me at a given moment in time; I draw because I don't want to forget an image tattooed on my mind with overwhelming force; I make jokes because so many monstrous things are happening that it's the only halfway realistic avenue through which my pain can dissipate for a while.</p>
+<p><a href="https://medlineplus.gov/spanish/obsessivecompulsivedisorder.html" target="_blank">Now then, I have a (somewhat problematic) obsession with documenting: every single idea, line, predicate or conjugation I use in language has to have its proper source, so I can trace where the idea I'm building comes from (honestly, plagiarism is nothing more than the natural formation of ideas without proper citation), as if feeding the human fabric. And up to a point that's a commendable obsession to keep for most of the things I do</a>, but this document is anything but that idea put into practice: it is the realization of my fears, anxieties, sorrows and quirks that portray my character in the face of a leisure activity (one of the thousands I have, like a collector of feelings), football, but materialized through fiction and speculation.</p>
+<p>Why? Well, let's start by saying that many people have already contributed substantial value on this topic, through criticism, meticulousness and research, in a very constant and respectable way, and honestly I don't think I qualify in any of those categories. Under my Damoclean mirror (not sword), I am more a maker of things than a meticulous specialist; I loathe specialization in myself, not as a concept, but my lost cause is that specialization as a concept in the service of so-called "productivity" (not that everything I make comes out well, far from it).</p>
+<p>This futurist conception, although it doesn't enter the canon of science fiction that envisioned utopian settings, doesn't entirely stray from speculative fiction either; in fact, I try to respond to or express genuine social and cultural concerns through the lens of the scenario and its viability. But I see it somewhat in the line of what writer <a href="https://www.octaviabutler.com/octavias-work" target="_blank">Octavia Butler</a> or musician <a href="https://www.wbur.org/news/2014/03/02/george-clinton-afrofuturism" target="_blank">George Clinton</a> did in his seminal project Parliament and Funkadelic, and it is my vision of an identity body, in this case that of national football, and of the power structures set in a scene that transcends our immediacy or immediate alternation. Why? To let it out, so that someone is left with these lines and several of us worry about everything that's happening; that's what the future is for, the one we perhaps will never see.</p>
+<p>Without further ado, you are invited to scrutinize, refute, debate or simply enjoy these stormy musings from someone who perhaps enjoys Colombian football much more than they should, now or always.</p>
+</div>
+</div>
+
+<!-- ============== SECTION 2: EL ESPECTÁCULO (Two Columns - Map & Shields) ============== -->
+<div class="scrolly-section" data-section="espectaculo">
+<div class="scrolly-images">
+<div class="image-stack badge-pile">
+<img src="../images/escudo-junior.svg" alt="Junior - Barranquilla" class="shield-badge" data-badge-index="0">
+<img src="../images/escudo-nacional.svg" alt="Nacional - Medellín" class="shield-badge" data-badge-index="1">
+<img src="../images/escudo-millos.svg" alt="Millonarios - Bogotá" class="shield-badge" data-badge-index="2">
+<img src="../images/escudo-santafe.svg" alt="Santa Fe - Bogotá" class="shield-badge" data-badge-index="3">
+<img src="../images/escudo-pereira.svg" alt="Pereira" class="shield-badge" data-badge-index="4">
+<img src="../images/escudo-cali.svg" alt="Cali" class="shield-badge" data-badge-index="5">
+</div>
+</div>
+
+<div class="scrolly-text">
+<h2>The spectacle</h2>
+<p>It is the year 3020 and the full round of the combined tournament of senior Colombian football is being played.</p>
+<p>Relegations no longer exist, and all that's left is a messy (one more) merged tournament, the once Primera and Segunda División championships, now contested by 36 teams.</p>
+<p>This was decided when the highest authority of Colombian football, Dimayor, chose to merge both categories into one, because they didn't allow "the full commercial development of the normal expectations of team owners". They focus on broadcasting more matches everywhere: for example, more training matches between teams (no longer friendlies), resulting in a schedule of 8 matches a day, all of them, of course, broadcast by DIMAYOR TV PLAY, the entity's own platform, which for now only runs on Windows Vista (since 2500 they've been working to fix this bug).</p>
+<p>Junior de Barranquilla has spent about 30 years on a transition of leadership: from one dominated by the head of the patriarch Fuad Char (frozen since 2084 and uploaded to the cloud to be operated by a tin-can android), who supposedly would hand power to his fourth great-grandson, Faris Char (not to be confused with Farid), who believes the way to carry out this transition is to introduce mandatory study sessions on decolonial theory, reading the complete works of authors such as <a href="https://elpais.com/planeta-futuro/africa-no-es-un-pais/2021-12-03/frantz-fanon-un-clasico-para-entender-el-colonialismo.html" target="_blank">Frantz Fanon</a>, <a href="https://afrofeminas.com/2026/05/11/sylvia-wynter-la-filosofa-que-redefinio-que-significa-ser-humano/" target="_blank">Sylvia Wynter</a>, <a href="https://jacobinlat.com/2025/06/el-manifiesto-anticolonial-de-aime-cesaire/" target="_blank">Aimé Césaire</a> and others, for the professional squad, so as to build together the entertainment that Caribbean society longs for, you know, starting from the particular anguish and struggles of each player.</p>
+<p>The managerial paradigm shift exists only on paper, a wink at Alexander I of Russia and Napoleon III of France.</p>
+<p>Sure, this transition isn't going as expected: Junior sinks to last place, even though, for example, in this image it plays against a team of skeletons (literally) from what is now the Faculty of Anthropology at the Autonomous University, and the match ends in a resounding 0–0 in the packed health sciences amphitheater of the same university.</p>
+</div>
+</div>
+
+<!-- ============== SECTION 3: LOS ACTORES (With Goalkeeper Image) ============== -->
+<div class="scrolly-section" data-section="actores">
+<div class="scrolly-images">
+<div class="image-stack">
+<img id="actores-img" src="../images/comic_whites_unificados.png" alt="Los Actores" class="actores-image">
+</div>
+</div>
+
+<div class="scrolly-text">
+<h2>The actors</h2>
+<p>It almost reminds me, with the nostalgia of a sailor back from a trip to dry land, of that time, around the eve of the third millennium A.D., when, eager to join that new fashion of red-washing after the umpteenth threat of collapse of postmodern societies at the hands of the now conglomerate OpenAI/Anthropic (another of the lovely monopolies of post-2020s techno-capitalism), which never materializes because, obviously, of an excess of empathy and faith in the humanity of the already-listed trillion-dollar North American companies (of course), this idea of <a href="https://es.wikipedia.org/wiki/Redwashing" target="_blank">redwashing</a> kept sliding further to the left of the spectrum (apparently), which ended up leading to an aesthetic Bolshevization of hierarchical structures that, of course, would be no exception for our rented, ill-loved national football, like a stray dog..</p>
+<p>The sporting results did not disappoint: they beheaded 33 real cross-league unions, points were shared in several matches due to performative stagings sold as "strike spectacles", and finally they fired 300 players from the supposed unions. They left behind the aesthetic and industrial sports badges, the Cyrillic literacy process lasted one semester and, well, the turn came for Mao's <a href="https://es.wikipedia.org/wiki/Reforma_del_pensamiento_en_China" target="_blank">Sīxiǎng Gǎizào</a> (思想改造) (in its cumbia version, of course), to begin remodeling football in the image of the new needs of the football man.</p>
+</div>
+</div>
+
+<!-- ============== SECTION 4: LOS ESCENARIOS (With Gabo SVG) ============== -->
+<div class="scrolly-section" data-section="escenarios">
+<div class="scrolly-images">
+<div class="image-stack" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 40px 32px;">
+<a href="http://www.semibague.gov.co/po/924-circular-156-abril-22-de-2014-anexo-2/file" style="text-decoration: none; display: block;" target="_blank">
+<img id="gabo-img" src="../images/gabo.svg" alt="García Márquez Parody" data-type="gabo" class="gabo-image" style="width: 100%; max-width: 400px; height: auto; display: block;">
+</a>
+</div>
+</div>
+
+<div class="scrolly-text">
+<h2>The venues</h2>
+<p>And so I decided to attend <s>the stadium</s> <strong>the crypto-digital-sports-playful stage</strong>. <s>As it was a more talked-about match than all the previous ones, I had to leave early.</s> <strong>I arrived at 2 in the morning, before the mandatory work shift at Súper Tiendas Olímpica</strong>. I confess I have never in my life arrived so early anywhere, nor left anywhere so exhausted. <s>Alfonso (Fuenmayor) and Germán (Vargas Cantillo) never took</s> <strong>Agony and dismay always took</strong> the initiative to convert me to that <s>Sunday</s> <strong>daily</strong> religion of football, even though they must have suspected that at some point <s>I was going to become</s> <strong>I would stop being</strong> that brute, stripped of any varnish that could be considered the last trace of <s>civilization</s> <strong>desolation</strong>, which I was yesterday in the stands of the <s>municipal</s> <strong>Internacional de La Ciudadela</strong>.</p>
+
+<p>The first moment of clarity, when I realized I had become an impromptu fan, came when I noticed that all my life I had something I often took pride in, and which yesterday got in my way in an unacceptable way: a sense of the ridiculous. Now I understand why those gentlemen, usually so starched, feel like a squid in its ink when they put on, with all due formality, their many-colored little cap.</p>
+
+<p>It is that with <s>that single gesture</s> <strong>that single</strong> they automatically turn into <s>other people</s> <strong>other cyberhumans</strong>, as if the cap were nothing more than the uniform of a new personality. I don't know whether my fan membership is still too fresh to allow me certain personal observations about the match <s>yesterday</s> <strong>this early morning</strong>, but since we've already agreed that one of the essential conditions of "fandom" is the absolute and accepted loss of <s>a sense of the ridiculous</s> <strong>a sense of time and of good and evil</strong>, I'm going to say what I saw, or what I believed I saw <s>yesterday afternoon</s> <strong>this early morning</strong>, to give myself the pleasure of getting into <s>those sporting quirks I kept well guarded</s> <strong>the existential quirks I had</strong> early.</p>
+
+<p>First of all, it seemed to me that Junior <s>dominated</s> <strong>bored</strong> Millonarios from the very first moment. If the white line dividing the pitch in two means anything, my previous statement holds, since very rarely was the ball <strong>(or what's left of it)</strong> in the first half within the half corresponding to Junior's goal. (How's <s>my debut as a football commentator</s> <strong>my debut as a poet of the absurd</strong> going?).</p>
+
+<p>On the other hand, if Junior's <s>players</s> <strong>servants</strong> had not been players at all but <s>writers</s> <strong>personalities</strong>, I think the master <strong>Char III</strong> would have been an extraordinary <s>author of detective novels</s> <strong>creator of short dopamine clips about the manosphere on Instagram</strong>.</p>
+
+<p>His sense of <s>calculation</s> <strong>short time</strong>, his unhurried movements as an <s>investigator</s> <strong>reactionary</strong>, and finally his quick and <s>surprising</s> <strong>aggressive</strong> finishes earn him enough merit to be the creator of <s>a new detective for police fiction</s> <strong>a new reel with tips on how to pick up women at clubs for the fast-paced grind</strong>. <strong>The Pibe's grandson</strong>, meanwhile, would have been a kind of <s>Marcelino Menéndez y Pelayo</s> <strong>crypto-asset salesman</strong>, with that ease <s>the Brazilian</s> <strong>the conman</strong> has for being everywhere at once and, in all of them, <s>working</s> <strong>appearing to work</strong>, attending simultaneously to <s>eleven gentlemen</s> <strong>eleven Zoom calls</strong>, as if what mattered were not scoring a goal but <s>writing all the bulky tomes Don Marcelino wrote</s> <strong>meeting every sales target he sets</strong>. <strong>The Argentine Berascochea III would have been, no more and no less, an act reinventing itself online, incapable and frozen</strong>. And what a great critic of <s>the arts</s> <strong>minorities</strong> Dos Santos would have been, who yesterday behaved like four, blocking the way of all the <s>little scribblers who tried to reach, with the greatest effort, the goal of immortality</s> <strong>whom their pursued ideas sought to share with</strong>. <s>De Latour</s> <strong>Del 5</strong> would have written verses. Inspired <s>feature-length poems</s> <strong>tweets of old, 200 characters</strong>, something that couldn't be said of <strong>Martínez</strong>. Because <s>de Ary</s> <strong>Del 5</strong> nothing can be said, since his Junior teammates never gave him the chance to show even his most modest literary abilities.</p>
+
+<p>And that's without getting into Millonarios, whose great <strong>Enrique Camacho III</strong>, if he knows anything, knows about rhetoric <strong>and lies</strong>.</p>
+
+<p>I don't think I've lost anything with this irrevocable entry I make today, publicly, into the holy brotherhood of fans. The only thing I want now is <s>to convert someone</s> <strong>to hand my spot to someone</strong>. And I think it's going to be my distinguished friend, Doctor <s>Adalberto Reyes</s> <strong>AWS for Healthcare™</strong>, whom I'll invite to the stands <s>of the Municipal</s> <strong>digital of the Fuad Char Metropolitan</strong> for the first match of the second round, so that he stops being, from a sporting point of view, the lost sheep.</p>
+
+<p><s>Gabriel García Márquez</s> <strong>Anonymous</strong> —June <s>1950</s> <strong>3050</strong></p>
+
+<p><s>EL COMERCIO / Peru / Diario GDA (Grupo de Diarios de América</s></p>
+
+<p><strong>LA AUTORQUÍA</strong></p>
+</div>
+</div>
+
+
+
+<!-- ============== SECTION 5: EL GÉNERO (With Collages) ============== -->
+<div class="scrolly-section" data-section="genero">
+<div class="scrolly-images">
+<div class="image-stack">
+<img src="../images/PXL_20260921_224316041~2.png" alt="Collage 1" data-img-index="0" class="scrolly-img">
+<img src="../images/PXL_20260921_224647136.png" alt="Collage 2" data-img-index="1" class="scrolly-img">
+<img src="../images/PXL_20260921_224712179.png" alt="Collage 3" data-img-index="2" class="scrolly-img">
+</div>
+</div>
+
+<div class="scrolly-text">
+<h2>Gender</h2>
+
+<div data-slide="0">
+<p>Bogotá, 2942</p>
+<p>On the occasion of the 100th anniversary of the first match contested between women's teams in the now indivisible altered republic (I mean, national), the Major Division of Colombian Football TRUTH MAJOR held a grandiloquent welcome cocktail and memory.</p>
+<div class="mobile-collage-1" style="display: none; width: 100%; margin: 20px 0;">
+<img src="../images/PXL_20260921_224316041~2.png" alt="Collage 1" style="width: 100%; height: auto;">
+</div>
+</div>
+
+<div data-slide="1">
+<p>The event was fully sponsored by the company that best represents the vigorous value of women's sports in the country: IMUSA Home Appliances. Before those present, the top brass, made up solely of doctors, showed their feminine and empathetic side toward the representatives of the sporting forces.</p>
+</div>
+
+<div data-slide="2">
+<p>The presidents of DIMAYOR and of the recently founded foundation for women's rights in sport, Doctor Ramón Manotas, inaugurated the celebratory award for the female footballer of the millennium. For them it was, without a doubt, Doctor Álvaro González Alzate.</p>
+<p>Who has always been a staunch defender of women's football from his pulpit, a tireless worker for 78 consecutive years as an official representative of the Amateur Division of Major Football. I believe Enoc passed by and asked him for his techniques of temperance and longevity despite the years.</p>
+<div class="mobile-collage-2" style="display: none; width: 100%; margin: 20px 0;">
+<img src="../images/PXL_20260921_224647136.png" alt="Collage 2" style="width: 100%; height: auto;">
+</div>
+</div>
+
+<div data-slide="3">
+<p>But this was no place for Doctor González, some 340 springs old on this earthly plane, and the ever so magnanimous... giving women the space they deserve, giving them the moment, the space and the importance they seek.</p>
+<p>With that same joy he announced, or rather cheered, the moment. And, taking advantage of the candor, he seized the chance to celebrate the figures with which the millennium of the sport's journey in the country came to a close.</p>
+</div>
+
+<div data-slide="4">
+<p>Partial professionalization has reached at least 70% of the female footballers in our league. Of course, 100% is impossible, because people don't watch football unless it's for men.</p>
+<p>And creating a market doesn't apply in this convenient kind of chameleonic fixation between savage capitalist and, at times, left-wing protectionist positions.</p>
+<div class="mobile-collage-3" style="display: none; width: 100%; margin: 20px 0;">
+<img src="../images/PXL_20260921_224712179.png" alt="Collage 3" style="width: 100%; height: auto;">
+</div>
+</div>
+
+<div data-slide="5">
+<p>These professional contracts are going to go from lasting 6 months to 7, quite the feat in the raging battle of our national football elders. They aim, at some point within the other millennium, to exceed 8 months.</p>
+<p>Of course, one should never compare the two equidistant universes of men's and women's football: men have long contracts with no time limit, because the market has always regulated itself.</p>
+</div>
+
+<div data-slide="6">
+<p>And, of course, the championship is no longer going to last a total of 3 months a year, so that we understand the importance of the date and that the battles of a millennium are not over, but are one more journey.</p>
+<p>Now it will last a total of 3 months and a week. I sincerely thank our leaders once again, always so expeditious.</p>
+<p>Grateful once again for this opportunity to cover the women's cause from the headquarters of national football.</p>
+</div>
+</div>
+</div>
+
+<!-- ============== SECTION 6: EL PERIODISMO (Two Columns - Text left, Contract right) ============== -->
+<div class="scrolly-section" data-section="periodismo">
+<div class="scrolly-text">
+<h2>Journalism</h2>
+<p>This outlet has been blessed with the scoop of leaking a dazzling contract for a new journalist who joins the previously mentioned outlet, Dimayor Super TV +++. Through this document, and guaranteeing the editorial transparency of this parent house of the generative business of institutional communications, we will publish it in full to show the relative salary of a communicator, which is nothing more than a megaphone for ideas paid for by its boss, what a true communicator should be, and not one of those everyone criticizes:</p>
+</div>
+<div class="scrolly-images scrolly-images-scrollable">
+<div class="section--six" style="background: var(--color-bg); border: 1px solid #e0d5c7; padding: 40px 32px; margin: 0;">
+<h3>Independent Services Contract</h3>
+<p class="subtitle" style="font-style: italic; color: var(--color-fg); text-align: center;">No. 1001001SOS</p>
+<p style="text-align: center; font-style: italic; color: var(--color-fg); margin-bottom: 20px;">In the one and only indivisible country of the Sacred Heart, on the ephemeral days of January 3026</p>
+<div class="stamp">⚖ SEALED ⚖</div>
+<h4>PARTIES TO THE CONTRACT</h4>
+<p>On one hand, <span class="highlight">COMMUNICATOR IN QUESTION</span>, identified with___________, domiciled at___________, account on X @someone, who acts in their own indivisible name and who hereinafter shall be referred to as <span class="highlight">THE CLIENT</span>.</p>
+<p>And on the other hand, [FULL NAME OF THE CONTRACTOR], of legal age (though that really matters little), identified with [ID / TAX ID] No. [number], domiciled at [address, city], email [email], who hereinafter shall be referred to as <span class="highlight">THE CONTRACTOR</span>.</p>
+<p>We have agreed to enter into this service contract, which shall be governed by the following clauses and, for what is not provided for therein, by the norms of the ___________ Colombian law, generative AI as the case may be, and other related norms.</p>
+<h4>CONSIDERATIONS</h4>
+<p><strong>First:</strong> That THE CLIENT requires the contractor to work at least 18 accountable hours each day, or that their mental agent be present for all this time, at the CLIENT's beck and call, as dictated by the new post-human substantive labor code.</p>
+<p><strong>Second:</strong> That THE CONTRACTOR declares having the suitability, experience, cerebral capacity (in space) and, when the law requires it, the willingness to connect to the cloud as described.</p>
+<p><strong>Third:</strong> That the parties have agreed to regulate in writing their rights and obligations, in the exercise of their autonomy of will, and that between them there exists only absolute labor subordination.</p>
+<h4>RESTRICTION CLAUSES</h4>
+<p>That THE CONTRACTOR under no circumstances may comment on manifestations that have nothing to do with the very essence of the sporting work of football players.</p>
+<p>At no time may directors, coaches or anything other than a player be mentioned in lewd criticism without the required context.</p>
+<div class="stamp">⚠ IMPORTANT ⚠</div>
+</div>
+</div>
+</div>
+
+<!-- ============== FOOTER ============== -->
+<footer>
+<p>100% real news.</p>
+</footer>
+</body>
+</html>
