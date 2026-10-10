@@ -117,12 +117,6 @@
             transition: background-color 0.2s, color 0.2s;
         }
 
-        .track-item:hover,
-        .track-item.active {
-            background: var(--color-fg);
-            color: var(--color-bg);
-        }
-
         .track-num {
             display: inline-block;
             min-width: 35px;
@@ -130,6 +124,16 @@
 
         .track-info {
             display: inline-block;
+            background-image: linear-gradient(currentColor, currentColor);
+            background-repeat: no-repeat;
+            background-position: 0 100%;
+            background-size: 0% 0.06em;
+            transition: background-size 0.2s ease-out;
+        }
+
+        .track-item:hover .track-info,
+        .track-item.active .track-info {
+            background-size: 100% 0.06em;
         }
 
         .player-section {
