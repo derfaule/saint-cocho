@@ -85,6 +85,7 @@
         .home-projects {
             display: flex;
             flex-direction: column;
+            gap: 2rem;
         }
 
         .projects-area.is-hidden {
@@ -106,20 +107,22 @@
             text-decoration: none;
             color: var(--color-fg);
             background: var(--color-bg);
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
             position: relative;
             padding: 1.5rem var(--page-gutter);
-            transition: background-color 0.35s ease, color 0.35s ease;
         }
 
         .project-title {
+            display: inline;
             font-family: var(--font-heading);
             font-weight: var(--font-weight-heading);
             font-size: var(--home-display-size);
             line-height: 1.15;
             overflow-wrap: break-word;
+            background-image: linear-gradient(currentColor, currentColor);
+            background-repeat: no-repeat;
+            background-position: 0 100%;
+            background-size: 0% 0.06em;
+            transition: background-size 0.2s ease-out;
         }
 
         .project-desc {
@@ -128,11 +131,11 @@
             line-height: 1.5;
             opacity: 0.75;
             max-width: 30rem;
+            margin-top: 0.75rem;
         }
 
-        .project-block:hover {
-            background: var(--color-fg);
-            color: var(--color-bg);
+        .project-block:hover .project-title {
+            background-size: 100% 0.06em;
         }
 
         .project-view {
