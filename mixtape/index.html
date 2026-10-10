@@ -12,31 +12,34 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            height: 100%;
+        }
+
         body {
             background: var(--color-bg);
             color: var(--color-fg);
             font-family: var(--font-body);
-            padding: 20px;
             line-height: 1.6;
-            overflow-x: hidden;
+            padding: 16px;
+            overflow: hidden;
         }
 
         .wrapper {
-            max-width: 1200px;
-            margin: 0 auto;
+            height: 100%;
         }
 
         .jcard {
             display: grid;
             grid-template-columns: 80px 1fr 1fr 200px;
+            height: 100%;
             border: 1px solid var(--color-fg);
-            min-height: 450px;
-            margin-bottom: 30px;
         }
 
         .jcard-panel {
             padding: 20px;
             border-right: 1px solid var(--color-border);
+            min-height: 0;
         }
 
         .jcard-panel:last-child {
@@ -99,25 +102,14 @@
             border-bottom: 1px solid var(--color-fg);
         }
 
-        .track-list {
-            list-style: none;
-        }
-
-        .track-item {
-            margin-bottom: 6px;
+        .story-card {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--color-border);
             cursor: pointer;
-            padding: 8px;
-            border: 1px solid transparent;
-            transition: background-color 0.2s, color 0.2s;
         }
 
-        .track-num {
-            display: inline-block;
-            min-width: 35px;
-        }
-
-        .track-info {
-            display: inline-block;
+        .story-card-title {
+            display: inline;
             background-image: linear-gradient(currentColor, currentColor);
             background-repeat: no-repeat;
             background-position: 0 100%;
@@ -125,72 +117,51 @@
             transition: background-size 0.2s ease-out;
         }
 
-        .track-item:hover .track-info,
-        .track-item.active .track-info {
+        .story-card-artist {
+            margin-top: 0.2rem;
+        }
+
+        .story-card:hover .story-card-title,
+        .story-card.expanded .story-card-title {
             background-size: 100% 0.06em;
         }
 
-        .player-section {
-            grid-column: 1 / -1;
-            border-top: 1px solid var(--color-fg);
+        .story-expanded-content {
+            margin-top: 1rem;
+        }
+
+        .story-expanded-content[hidden] {
             display: none;
         }
 
-        .player-section.active {
-            display: block;
+        .story-text p {
+            margin-bottom: 1rem;
         }
 
-        .player-header {
-            background: var(--color-fg);
-            color: var(--color-bg);
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .player-controls {
-            display: flex;
-            gap: 10px;
-        }
-
-        .player-btn {
-            background: var(--color-bg);
-            color: var(--color-fg);
-            border: 1px solid var(--color-bg);
-            padding: 5px 15px;
-            font-family: var(--font-body);
-            cursor: pointer;
-        }
-
-        .player-btn:hover {
-            background: var(--color-fg);
-            color: var(--color-bg);
-        }
-
-        .player-container {
-            padding: 20px;
-            background: var(--color-bg);
-            border: 1px solid var(--color-border);
-            margin: 15px;
-        }
-
-        .player-container iframe {
+        .spotify-embed iframe {
             width: 100%;
+            height: 200px;
             border: none;
         }
 
+        .story-card:focus-visible {
+            outline: 1px dotted var(--color-fg-muted);
+            outline-offset: 4px;
+        }
+
         .info-panel {
-            line-height: 1.9;
             overflow-wrap: break-word;
+            line-height: 1.9;
         }
 
         .info-header {
             margin-bottom: 10px;
             padding-bottom: 8px;
             border-bottom: 1px solid var(--color-fg);
+        }
+
+        .info-panel a {
+            color: var(--color-fg);
         }
 
         @media (max-width: 968px) and (min-width: 768px) {
@@ -201,11 +172,18 @@
 
         @media (max-width: 767px) {
             body {
+                height: auto;
+                overflow: visible;
                 padding: 10px;
+            }
+
+            html, body, .wrapper {
+                height: auto;
             }
 
             .jcard {
                 grid-template-columns: 1fr;
+                height: auto;
             }
 
             .spine {
@@ -222,129 +200,72 @@
             .jcard-panel:last-child {
                 border-bottom: none;
             }
+
+            .back-cover {
+                overflow-y: visible;
+            }
         }
     </style>
 </head>
 <body>
     <div class="wrapper">
-        <!-- Decorative Elements -->
-
-        <!-- J-Card Interface -->
         <div class="jcard" id="jcard">
-            <!-- Left Spine -->
             <div class="spine spine-left jcard-panel">
                 <h3>LA CIUDAD *NO* TAN PODRIDA - MIXTAPE #1 ★ 2025</h3>
             </div>
 
-            <!-- Front Cover -->
             <div class="front-cover jcard-panel">
                 <h1>LA CIUDAD *NO* TAN PODRIDA</h1>
                 <h3 class="subtitle">★ MIXTAPE #1 ★</h3>
                 <div class="tagline">
-                    SIN SPOTIFY<br>
-                    SIN ALGORITMOSS<br>
-                    SOLO DECADENCIA<br>
-                    PURA
+                    Sin Spotify<br>
+                    Sin algoritmos<br>
+                    Solo decadencia<br>
+                    Pura
                 </div>
             </div>
 
-            <!-- Back Cover - Clickable Tracklist -->
-            <div class="back-cover jcard-panel" id="tracklist">
+            <div class="back-cover jcard-panel">
                 <div class="side-section">
                     <h3 class="side-label">Side A</h3>
-                    <ul class="track-list">
-                        <li class="track-item" data-track="1" tabindex="0">
-                            <span class="track-num">01.</span>
-                            <span class="track-info">Dinero - Peste Mutantex</span>
-                        </li>
-                        <li class="track-item" data-track="2" tabindex="0">
-                            <span class="track-num">02.</span>
-                            <span class="track-info">Payasos de Acero - I.R.A.</span>
-                        </li>
-                        <li class="track-item" data-track="3" tabindex="0">
-                            <span class="track-num">03.</span>
-                            <span class="track-info">Sociedad - HPHC</span>
-                        </li>
-                        <li class="track-item" data-track="4" tabindex="0">
-                            <span class="track-num">04.</span>
-                            <span class="track-info">Segregación - Averno</span>
-                        </li>
-                        <li class="track-item" data-track="5" tabindex="0">
-                            <span class="track-num">05.</span>
-                            <span class="track-info">Libertad sin Censura - Censura</span>
-                        </li>
-                        <li class="track-item" data-track="6" tabindex="0">
-                            <span class="track-num">06.</span>
-                            <span class="track-info">Miseria de Medallo - Fértil Miseria</span>
-                        </li>
-                    </ul>
+                    <div class="track-list" id="sideA"></div>
                 </div>
 
                 <div class="side-section">
                     <h3 class="side-label">Side B</h3>
-                    <ul class="track-list">
-                        <li class="track-item" data-track="7" tabindex="0">
-                            <span class="track-num">07.</span>
-                            <span class="track-info">Indefensa Humana - Ataque de Sonido</span>
-                        </li>
-                        <li class="track-item" data-track="8" tabindex="0">
-                            <span class="track-num">08.</span>
-                            <span class="track-info">Sin Razón - Libra</span>
-                        </li>
-                        <li class="track-item" data-track="9" tabindex="0">
-                            <span class="track-num">09.</span>
-                            <span class="track-info">Quiero Escapar - BSN</span>
-                        </li>
-                        <li class="track-item" data-track="10" tabindex="0">
-                            <span class="track-num">10.</span>
-                            <span class="track-info">Tao - Restos de Tragedia</span>
-                        </li>
-                    </ul>
+                    <div class="track-list" id="sideB"></div>
                 </div>
             </div>
 
-            <!-- Info Panel -->
             <div class="info-panel jcard-panel">
                 <h3 class="info-header">Info</h3>
                 <strong>Curado por:</strong><br>
                 Marquis Saint Cocho<br><br>
-                
+
                 <strong>Año:</strong><br>
                 2025<br><br>
-                
+
                 <strong>Hecho:</strong><br>
                 YouTube<br>
                 Bandcamp<br>
                 SoundCloud<br><br>
-                
+
                 <strong>Contacto:</strong><br>
                 <a href="https://saintcocho.substack.com/" target="_blank">Más Info</a><br>
-                <br>MEDELLÍN CIUDAD PUNK<br>
-                CONTRA REACCIONARIOS
-            </div>
-
-            <!-- Dynamic Player Section -->
-            <div class="player-section" id="player-section">
-                <div class="player-header">
-                    <span id="now-playing">NOW PLAYING: Track Title</span>
-                    <div class="player-controls">
-                        <button class="player-btn" onclick="previousTrack()">◀ PREV</button>
-                        <button class="player-btn" onclick="nextTrack()">NEXT ▶</button>
-                        <button class="player-btn" onclick="closePlayer()">✕ CLOSE</button>
-                    </div>
-                </div>
-                <div class="player-container" id="player-container">
-                    <!-- Player iframe gets inserted here -->
-                </div>
+                <br>Medellín ciudad punk<br>
+                Contra reaccionarios
             </div>
         </div>
     </div>
 
     <script>
-        // Track data - Add your own YouTube/Bandcamp/SoundCloud embed codes here
+        const DEFAULT_DESCRIPTION = 'Descripción breve de la canción, por escribir.';
+        let currentTrack = null;
+        let selectedTrack = 1;
+
         const tracks = {
             1: {
-                title: "Dinero - Dementes",
+                title: "Dinero - Peste Mutantex",
                 type: "Soundcloud",
                 embed: '<iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A124408323&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe><div style="font-size: 1rem; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/ms-p-s" title="PUNK´S" target="_blank" style="color: #cccccc; text-decoration: none;">PUNK´S</a> · <a href="https://soundcloud.com/ms-p-s/dinero-peste-mutantex" title="Dinero - PESTE MUTANTEX" target="_blank" style="color: #cccccc; text-decoration: none;">Dinero - PESTE MUTANTEX</a></div>'
             },
@@ -403,113 +324,102 @@
             }
         };
 
-        let currentTrack = null;
-        let selectedTrack = 1;
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            setupTrackListeners();
-            setupKeyboardControls();
-            highlightSelectedTrack();
-        });
-
-        function setupTrackListeners() {
-            document.querySelectorAll('.track-item').forEach(item => {
-                item.addEventListener('click', function() {
-                    const trackNum = parseInt(this.getAttribute('data-track'));
-                    playTrack(trackNum);
+        function renderTracks() {
+            Object.entries(tracks).forEach(([num, track]) => {
+                const [song, artist] = track.title.split(' - ');
+                const card = document.createElement('article');
+                card.className = 'story-card track-item';
+                card.dataset.track = num;
+                card.tabIndex = 0;
+                card.innerHTML = `
+                    <h3 class="story-card-title">${song}</h3>
+                    <p class="story-card-artist">${artist}</p>
+                    <div class="story-expanded-content" hidden>
+                        <div class="story-text"><p>${track.description || DEFAULT_DESCRIPTION}</p></div>
+                        <div class="spotify-embed"></div>
+                    </div>`;
+                card.addEventListener('click', (e) => {
+                    if (e.target.closest('.spotify-embed')) return;
+                    toggleTrack(Number(num));
                 });
+                card.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && e.target === card) {
+                        e.preventDefault();
+                        toggleTrack(Number(num));
+                    }
+                });
+                document.getElementById(Number(num) <= 6 ? 'sideA' : 'sideB').appendChild(card);
             });
         }
 
-        function playTrack(trackNum) {
-            const track = tracks[trackNum];
-            
-            if (!track) {
-                alert('Track not configured yet! Edit the JavaScript to add embed code.');
-                return;
-            }
-
-            currentTrack = trackNum;
-            selectedTrack = trackNum;
-
-            // Update active state
-            document.querySelectorAll('.track-item').forEach(t => t.classList.remove('active'));
-            const activeItem = document.querySelector(`[data-track="${trackNum}"]`);
-            activeItem.classList.add('active');
-
-            // Update player
-            document.getElementById('now-playing').textContent = `NOW PLAYING: ${track.title}`;
-            document.getElementById('player-container').innerHTML = track.embed;
-            document.getElementById('player-section').classList.add('active');
-
-            // Scroll to player on mobile
-            if (window.innerWidth < 768) {
-                setTimeout(() => {
-                    document.getElementById('player-section').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                }, 100);
-            }
-
-            // Set up auto-advance for YouTube videos
-            if (track.type === 'youtube') {
-                setupAutoAdvance();
+        function toggleTrack(num) {
+            const card = document.querySelector(`[data-track="${num}"]`);
+            if (card.classList.contains('expanded')) {
+                collapseAll();
+            } else {
+                expandTrack(num);
             }
         }
 
-        function setupAutoAdvance() {
-            // Note: YouTube iframe API auto-advance would require loading the YouTube API
-            // For now, this is a placeholder. Real implementation would use YouTube Player API
-            console.log('Auto-advance ready (requires YouTube API for full implementation)');
+        function expandTrack(num) {
+            const track = tracks[num];
+            if (!track) return;
+
+            collapseAll();
+            const card = document.querySelector(`[data-track="${num}"]`);
+            card.classList.add('expanded');
+            card.querySelector('.story-expanded-content').hidden = false;
+            card.querySelector('.spotify-embed').innerHTML = track.embed || '';
+            currentTrack = num;
+            selectedTrack = num;
+            highlightSelectedTrack();
+            card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
-        function nextTrack() {
-            const totalTracks = Object.keys(tracks).length;
-            const next = currentTrack < totalTracks ? currentTrack + 1 : 1;
-            playTrack(next);
-        }
-
-        function previousTrack() {
-            const totalTracks = Object.keys(tracks).length;
-            const prev = currentTrack > 1 ? currentTrack - 1 : totalTracks;
-            playTrack(prev);
-        }
-
-        function closePlayer() {
-            document.getElementById('player-section').classList.remove('active');
-            document.querySelectorAll('.track-item').forEach(t => t.classList.remove('active'));
+        function collapseAll() {
+            document.querySelectorAll('.track-item.expanded').forEach(card => {
+                card.classList.remove('expanded');
+                card.querySelector('.story-expanded-content').hidden = true;
+                card.querySelector('.spotify-embed').innerHTML = '';
+            });
             currentTrack = null;
         }
 
-        // Keyboard Controls
+        function nextTrack() {
+            const total = Object.keys(tracks).length;
+            expandTrack(currentTrack < total ? currentTrack + 1 : 1);
+        }
+
+        function previousTrack() {
+            const total = Object.keys(tracks).length;
+            expandTrack(currentTrack > 1 ? currentTrack - 1 : total);
+        }
+
         function setupKeyboardControls() {
             document.addEventListener('keydown', function(e) {
-                const totalTracks = Object.keys(tracks).length;
+                const total = Object.keys(tracks).length;
 
-                switch(e.key) {
+                switch (e.key) {
                     case 'ArrowDown':
                     case 'j':
                         e.preventDefault();
-                        selectedTrack = selectedTrack < totalTracks ? selectedTrack + 1 : 1;
+                        selectedTrack = selectedTrack < total ? selectedTrack + 1 : 1;
                         highlightSelectedTrack();
                         break;
-                    
                     case 'ArrowUp':
                     case 'k':
                         e.preventDefault();
-                        selectedTrack = selectedTrack > 1 ? selectedTrack - 1 : totalTracks;
+                        selectedTrack = selectedTrack > 1 ? selectedTrack - 1 : total;
                         highlightSelectedTrack();
                         break;
-                    
                     case 'Enter':
                         e.preventDefault();
-                        playTrack(selectedTrack);
+                        toggleTrack(selectedTrack);
                         break;
-                    
                     case 'Escape':
                         e.preventDefault();
-                        closePlayer();
+                        collapseAll();
                         break;
-                    
                     case 'ArrowRight':
                     case 'l':
                         if (currentTrack) {
@@ -517,7 +427,6 @@
                             nextTrack();
                         }
                         break;
-                    
                     case 'ArrowLeft':
                     case 'h':
                         if (currentTrack) {
@@ -530,24 +439,21 @@
         }
 
         function highlightSelectedTrack() {
-            // Visual highlight for keyboard navigation (different from active playing track)
             document.querySelectorAll('.track-item').forEach(t => {
-                t.style.outline = 'none';
+                t.style.outline = '';
             });
             const selected = document.querySelector(`[data-track="${selectedTrack}"]`);
             if (selected) {
-                selected.style.outline = '2px dotted #666';
+                selected.style.outline = '1px dotted var(--color-fg-muted)';
                 selected.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
         }
 
-        // Console
-        console.log('⚡ RIPPER MIXTAPE LOADED ⚡');
-        console.log('Keyboard controls:');
-        console.log('  ↑/↓ or J/K - Navigate tracks');
-        console.log('  Enter - Play selected track');
-        console.log('  ←/→ or H/L - Previous/Next track (when playing)');
-        console.log('  Esc - Close player');
+        document.addEventListener('DOMContentLoaded', function() {
+            renderTracks();
+            setupKeyboardControls();
+            highlightSelectedTrack();
+        });
     </script>
 </body>
 </html>
