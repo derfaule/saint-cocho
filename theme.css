@@ -15,6 +15,10 @@
   --font-weight-paragraph: 300;
   --line-height-heading: 1.1;
   --line-height-body: 1.6;
+
+  --font-size-h3: 1.25rem;
+  --font-weight-h3: 700;
+  --line-height-h3: 1.3;
   /* ================================ */
 
   /* ===== EDIT HERE: color ===== */
@@ -49,4 +53,10 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
   font-weight: var(--font-weight-heading);
   line-height: var(--line-height-heading);
+}
+
+h3 {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-h3);
+  line-height: var(--line-height-h3);
 }
