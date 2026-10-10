@@ -6,8 +6,8 @@
     <title>Saint.Cocho</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="./theme.css" rel="stylesheet">
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link href="/theme.css" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <style>
         * {
             margin: 0;
@@ -201,9 +201,9 @@
 </head>
 <body>
     <header>
-        <a href="#" class="logo" onclick="showHome(event)">Saint.Cocho</a>
+        <a href="/" class="logo" onclick="showHome(event)">Saint.Cocho</a>
         <nav>
-            <a href="#" onclick="showHome(event)">Ideas</a>
+            <a href="/" onclick="showHome(event)">Ideas</a>
             <a href="https://substack.com/@saintcocho" target="_blank">Perorata</a>
         </nav>
     </header>
@@ -212,11 +212,11 @@
         <div class="projects-area" id="home">
             <p class="home-intro">hola, este es mi espacio donde escribo y hago cosas porque me da la gana, ya saben, diseñar y perder el tiempo.<br>Aquí algunos ejemplos:</p>
             <div class="home-projects">
-                <a class="project-block" onclick="openProject('narrativas', event)">
+                <a class="project-block" onclick="openProject('narrativas-futboleros', event)">
                     <div class="project-title">Narrativas Futboleros</div>
                     <div class="project-desc">Descripción breve del proyecto, por escribir.</div>
                 </a>
-                <a class="project-block" onclick="openProject('sancocho', event)">
+                <a class="project-block" onclick="openProject('sancocho-vallenato', event)">
                     <div class="project-title">Sancocho Vallenato</div>
                     <div class="project-desc">Descripción breve del proyecto, por escribir.</div>
                 </a>
@@ -227,32 +227,49 @@
     </main>
 
     <script>
+        const basePath = '/proyectos/';
         const projects = {
-            narrativas: './narrativas-futboleros/index.html',
-            sancocho: './sancocho-vallenato/index.html'
+            'narrativas-futboleros': '/narrativas-futboleros/index.html',
+            'sancocho-vallenato': '/sancocho-vallenato/index.html'
         };
 
-        function openProject(projectId, event) {
-            event.preventDefault();
-            const url = projects[projectId];
-            if (!url) return;
+        function slugFromPath() {
+            if (!location.pathname.startsWith(basePath)) return null;
+            return location.pathname.slice(basePath.length).replace(/\/$/, '');
+        }
+
+        function openProject(slug, event, { push = true } = {}) {
+            event?.preventDefault();
+            const src = projects[slug];
+            if (!src) return;
 
             const view = document.getElementById('projectView');
-            view.innerHTML = `<iframe src="${url}" allow="popup"></iframe>`;
+            view.innerHTML = `<iframe src="${src}" allow="popup"></iframe>`;
             view.querySelector('iframe').addEventListener('load', (e) => e.target.classList.add('is-loaded'));
             document.getElementById('home').classList.add('is-hidden');
             view.classList.add('active');
+            if (push) history.pushState({}, '', basePath + slug);
         }
 
-        function showHome(event) {
-            event.preventDefault();
+        function showHome(event, { push = true } = {}) {
+            event?.preventDefault();
             const view = document.getElementById('projectView');
             view.classList.remove('active');
             document.getElementById('home').classList.remove('is-hidden');
             setTimeout(() => {
                 if (!view.classList.contains('active')) view.innerHTML = '';
             }, 500);
+            if (push) history.pushState({}, '', '/');
         }
+
+        window.addEventListener('popstate', () => {
+            const slug = slugFromPath();
+            if (projects[slug]) openProject(slug, null, { push: false });
+            else showHome(null, { push: false });
+        });
+
+        const initialSlug = slugFromPath();
+        if (projects[initialSlug]) openProject(initialSlug, null, { push: false });
     </script>
 </body>
 </html>
