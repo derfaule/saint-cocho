@@ -104,7 +104,7 @@ function setupParallaxScroll() {
         // Oscillate left-to-right 3 times using sine wave (±150px movement)
         const translateX = Math.sin(scrollPercent * Math.PI * 6) * 150;
         // Shrink to 35% over the first 500px of scroll so the text stays readable
-        const shrink = Math.min(scrollY / 500, 1);
+        const shrink = window.innerWidth > 1024 ? Math.min(scrollY / 500, 1) : 0;
         const scale = 1 - shrink * 0.65;
         parallaxImage.style.transform = `translateX(${translateX}px) scale(${scale})`;
     });
