@@ -1,12 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;700;800&family=Spectral:wght@200;300;400;500;600;700;800&display=swap');
 
-@font-face {
-  font-family: 'SlowScript';
-  src: url('/mixtape/SlowScript-One.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-}
-
 
 /* Saint.Cocho — shared design tokens
    Loaded by the visualizador iframe so style changes here
@@ -17,7 +10,6 @@
 
   --font-heading: 'Archivo', sans-serif;
   --font-body: 'Spectral', serif;
-  --font-display: 'SlowScript', cursive;
   --font-weight-heading: 100;
   --font-weight-body: 300;
   --font-weight-paragraph: 300;
