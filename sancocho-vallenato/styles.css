@@ -175,6 +175,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .parallax-image img {
+    transform-origin: top center;
     transition: transform 0.05s ease-out;
     width: 100%;
     height: auto;
@@ -243,7 +244,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .story-card.expanded {
     background-color: var(--primary-white);
-    padding: 1.5rem;
+    padding: 1.5rem 0;
 }
 
 .story-card.expanded .story-card-title {

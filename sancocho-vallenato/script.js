@@ -103,7 +103,10 @@ function setupParallaxScroll() {
 
         // Oscillate left-to-right 3 times using sine wave (±150px movement)
         const translateX = Math.sin(scrollPercent * Math.PI * 6) * 150;
-        parallaxImage.style.transform = `translateX(${translateX}px)`;
+        // Shrink to 35% over the first 500px of scroll so the text stays readable
+        const shrink = Math.min(scrollY / 500, 1);
+        const scale = 1 - shrink * 0.65;
+        parallaxImage.style.transform = `translateX(${translateX}px) scale(${scale})`;
     });
 }
 
@@ -193,7 +196,7 @@ function expandStory(card, story) {
         if (story.youtubeUrl) {
             const videoId = extractYouTubeId(story.youtubeUrl);
             if (videoId) {
-                embedDiv.innerHTML = `<iframe width="100%" height="90" src="https://www.youtube.com/embed/${videoId}" title="YouTube audio player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+                embedDiv.innerHTML = `<iframe width="100%" height="200" src="https://www.youtube.com/embed/${videoId}" title="YouTube audio player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
             }
         }
 
