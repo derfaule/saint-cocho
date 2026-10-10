@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -196,32 +196,45 @@
             }
 
         }
+        .lang-switch a {
+            color: var(--color-fg-muted);
+        }
+
+        .lang-switch a.current {
+            color: var(--color-fg);
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
     <header>
-        <a href="/" class="logo" onclick="showHome(event)">Saint.Cocho</a>
+        <a href="/" class="logo" id="logo" onclick="showHome(event)">Saint.Cocho</a>
         <nav>
-            <a href="/" onclick="showHome(event)">Ideas</a>
-            <a href="https://substack.com/@saintcocho" target="_blank">Perorata</a>
+            <a href="/" id="navIdeas" onclick="showHome(event)" data-i18n="nav.ideas">Ideas</a>
+            <a href="https://substack.com/@saintcocho" target="_blank" data-i18n="nav.perorata">Perorata</a>
+            <span class="lang-switch">
+                <a href="/" id="langEs" data-lang="es">ES</a>
+                <span aria-hidden="true">/</span>
+                <a href="/en/" id="langEn" data-lang="en">EN</a>
+            </span>
         </nav>
     </header>
 
     <main>
         <div class="projects-area" id="home">
-            <p class="home-intro">Hola, este es mi espacio donde escribo y hago cosas porque me da la gana, ya saben: diseñar y perder el tiempo. Algunos ejemplos:</p>
+            <p class="home-intro" data-i18n="intro">Hola, este es mi espacio donde escribo y hago cosas porque me da la gana, ya saben: diseñar y perder el tiempo. Algunos ejemplos:</p>
             <div class="home-projects">
                 <a class="project-block" onclick="openProject('narrativas-futboleros', event)">
-                    <div class="project-title">Narrativas Futboleras</div>
-                    <div class="project-desc">Pequeña construcción ficticia que imagina y delira, sobre todo, los problemas que aquejan al maltrecho fútbol profesional colombiano.</div>
+                    <div class="project-title" data-i18n="narrativas.title">Narrativas Futboleras</div>
+                    <div class="project-desc" data-i18n="narrativas.desc">Pequeña construcción ficticia que imagina y delira, sobre todo, los problemas que aquejan al maltrecho fútbol profesional colombiano.</div>
                 </a>
                 <a class="project-block" onclick="openProject('sancocho-vallenato', event)">
-                    <div class="project-title">Sancocho Vallenato</div>
-                    <div class="project-desc">Suerte de bestiario filosófico-musical para retratar los sonsos cándidos que nos llenan las esquinas perniciosas del Caribe colombiano.</div>
+                    <div class="project-title" data-i18n="sancocho.title">Sancocho Vallenato</div>
+                    <div class="project-desc" data-i18n="sancocho.desc">Suerte de bestiario filosófico-musical para retratar los sonsos cándidos que nos llenan las esquinas perniciosas del Caribe colombiano.</div>
                 </a>
                 <a class="project-block" onclick="openProject('mixtape', event)">
-                    <div class="project-title">La ciudad no tan podrida</div>
-                    <div class="project-desc">Mixtape #1 de punk de Medellín: sin Spotify, sin algoritmos, solo decadencia pura.</div>
+                    <div class="project-title" data-i18n="mixtape.title">La ciudad no tan podrida</div>
+                    <div class="project-desc" data-i18n="mixtape.desc">Mixtape #1 de punk de Medellín: sin Spotify, sin algoritmos, solo decadencia pura.</div>
                 </a>
             </div>
         </div>
@@ -230,7 +243,34 @@
     </main>
 
     <script>
-        const basePath = '/proyectos/';
+        const translations = {
+            es: {
+                'nav.ideas': 'Ideas',
+                'nav.perorata': 'Perorata',
+                'intro': 'Hola, este es mi espacio donde escribo y hago cosas porque me da la gana, ya saben: diseñar y perder el tiempo. Algunos ejemplos:',
+                'narrativas.title': 'Narrativas Futboleras',
+                'narrativas.desc': 'Pequeña construcción ficticia que imagina y delira, sobre todo, los problemas que aquejan al maltrecho fútbol profesional colombiano.',
+                'sancocho.title': 'Sancocho Vallenato',
+                'sancocho.desc': 'Suerte de bestiario filosófico-musical para retratar los sonsos cándidos que nos llenan las esquinas perniciosas del Caribe colombiano.',
+                'mixtape.title': 'La ciudad no tan podrida',
+                'mixtape.desc': 'Mixtape #1 de punk de Medellín: sin Spotify, sin algoritmos, solo decadencia pura.'
+            },
+            en: {
+                'nav.ideas': 'Ideas',
+                'nav.perorata': 'Rant',
+                'intro': 'Hello, this is my space where I write and make things because I feel like it, you know: design and waste time. Some examples:',
+                'narrativas.title': 'Football Narratives',
+                'narrativas.desc': 'A small fictional construction that imagines and raves, above all, about the problems plaguing Colombian professional football.',
+                'sancocho.title': 'Sancocho Vallenato',
+                'sancocho.desc': 'A kind of philosophical-musical bestiary that portrays the naive fools who fill the pernicious corners of the Colombian Caribbean.',
+                'mixtape.title': 'The City Isn\'t That Rotten',
+                'mixtape.desc': 'Medellín punk mixtape #1: no Spotify, no algorithms, pure decay.'
+            }
+        };
+
+        const lang = location.pathname === '/en' || location.pathname.startsWith('/en/') ? 'en' : 'es';
+        const prefix = lang === 'en' ? '/en' : '';
+        const basePath = prefix + '/proyectos/';
         const projects = {
             'narrativas-futboleros': '/narrativas-futboleros/index.html',
             'sancocho-vallenato': '/sancocho-vallenato/index.html',
@@ -240,6 +280,20 @@
         function slugFromPath() {
             if (!location.pathname.startsWith(basePath)) return null;
             return location.pathname.slice(basePath.length).replace(/\/$/, '');
+        }
+
+        function applyLanguage() {
+            document.documentElement.lang = lang;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                el.textContent = translations[lang][el.dataset.i18n];
+            });
+            const slug = slugFromPath();
+            const suffix = slug ? '/proyectos/' + slug : '/';
+            document.getElementById('logo').href = prefix + '/';
+            document.getElementById('navIdeas').href = prefix + '/';
+            document.getElementById('langEs').href = suffix;
+            document.getElementById('langEn').href = '/en' + suffix;
+            document.getElementById(lang === 'en' ? 'langEn' : 'langEs').classList.add('current');
         }
 
         function openProject(slug, event, { push = true } = {}) {
@@ -253,6 +307,7 @@
             document.getElementById('home').classList.add('is-hidden');
             view.classList.add('active');
             if (push) history.pushState({}, '', basePath + slug);
+            applyLanguage();
         }
 
         function showHome(event, { push = true } = {}) {
@@ -263,7 +318,8 @@
             setTimeout(() => {
                 if (!view.classList.contains('active')) view.innerHTML = '';
             }, 500);
-            if (push) history.pushState({}, '', '/');
+            if (push) history.pushState({}, '', prefix + '/');
+            applyLanguage();
         }
 
         window.addEventListener('popstate', () => {
@@ -272,6 +328,7 @@
             else showHome(null, { push: false });
         });
 
+        applyLanguage();
         const initialSlug = slugFromPath();
         if (projects[initialSlug]) openProject(initialSlug, null, { push: false });
     </script>
