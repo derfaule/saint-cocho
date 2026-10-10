@@ -6,7 +6,8 @@
     <title>Saint.Cocho</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="./theme.css" rel="stylesheet">
+    <link href="/theme.css" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <style>
         * {
             margin: 0;
@@ -22,6 +23,7 @@
         body {
             --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
             --home-display-size: clamp(1.9rem, 0.95rem + 3.9vw, 8.5rem);
+            --page-gutter: 2rem;
             font-family: var(--font-body);
             background: var(--color-bg);
             color: var(--color-fg);
@@ -36,14 +38,14 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 1.5rem;
+            padding: 1rem var(--page-gutter);
             background: var(--color-bg);
             border-bottom: 1px solid var(--color-border);
             flex-shrink: 0;
         }
 
         .logo {
-            font-size: 0.95rem;
+            font-size: 1rem;
             color: var(--color-fg);
             text-decoration: none;
         }
@@ -51,7 +53,7 @@
         nav {
             display: flex;
             gap: 2rem;
-            font-size: 0.9rem;
+            font-size: 1rem;
         }
 
         nav a {
@@ -75,9 +77,16 @@
             inset: 0;
             overflow-x: hidden;
             overflow-y: auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: start;
+            transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+        }
+
+        .home-projects {
             display: flex;
             flex-direction: column;
-            transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+            gap: 2rem;
         }
 
         .projects-area.is-hidden {
@@ -87,49 +96,47 @@
         }
 
         .home-intro {
-            flex: none;
             font-family: var(--font-heading);
-            padding: 2rem 2rem 1.5rem;
+            padding: 2rem var(--page-gutter) 1.5rem;
             font-size: var(--home-display-size);
             line-height: 1.05;
             color: var(--color-fg);
         }
 
         .project-block {
-            flex: 0.2;
-            min-height: min-content;
             cursor: pointer;
             text-decoration: none;
             color: var(--color-fg);
             background: var(--color-bg);
-            display: flex;
-            align-items: center;
             position: relative;
-            padding: 0.5em 0;
-            transition: background-color 0.35s ease, color 0.35s ease;
+            padding: 1.5rem var(--page-gutter);
         }
 
         .project-title {
+            display: inline;
             font-family: var(--font-heading);
             font-weight: var(--font-weight-heading);
             font-size: var(--home-display-size);
             line-height: 1.15;
-            padding: 0 2rem;
-            max-width: 100%;
             overflow-wrap: break-word;
+            background-image: linear-gradient(currentColor, currentColor);
+            background-repeat: no-repeat;
+            background-position: 0 100%;
+            background-size: 0% 0.06em;
+            transition: background-size 0.2s ease-out;
         }
 
-        .project-block.green:hover {
-            background: #52C41A;
+        .project-desc {
+            font-family: var(--font-heading);
+            font-size: clamp(0.95rem, 0.8rem + 0.6vw, 1.35rem);
+            line-height: 1.5;
+            opacity: 0.75;
+            max-width: 30rem;
+            margin-top: 0.75rem;
         }
 
-        .project-block.yellow:hover {
-            background: #FADB14;
-        }
-
-        .project-block.purple:hover {
-            background: #6366f1;
-            color: #ffffff;
+        .project-block:hover .project-title {
+            background-size: 100% 0.06em;
         }
 
         .project-view {
@@ -172,17 +179,21 @@
         }
 
         @media (max-width: 768px) {
-            header {
-                padding: 1rem;
+            body {
+                --page-gutter: 1.25rem;
+            }
+
+            .projects-area {
+                grid-template-columns: 1fr;
             }
 
             nav {
                 gap: 1rem;
-                font-size: 0.8rem;
+                font-size: 1rem;
             }
 
             .logo {
-                font-size: 0.85rem;
+                font-size: 1rem;
             }
 
         }
@@ -190,54 +201,75 @@
 </head>
 <body>
     <header>
-        <a href="#" class="logo" onclick="showHome(event)">Saint.Cocho</a>
+        <a href="/" class="logo" onclick="showHome(event)">Saint.Cocho</a>
         <nav>
-            <a href="#" onclick="showHome(event)">Work</a>
-            <a href="https://substack.com/@saintcocho" target="_blank">Essays</a>
+            <a href="/" onclick="showHome(event)">Ideas</a>
+            <a href="https://substack.com/@saintcocho" target="_blank">Perorata</a>
         </nav>
     </header>
 
     <main>
         <div class="projects-area" id="home">
-            <p class="home-intro">hola, este es mi espacio donde escribo y hago cosas porque me da la gana, ya saben, diseñar y perder el tiempo.<br>Aquí algunos ejemplos:</p>
-            <a class="project-block green" onclick="openProject('narrativas', event)">
-                <div class="project-title">Narrativas Futboleros</div>
-            </a>
-            <a class="project-block purple" onclick="openProject('sancocho', event)">
-                <div class="project-title">Sancocho Vallenato</div>
-            </a>
+            <p class="home-intro">Hola, este es mi espacio donde escribo y hago cosas porque me da la gana, ya saben: diseñar y perder el tiempo. Algunos ejemplos:</p>
+            <div class="home-projects">
+                <a class="project-block" onclick="openProject('narrativas-futboleros', event)">
+                    <div class="project-title">Narrativas Futboleras</div>
+                    <div class="project-desc">Pequeña construcción ficticia que imagina y delira, sobre todo, los problemas que aquejan al maltrecho fútbol profesional colombiano.</div>
+                </a>
+                <a class="project-block" onclick="openProject('sancocho-vallenato', event)">
+                    <div class="project-title">Sancocho Vallenato</div>
+                    <div class="project-desc">Suerte de bestiario filosófico-musical para retratar los sonsos cándidos que nos llenan las esquinas perniciosas del Caribe colombiano.</div>
+                </a>
+            </div>
         </div>
 
         <div class="project-view" id="projectView"></div>
     </main>
 
     <script>
+        const basePath = '/proyectos/';
         const projects = {
-            narrativas: './narrativas-futboleros/index.html',
-            sancocho: './sancocho-vallenato/index.html'
+            'narrativas-futboleros': '/narrativas-futboleros/index.html',
+            'sancocho-vallenato': '/sancocho-vallenato/index.html'
         };
 
-        function openProject(projectId, event) {
-            event.preventDefault();
-            const url = projects[projectId];
-            if (!url) return;
+        function slugFromPath() {
+            if (!location.pathname.startsWith(basePath)) return null;
+            return location.pathname.slice(basePath.length).replace(/\/$/, '');
+        }
+
+        function openProject(slug, event, { push = true } = {}) {
+            event?.preventDefault();
+            const src = projects[slug];
+            if (!src) return;
 
             const view = document.getElementById('projectView');
-            view.innerHTML = `<iframe src="${url}" allow="popup"></iframe>`;
+            view.innerHTML = `<iframe src="${src}" allow="popup"></iframe>`;
             view.querySelector('iframe').addEventListener('load', (e) => e.target.classList.add('is-loaded'));
             document.getElementById('home').classList.add('is-hidden');
             view.classList.add('active');
+            if (push) history.pushState({}, '', basePath + slug);
         }
 
-        function showHome(event) {
-            event.preventDefault();
+        function showHome(event, { push = true } = {}) {
+            event?.preventDefault();
             const view = document.getElementById('projectView');
             view.classList.remove('active');
             document.getElementById('home').classList.remove('is-hidden');
             setTimeout(() => {
                 if (!view.classList.contains('active')) view.innerHTML = '';
             }, 500);
+            if (push) history.pushState({}, '', '/');
         }
+
+        window.addEventListener('popstate', () => {
+            const slug = slugFromPath();
+            if (projects[slug]) openProject(slug, null, { push: false });
+            else showHome(null, { push: false });
+        });
+
+        const initialSlug = slugFromPath();
+        if (projects[initialSlug]) openProject(initialSlug, null, { push: false });
     </script>
 </body>
 </html>

@@ -11,104 +11,12 @@
         document.addEventListener('DOMContentLoaded', () => {
             const allSections = document.querySelectorAll('.scrolly-section');
 
-            function handleScroll() {
-                const viewportCenter = window.innerHeight / 2;
-                let activeSection = null;
-                let minDist = Infinity;
-
-                allSections.forEach(section => {
-                    const rect = section.getBoundingClientRect();
-                    const sectionCenter = rect.top + rect.height / 2;
-                    const distance = Math.abs(sectionCenter - viewportCenter);
-
-                    if (distance < minDist) {
-                        minDist = distance;
-                        activeSection = section;
-                    }
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('is-visible');
                 });
-
-                // Reset all images
-                document.querySelectorAll('.image-stack img').forEach(img => img.classList.remove('active'));
-                document.querySelectorAll('.image-stack svg').forEach(svg => svg.classList.remove('active'));
-                document.querySelectorAll('[id*="shields-container"]').forEach(el => el.classList.remove('active'));
-                document.querySelectorAll('[id*="colombia-map"]').forEach(el => el.classList.remove('active'));
-                const gaboCaption = document.getElementById('gabo-caption');
-                if (gaboCaption) gaboCaption.style.opacity = '0';
-
-                // Show image based on active section
-                if (activeSection) {
-                    const sectionId = activeSection.getAttribute('data-section');
-                    const imageStack = activeSection.querySelector('.image-stack');
-
-                    if (imageStack) {
-                        if (sectionId === 'espectaculo') {
-                            // Show badges dynamically as you scroll
-                            const rect = activeSection.getBoundingClientRect();
-                            const sectionHeight = rect.height;
-                            const distanceFromTop = rect.top;
-                            const scrollProgress = Math.max(0, Math.min(1, (window.innerHeight - distanceFromTop) / (window.innerHeight + sectionHeight)));
-
-                            const badges = imageStack.querySelectorAll('.shield-badge');
-                            // Show badges progressively (6 badges total)
-                            const badgesToShow = Math.ceil(scrollProgress * badges.length);
-                            badges.forEach((badge, index) => {
-                                if (index < badgesToShow) {
-                                    badge.classList.add('visible');
-                                } else {
-                                    badge.classList.remove('visible');
-                                }
-                            });
-                        } else if (sectionId === 'actores') {
-                            // Show actores image
-                            const actoresImg = document.getElementById('actores-img');
-                            if (actoresImg) {
-                                actoresImg.classList.add('active');
-                                actoresImg.style.opacity = '1';
-                            }
-                        } else if (sectionId === 'escenarios') {
-                            // Show gabo image with caption
-                            const gaboImg = document.getElementById('gabo-img');
-                            const gaboCaption = document.getElementById('gabo-caption');
-                            if (gaboImg) {
-                                gaboImg.classList.add('active');
-                                gaboImg.style.opacity = '1';
-                            }
-                            if (gaboCaption) gaboCaption.classList.add('active');
-                        } else if (sectionId === 'genero') {
-                            // Show collages sequentially as you scroll through the section
-                            const rect = activeSection.getBoundingClientRect();
-                            const sectionHeight = rect.height;
-                            const distanceFromTop = rect.top;
-                            const scrollProgress = Math.max(0, Math.min(1, (window.innerHeight - distanceFromTop) / (window.innerHeight + sectionHeight)));
-
-                            const collages = imageStack.querySelectorAll('.scrolly-img');
-                            collages.forEach(col => col.classList.remove('active'));
-
-                            // Determine active image based on scroll progress
-                            let activeIndex = 0;
-                            if (scrollProgress > 0.65) {
-                                activeIndex = 2;
-                            } else if (scrollProgress > 0.33) {
-                                activeIndex = 1;
-                            }
-
-                            if (collages[activeIndex]) {
-                                collages[activeIndex].classList.add('active');
-                            }
-                        } else if (sectionId === 'periodismo') {
-                            // Show periodismo image
-                            const periodimoImg = document.getElementById('periodismo-img');
-                            if (periodimoImg) {
-                                periodimoImg.classList.add('active');
-                                periodimoImg.style.opacity = '1';
-                            }
-                        }
-                    }
-                }
-            }
-
-            window.addEventListener('scroll', handleScroll, { passive: true });
-            handleScroll();
+            }, { threshold: 0 });
+            allSections.forEach(section => revealObserver.observe(section));
 
             // Rough Notation annotations for headings
             const annotations = [];
@@ -124,18 +32,6 @@
                 annotations.push({ element: heading, annotation: annotation, visible: false });
             });
 
-            // Rough Notation sketchy box around García Márquez image
-            const gaboImg = document.getElementById('gabo-img');
-            if (gaboImg) {
-                const gaboBox = RoughNotation.annotate(gaboImg, {
-                    type: 'box',
-                    color: '#d4a574',
-                    strokeWidth: 2,
-                    padding: 15,
-                    roughness: 1.5
-                });
-                annotations.push({ element: gaboImg, annotation: gaboBox, visible: false });
-            }
 
             // Rough Notation crossed-off for strikethrough text
             const strikethroughs = document.querySelectorAll('s');
@@ -174,32 +70,6 @@
                 }
             });
 
-            // Single movement animation for Gabo head and badges
-            function animateElements() {
-                // Animate Gabo head - use left/top positioning
-                const gaboImg = document.querySelector('#gabo-img');
-                if (gaboImg) {
-                    const randomX = (Math.random() - 0.5) * 80;
-                    const randomY = (Math.random() - 0.5) * 100;
-                    gaboImg.style.position = 'relative';
-                    gaboImg.style.left = randomX + 'px';
-                    gaboImg.style.top = randomY + 'px';
-                }
-
-                // Animate all shield badges - use left/top positioning
-                document.querySelectorAll('.shield-badge').forEach((badge) => {
-                    const randomX = (Math.random() - 0.5) * 100;
-                    const randomY = (Math.random() - 0.5) * 100;
-                    const randomRotation = (Math.random() - 0.5) * 60;
-                    badge.style.position = 'relative';
-                    badge.style.left = randomX + 'px';
-                    badge.style.top = randomY + 'px';
-                    badge.style.transform = `rotate(${randomRotation}deg)`;
-                });
-            }
-
-            // Run animation once on load
-            setTimeout(animateElements, 500);
         });
     </script>
 
@@ -229,7 +99,7 @@
 
         header {
             text-align: center;
-            padding: 40px 20px;
+            padding: 40px 32px;
             background: transparent;
             border-bottom: none;
         }
@@ -259,7 +129,7 @@
             gap: 80px;
             max-width: 1600px;
             margin: 0 auto;
-            padding: 60px 40px;
+            padding: 60px 32px;
             align-items: flex-start;
         }
 
@@ -386,7 +256,7 @@
         .gabo-caption-standalone {
             opacity: 1 !important;
             text-align: center;
-            padding: 30px 40px !important;
+            padding: 30px 32px !important;
             border-top: 2px solid #d4a574;
             margin: 40px 0;
             display: block !important;
@@ -567,7 +437,7 @@
             .scrolly-section {
                 flex-direction: column;
                 gap: 40px;
-                padding: 40px 20px;
+                padding: 40px 32px;
             }
 
             .scrolly-images {
@@ -700,7 +570,7 @@
 
         .scrolly-images-scrollable .section--six {
             margin: 0;
-            padding: 0 40px 40px 40px;
+            padding: 0 32px 40px 32px;
             flex-shrink: 0;
             width: 100%;
         }
@@ -733,7 +603,7 @@
         }
 
         .scrolly-section[data-section="periodismo"] .section--six {
-            padding: 40px;
+            padding: 40px 32px;
             margin: 0;
             min-height: auto;
         }
@@ -745,7 +615,7 @@
 
         footer {
             text-align: center;
-            padding: 60px 20px;
+            padding: 60px 32px;
             background: var(--color-bg);
             border-top: 1px solid #eee;
             color: var(--color-fg-muted);
@@ -755,7 +625,7 @@
         /* ========== SECTION 6 - CONTRACT PAPER AESTHETIC ========== */
         .section--six {
             background: var(--color-bg);
-            padding: 150px;
+            padding: 150px 32px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1),
                         inset 0 1px 0 rgba(255,255,255,0.6);
             position: relative;
@@ -763,7 +633,6 @@
             margin-bottom: 100px;
             margin-left: auto;
             margin-right: auto;
-            filter: url(#squiggle);
         }
 
         .section--six::before {
@@ -836,7 +705,7 @@
 
         @media (max-width: 768px) {
             .section--six {
-                padding: 50px;
+                padding: 50px 32px;
             }
 
             .section--six h2 {
@@ -846,6 +715,104 @@
             .section--six p {
                 font-size: 16px;
             }
+        }
+        /* Static reveal: images show with their own section, no scroll-driven motion */
+        .scrolly-section .image-stack img,
+        .scrolly-section .image-stack svg,
+        .scrolly-section .scrolly-img,
+        .scrolly-section .actores-image,
+        .scrolly-section .periodismo-image,
+        .scrolly-section .gabo-image,
+        .scrolly-section .shield-badge {
+            transform: none !important;
+            transition: opacity 0.6s ease-in-out !important;
+        }
+
+        .scrolly-section:not(.is-visible) .image-stack img,
+        .scrolly-section:not(.is-visible) .image-stack svg,
+        .scrolly-section:not(.is-visible) .scrolly-img,
+        .scrolly-section:not(.is-visible) .actores-image,
+        .scrolly-section:not(.is-visible) .periodismo-image,
+        .scrolly-section:not(.is-visible) .gabo-image,
+        .scrolly-section:not(.is-visible) .shield-badge {
+            opacity: 0 !important;
+        }
+
+        .scrolly-section.is-visible .image-stack img,
+        .scrolly-section.is-visible .image-stack svg,
+        .scrolly-section.is-visible .scrolly-img,
+        .scrolly-section.is-visible .actores-image,
+        .scrolly-section.is-visible .periodismo-image,
+        .scrolly-section.is-visible .gabo-image,
+        .scrolly-section.is-visible .shield-badge {
+            opacity: 1 !important;
+        }
+
+        .scrolly-section .shield-badge:hover {
+            transform: none !important;
+        }
+
+        .scrolly-section .badge-pile .shield-badge[data-badge-index] {
+            transform: none !important;
+        }
+
+        .scrolly-section .badge-pile .shield-badge[data-badge-index="0"],
+        .scrolly-section .badge-pile .shield-badge[data-badge-index="2"] {
+            left: 50% !important;
+            margin-left: -140px;
+        }
+
+        .scrolly-section[data-section="genero"] .scrolly-images {
+            position: relative;
+            top: auto;
+            height: auto;
+        }
+
+        .scrolly-section[data-section="genero"] .image-stack {
+            height: auto;
+            gap: 2rem;
+            justify-content: flex-start;
+        }
+
+        .scrolly-section[data-section="genero"] .scrolly-img {
+            position: relative !important;
+            width: 100%;
+            height: auto;
+        }
+
+        @media (max-width: 768px) {
+            .scrolly-section[data-section="genero"] .scrolly-images {
+                display: none;
+            }
+        }
+        @media (max-width: 768px) {
+            .scrolly-section .badge-pile {
+                position: relative !important;
+                height: 480px !important;
+                min-height: 0 !important;
+                display: block !important;
+            }
+
+            .scrolly-section .badge-pile .shield-badge[data-badge-index] {
+                position: absolute !important;
+                width: 42% !important;
+                max-width: none !important;
+                height: auto !important;
+            }
+
+            .scrolly-section .badge-pile .shield-badge[data-badge-index="0"],
+            .scrolly-section .badge-pile .shield-badge[data-badge-index="2"] {
+                margin-left: -21%;
+            }
+        }
+        .image-stack > a {
+            display: flex !important;
+            justify-content: center;
+            width: 100%;
+        }
+
+        #gabo-img {
+            margin: 0 auto !important;
         }
     </style>
 </head>
@@ -908,7 +875,7 @@
 <!-- ============== SECTION 4: LOS ESCENARIOS (With Gabo SVG) ============== -->
 <div class="scrolly-section" data-section="escenarios">
 <div class="scrolly-images">
-<div class="image-stack" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 40px 20px;">
+<div class="image-stack" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 40px 32px;">
 <a href="http://www.semibague.gov.co/po/924-circular-156-abril-22-de-2014-anexo-2/file" style="text-decoration: none; display: block;" target="_blank">
 <img id="gabo-img" src="images/gabo.svg" alt="García Márquez Parody" data-type="gabo" class="gabo-image" style="width: 100%; max-width: 400px; height: auto; display: block;">
 </a>
@@ -1009,7 +976,7 @@
 <p>Este medio ha sido bendecido con la primicia de filtrar un rutilante contrato para un periodista nuevo que ingresa al ya previamente mencionado medio, Dimayor Super TV +++, por medio del presente y garantizando la transparencia editorial de esta casa madre del que hacer generativo de comunicaciones institucionales proenderemos entonces a publicarla en su totalidad para evidenciar cuales es el salario relativo de un comunicador, que no es más que un megáfono de ideas que paga su patrón, lo que debe ser un verdadero comunicador y no uno de esos que todos lo critican:</p>
 </div>
 <div class="scrolly-images scrolly-images-scrollable">
-<div class="section--six" style="background: var(--color-bg); border: 1px solid #e0d5c7; padding: 0 40px 40px 40px; margin: 0;">
+<div class="section--six" style="background: var(--color-bg); border: 1px solid #e0d5c7; padding: 40px 32px; margin: 0;">
 <h3>Contrato de Prestación de Servicios Independientes</h3>
 <p class="subtitle" style="font-style: italic; color: var(--color-fg); text-align: center;">No. 1001001SOS</p>
 <p style="text-align: center; font-style: italic; color: var(--color-fg); margin-bottom: 20px;">En el único e indivisible país del Sagrado Corazón, a los efímeros días del mes de Enero de 3026</p>

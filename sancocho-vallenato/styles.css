@@ -60,7 +60,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .section.home-section {
     grid-column: 1 / -1;
-    padding: 2rem;
+    padding: 2rem 0;
     min-height: auto;
     display: flex;
     align-items: center;
@@ -153,7 +153,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .intro-content {
-    padding: 1.5rem;
+    padding: 1.5rem 0;
 }
 
 .intro-wrapper {
@@ -175,6 +175,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .parallax-image img {
+    transform-origin: top center;
     transition: transform 0.05s ease-out;
     width: 100%;
     height: auto;
@@ -202,7 +203,7 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 1.5rem;
     margin-bottom: 1.5rem;
     color: var(--primary-black);
-    text-transform: uppercase;
+    text-transform: none;
     text-align: left;
 }
 
@@ -212,7 +213,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .section-content {
-    padding: 1.5rem;
+    padding: 1.5rem 0;
 }
 
 .stories-grid {
@@ -224,7 +225,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .story-card {
     background: var(--primary-white);
-    padding: 1rem 1.5rem;
+    padding: 1rem 0;
     cursor: pointer;
     text-align: left;
     border: none;
@@ -243,7 +244,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .story-card.expanded {
     background-color: var(--primary-white);
-    padding: 1.5rem;
+    padding: 1.5rem 0;
 }
 
 .story-card.expanded .story-card-title {
@@ -370,7 +371,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Responsive */
 @media (max-width: 1200px) {
     .section {
-        padding: 3rem 1.5rem;
+        padding: 3rem 0;
     }
 
     .intro-wrapper {
@@ -423,7 +424,7 @@ h1, h2, h3, h4, h5, h6 {
     }
 
     .section {
-        padding: 1rem;
+        padding: 1rem 0;
         min-height: auto;
     }
 
@@ -455,7 +456,7 @@ h1, h2, h3, h4, h5, h6 {
     }
 
     .story-detail {
-        padding: 2rem 1rem;
+        padding: 2rem 0;
         padding-top: 4rem;
     }
 }

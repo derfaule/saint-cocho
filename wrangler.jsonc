@@ -16,7 +16,8 @@
     }
   },
   "assets": {
-    "directory": "."
+    "directory": ".",
+    "not_found_handling": "single-page-application"
   },
   "env": {
     "staging": {
@@ -35,7 +36,8 @@
         }
       },
       "assets": {
-        "directory": "."
+        "directory": ".",
+    "not_found_handling": "single-page-application"
       }
     }
   }
