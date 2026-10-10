@@ -11,104 +11,12 @@
         document.addEventListener('DOMContentLoaded', () => {
             const allSections = document.querySelectorAll('.scrolly-section');
 
-            function handleScroll() {
-                const viewportCenter = window.innerHeight / 2;
-                let activeSection = null;
-                let minDist = Infinity;
-
-                allSections.forEach(section => {
-                    const rect = section.getBoundingClientRect();
-                    const sectionCenter = rect.top + rect.height / 2;
-                    const distance = Math.abs(sectionCenter - viewportCenter);
-
-                    if (distance < minDist) {
-                        minDist = distance;
-                        activeSection = section;
-                    }
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('is-visible');
                 });
-
-                // Reset all images
-                document.querySelectorAll('.image-stack img').forEach(img => img.classList.remove('active'));
-                document.querySelectorAll('.image-stack svg').forEach(svg => svg.classList.remove('active'));
-                document.querySelectorAll('[id*="shields-container"]').forEach(el => el.classList.remove('active'));
-                document.querySelectorAll('[id*="colombia-map"]').forEach(el => el.classList.remove('active'));
-                const gaboCaption = document.getElementById('gabo-caption');
-                if (gaboCaption) gaboCaption.style.opacity = '0';
-
-                // Show image based on active section
-                if (activeSection) {
-                    const sectionId = activeSection.getAttribute('data-section');
-                    const imageStack = activeSection.querySelector('.image-stack');
-
-                    if (imageStack) {
-                        if (sectionId === 'espectaculo') {
-                            // Show badges dynamically as you scroll
-                            const rect = activeSection.getBoundingClientRect();
-                            const sectionHeight = rect.height;
-                            const distanceFromTop = rect.top;
-                            const scrollProgress = Math.max(0, Math.min(1, (window.innerHeight - distanceFromTop) / (window.innerHeight + sectionHeight)));
-
-                            const badges = imageStack.querySelectorAll('.shield-badge');
-                            // Show badges progressively (6 badges total)
-                            const badgesToShow = Math.ceil(scrollProgress * badges.length);
-                            badges.forEach((badge, index) => {
-                                if (index < badgesToShow) {
-                                    badge.classList.add('visible');
-                                } else {
-                                    badge.classList.remove('visible');
-                                }
-                            });
-                        } else if (sectionId === 'actores') {
-                            // Show actores image
-                            const actoresImg = document.getElementById('actores-img');
-                            if (actoresImg) {
-                                actoresImg.classList.add('active');
-                                actoresImg.style.opacity = '1';
-                            }
-                        } else if (sectionId === 'escenarios') {
-                            // Show gabo image with caption
-                            const gaboImg = document.getElementById('gabo-img');
-                            const gaboCaption = document.getElementById('gabo-caption');
-                            if (gaboImg) {
-                                gaboImg.classList.add('active');
-                                gaboImg.style.opacity = '1';
-                            }
-                            if (gaboCaption) gaboCaption.classList.add('active');
-                        } else if (sectionId === 'genero') {
-                            // Show collages sequentially as you scroll through the section
-                            const rect = activeSection.getBoundingClientRect();
-                            const sectionHeight = rect.height;
-                            const distanceFromTop = rect.top;
-                            const scrollProgress = Math.max(0, Math.min(1, (window.innerHeight - distanceFromTop) / (window.innerHeight + sectionHeight)));
-
-                            const collages = imageStack.querySelectorAll('.scrolly-img');
-                            collages.forEach(col => col.classList.remove('active'));
-
-                            // Determine active image based on scroll progress
-                            let activeIndex = 0;
-                            if (scrollProgress > 0.65) {
-                                activeIndex = 2;
-                            } else if (scrollProgress > 0.33) {
-                                activeIndex = 1;
-                            }
-
-                            if (collages[activeIndex]) {
-                                collages[activeIndex].classList.add('active');
-                            }
-                        } else if (sectionId === 'periodismo') {
-                            // Show periodismo image
-                            const periodimoImg = document.getElementById('periodismo-img');
-                            if (periodimoImg) {
-                                periodimoImg.classList.add('active');
-                                periodimoImg.style.opacity = '1';
-                            }
-                        }
-                    }
-                }
-            }
-
-            window.addEventListener('scroll', handleScroll, { passive: true });
-            handleScroll();
+            }, { threshold: 0.25 });
+            allSections.forEach(section => revealObserver.observe(section));
 
             // Rough Notation annotations for headings
             const annotations = [];
@@ -124,18 +32,6 @@
                 annotations.push({ element: heading, annotation: annotation, visible: false });
             });
 
-            // Rough Notation sketchy box around García Márquez image
-            const gaboImg = document.getElementById('gabo-img');
-            if (gaboImg) {
-                const gaboBox = RoughNotation.annotate(gaboImg, {
-                    type: 'box',
-                    color: '#d4a574',
-                    strokeWidth: 2,
-                    padding: 15,
-                    roughness: 1.5
-                });
-                annotations.push({ element: gaboImg, annotation: gaboBox, visible: false });
-            }
 
             // Rough Notation crossed-off for strikethrough text
             const strikethroughs = document.querySelectorAll('s');
@@ -174,32 +70,6 @@
                 }
             });
 
-            // Single movement animation for Gabo head and badges
-            function animateElements() {
-                // Animate Gabo head - use left/top positioning
-                const gaboImg = document.querySelector('#gabo-img');
-                if (gaboImg) {
-                    const randomX = (Math.random() - 0.5) * 80;
-                    const randomY = (Math.random() - 0.5) * 100;
-                    gaboImg.style.position = 'relative';
-                    gaboImg.style.left = randomX + 'px';
-                    gaboImg.style.top = randomY + 'px';
-                }
-
-                // Animate all shield badges - use left/top positioning
-                document.querySelectorAll('.shield-badge').forEach((badge) => {
-                    const randomX = (Math.random() - 0.5) * 100;
-                    const randomY = (Math.random() - 0.5) * 100;
-                    const randomRotation = (Math.random() - 0.5) * 60;
-                    badge.style.position = 'relative';
-                    badge.style.left = randomX + 'px';
-                    badge.style.top = randomY + 'px';
-                    badge.style.transform = `rotate(${randomRotation}deg)`;
-                });
-            }
-
-            // Run animation once on load
-            setTimeout(animateElements, 500);
         });
     </script>
 
@@ -846,6 +716,59 @@
             .section--six p {
                 font-size: 16px;
             }
+        }
+        /* Static reveal: images show with their own section, no scroll-driven motion */
+        .scrolly-section .image-stack img,
+        .scrolly-section .image-stack svg,
+        .scrolly-section .scrolly-img,
+        .scrolly-section .actores-image,
+        .scrolly-section .periodismo-image,
+        .scrolly-section .gabo-image,
+        .scrolly-section .shield-badge {
+            transform: none !important;
+            transition: opacity 0.6s ease-in-out !important;
+        }
+
+        .scrolly-section:not(.is-visible) .image-stack img,
+        .scrolly-section:not(.is-visible) .image-stack svg,
+        .scrolly-section:not(.is-visible) .scrolly-img,
+        .scrolly-section:not(.is-visible) .actores-image,
+        .scrolly-section:not(.is-visible) .periodismo-image,
+        .scrolly-section:not(.is-visible) .gabo-image,
+        .scrolly-section:not(.is-visible) .shield-badge {
+            opacity: 0 !important;
+        }
+
+        .scrolly-section.is-visible .image-stack img,
+        .scrolly-section.is-visible .image-stack svg,
+        .scrolly-section.is-visible .scrolly-img,
+        .scrolly-section.is-visible .actores-image,
+        .scrolly-section.is-visible .periodismo-image,
+        .scrolly-section.is-visible .gabo-image,
+        .scrolly-section.is-visible .shield-badge {
+            opacity: 1 !important;
+        }
+
+        .scrolly-section .shield-badge:hover {
+            transform: none !important;
+        }
+
+        .scrolly-section .badge-pile .shield-badge[data-badge-index] {
+            transform: none !important;
+        }
+
+        .scrolly-section .badge-pile .shield-badge[data-badge-index="0"],
+        .scrolly-section .badge-pile .shield-badge[data-badge-index="2"] {
+            left: 50% !important;
+            margin-left: -140px;
+        }
+
+        .scrolly-section[data-section="genero"] .scrolly-images {
+            display: none;
+        }
+
+        .scrolly-section[data-section="genero"] [class^="mobile-collage-"] {
+            display: block !important;
         }
     </style>
 </head>
