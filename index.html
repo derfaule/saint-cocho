@@ -130,17 +130,9 @@
             max-width: 30rem;
         }
 
-        .project-block.green:hover {
-            background: #52C41A;
-        }
-
-        .project-block.yellow:hover {
-            background: #FADB14;
-        }
-
-        .project-block.purple:hover {
-            background: #6366f1;
-            color: #ffffff;
+        .project-block:hover {
+            background: var(--color-fg);
+            color: var(--color-bg);
         }
 
         .project-view {
@@ -216,11 +208,11 @@
         <div class="projects-area" id="home">
             <p class="home-intro">hola, este es mi espacio donde escribo y hago cosas porque me da la gana, ya saben, diseñar y perder el tiempo.<br>Aquí algunos ejemplos:</p>
             <div class="home-projects">
-                <a class="project-block green" onclick="openProject('narrativas', event)">
+                <a class="project-block" onclick="openProject('narrativas', event)">
                     <div class="project-title">Narrativas Futboleros</div>
                     <div class="project-desc">Descripción breve del proyecto, por escribir.</div>
                 </a>
-                <a class="project-block purple" onclick="openProject('sancocho', event)">
+                <a class="project-block" onclick="openProject('sancocho', event)">
                     <div class="project-title">Sancocho Vallenato</div>
                     <div class="project-desc">Descripción breve del proyecto, por escribir.</div>
                 </a>
