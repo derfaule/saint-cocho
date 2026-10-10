@@ -786,6 +786,26 @@
                 display: none;
             }
         }
+        @media (max-width: 768px) {
+            .scrolly-section .badge-pile {
+                position: relative !important;
+                height: 480px !important;
+                min-height: 0 !important;
+                display: block !important;
+            }
+
+            .scrolly-section .badge-pile .shield-badge[data-badge-index] {
+                position: absolute !important;
+                width: 42% !important;
+                max-width: none !important;
+                height: auto !important;
+            }
+
+            .scrolly-section .badge-pile .shield-badge[data-badge-index="0"],
+            .scrolly-section .badge-pile .shield-badge[data-badge-index="2"] {
+                margin-left: -21%;
+            }
+        }
     </style>
 </head>
 <body>
