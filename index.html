@@ -219,6 +219,10 @@
                     <div class="project-title">Sancocho Vallenato</div>
                     <div class="project-desc">Suerte de bestiario filosófico-musical para retratar los sonsos cándidos que nos llenan las esquinas perniciosas del Caribe colombiano.</div>
                 </a>
+                <a class="project-block" onclick="openProject('mixtape', event)">
+                    <div class="project-title">La ciudad no tan podrida</div>
+                    <div class="project-desc">Mixtape #1 de punk de Medellín: sin Spotify, sin algoritmos, solo decadencia pura.</div>
+                </a>
             </div>
         </div>
 
@@ -229,7 +233,8 @@
         const basePath = '/proyectos/';
         const projects = {
             'narrativas-futboleros': '/narrativas-futboleros/index.html',
-            'sancocho-vallenato': '/sancocho-vallenato/index.html'
+            'sancocho-vallenato': '/sancocho-vallenato/index.html',
+            'mixtape': '/mixtape/index.html'
         };
 
         function slugFromPath() {
