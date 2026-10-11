@@ -33,17 +33,11 @@
             display: grid;
             grid-template-columns: 80px 1fr 1fr 200px;
             height: 100%;
-            border: 1px solid var(--color-fg);
         }
 
         .jcard-panel {
             padding: 20px;
-            border-right: 1px solid var(--color-border);
             min-height: 0;
-        }
-
-        .jcard-panel:last-child {
-            border-right: none;
         }
 
         .spine {
@@ -77,8 +71,6 @@
         }
 
         .front-cover .subtitle {
-            border-top: 1px solid var(--color-fg);
-            border-bottom: 1px solid var(--color-fg);
             padding: 8px 20px;
             margin: 10px 0;
         }
@@ -98,8 +90,6 @@
 
         .side-label {
             margin-bottom: 10px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--color-fg);
         }
 
         .story-card {
@@ -144,10 +134,7 @@
             border: none;
         }
 
-        .story-card:focus-visible {
-            outline: 1px dotted var(--color-fg-muted);
-            outline-offset: 4px;
-        }
+
 
         .info-panel {
             overflow-wrap: break-word;
@@ -156,8 +143,6 @@
 
         .info-header {
             margin-bottom: 10px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--color-fg);
         }
 
         .info-panel a {
@@ -190,15 +175,6 @@
                 writing-mode: horizontal-tb;
                 transform: none;
                 padding: 12px;
-            }
-
-            .jcard-panel {
-                border-right: none;
-                border-bottom: 1px solid var(--color-border);
-            }
-
-            .jcard-panel:last-child {
-                border-bottom: none;
             }
 
             .back-cover {
@@ -439,12 +415,8 @@
         }
 
         function highlightSelectedTrack() {
-            document.querySelectorAll('.track-item').forEach(t => {
-                t.style.outline = '';
-            });
             const selected = document.querySelector(`[data-track="${selectedTrack}"]`);
             if (selected) {
-                selected.style.outline = '1px dotted var(--color-fg-muted)';
                 selected.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
         }
