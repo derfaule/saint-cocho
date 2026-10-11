@@ -81,6 +81,28 @@
             line-height: 1.8;
         }
 
+        .front-cover {
+            justify-content: flex-start;
+            overflow: hidden;
+        }
+
+        .gallery {
+            flex: 1;
+            min-height: 0;
+            width: 100%;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
         .back-cover {
             overflow-y: auto;
         }
@@ -182,6 +204,10 @@
                 border-bottom: 1px solid var(--color-fg);
             }
 
+            .gallery {
+                overflow-y: visible;
+            }
+
             .jcard-panel:last-child {
                 border-bottom: none;
             }
@@ -207,6 +233,13 @@
                     Sin algoritmos<br>
                     Solo decadencia<br>
                     Pura
+                </div>
+                <div class="gallery">
+                    <img src="gallery/1.webp" alt="">
+                    <img src="gallery/2.webp" alt="">
+                    <img src="gallery/3.webp" alt="">
+                    <img src="gallery/4.webp" alt="">
+                    <img src="gallery/5.webp" alt="">
                 </div>
             </div>
 
