@@ -17,11 +17,11 @@
   --line-height-body: 1.6;
 
   --font-size-h1: clamp(2rem, 1rem + 4vw, 4.5rem);
-  --font-size-h2: 1.8rem;
-  --font-size-h3: 1.25rem;
-  --font-size-h4: 1.1rem;
-  --font-size-h5: 1rem;
-  --font-size-h6: 1rem;
+  --font-size-h2: clamp(1.5rem, 1.1rem + 1.5vw, 2.25rem);
+  --font-size-h3: clamp(1.1rem, 1rem + 0.5vw, 1.35rem);
+  --font-size-h4: clamp(1rem, 0.95rem + 0.3vw, 1.2rem);
+  --font-size-h5: clamp(1rem, 1rem + 0.2vw, 1.1rem);
+  --font-size-h6: clamp(1rem, 1rem + 0.2vw, 1.1rem);
   --font-weight-h3: 700;
   --line-height-h3: 1.3;
   /* ================================ */
