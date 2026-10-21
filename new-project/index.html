@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuevo proyecto</title>
+    <title>Museo Nazional</title>
     <link rel="stylesheet" href="/theme.css">
     <style>
         * {
@@ -23,6 +23,20 @@
             line-height: var(--line-height-body);
         }
 
+        .site-header {
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .site-header h1 {
+            font-size: 1.25rem;
+        }
+
+        .site-header p {
+            font-size: 1rem;
+            color: var(--color-fg-muted);
+        }
+
         .main-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -37,6 +51,11 @@
 
         .content-left p {
             margin-bottom: 1rem;
+        }
+
+        .parody-note {
+            font-size: 1rem;
+            color: var(--color-fg-muted);
         }
 
         .drawer {
@@ -87,11 +106,25 @@
     </style>
 </head>
 <body>
+    <header class="site-header">
+        <h1>Museo Nazional</h1>
+        <p>Un museo de parodia. Todo lo que aquí se exhibe es ficción satírica.</p>
+    </header>
+
     <main class="main-content">
         <section class="content-left">
-            <h2>Título del proyecto</h2>
-            <p>Texto de introducción por escribir.</p>
-            <p>Segundo párrafo por escribir.</p>
+            <h2>Ejemplo</h2>
+            <p>Luego de un vertiginoso e ineludible cambio de paradigma, imprescindible para la preservación misma de la raza colombiana, que padeció los devastadores estragos de una toma violenta y guerrerista del poder a manos de los esbirros, sicofantes y palafreneros de la izquierda más hegemónica de todas las izquierdas gobernantes en Colombia (contando, por supuesto, las que se esconden y las que no se dignan a esconderse).</p>
+            <p>Surge, como en otras épocas de absoluta y asfixiante persecución ideológica, la necesidad impostergable de un atisbo de genialidad. Y en nuestra patria dolida ese atisbo habrá de darse, cómo no, a través de un artista multifacético, de un temple hondamente davinciano.</p>
+            <p>De la sabana, con el corazón anclado en el pueblo y la psiquis de corte irremediablemente global, nuestro prohombre no nació — conviene aclararlo — en la tierra de García Márquez, no, no en Aracataca, ese pueblo hoy desanimado por la desidia de aquel arquitecto fanático del comunismo que arrasa sin miramiento con las realidades y las artes liberales.</p>
+            <p>Nuestro prohombre nació en Bogotá, capital inmarcesible de las libertades, donde se debaten las ideas más cardinales de la patria, en el augusto Congreso Nacional y en el venerable Capitolio.</p>
+            <p>El Tigre explora temas que atañen a la convergencia de las ideas estoicas con los más altos interrogantes de corte estético, los cuales desencadenan, a su vez, una inagotable serie de pesquisas en busca del equilibrio y la dignidad humana — dignidad representada aquí en un piadoso catolicismo felizmente reencontrado en pasadas épocas electorales.</p>
+            <p>Las formas son la mayor virtud de sus búsquedas canónicas, y como tal las representa con la fidelidad devota de un maestro del barroco italiano, como el buen descendiente directo que es de aquellos.</p>
+            <p>En su obra confluyen toda una serie de irrenunciables búsquedas estéticas que exploran el más profundo diálogo sobre lo que significa alcanzar la perfección del trasegar humano. Y es que no existe, a decir verdad, búsqueda más humana que la de la perfección italiana del artista.</p>
+            <p>Y bueno, estos diálogos trascienden cualquier medio concreto: nuestro artista se deja llevar por los momentos, y es precisamente por ello que funge, con naturalidad pasmosa, como prompteador versadísimo en las artes de los LLMs, regalándonos pinceladas maestras de su ingenio canónico. Veremos, así, sus constantes: el amor, el desencanto y, sobre todo, la buena vida — pilares inconmovibles de su quehacer.</p>
+            <p>Queda, entonces, abierto el diálogo. Abierto a pensar la inconmensurable magnificencia del arte que persigue De La Espriella — quien no es solo artista multifacético al estilo davinciano, sino, además, consumado artista de lo jurídico: un abogado de récord intachable en la noble persecución de seres humanos de todas las envergaduras y tesituras.</p>
+            <p>Sin temor a equivocarme, estamos frente a una nueva estirpe de hombres, una con otra dimensión: la insondable dimensión del que es capaz de hacer milagros.</p>
+            <p class="parody-note">* Texto de parodia del Museo Nazional. No es un documento oficial de ninguna institución.</p>
         </section>
 
         <section class="drawer" id="drawer"></section>
