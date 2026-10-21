@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuevo proyecto</title>
+    <link rel="stylesheet" href="/theme.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            background: var(--color-bg);
+            color: var(--color-fg);
+            font-family: var(--font-body);
+            line-height: var(--line-height-body);
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            height: 100%;
+            padding: 2rem;
+        }
+
+        .content-left {
+            overflow-y: auto;
+        }
+
+        .content-left p {
+            margin-bottom: 1rem;
+        }
+
+        .drawer {
+            overflow-y: auto;
+            height: 100%;
+        }
+
+        .drawer-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--color-border);
+            cursor: pointer;
+        }
+
+        .drawer-item-subtitle {
+            margin-top: 0.2rem;
+        }
+
+        .drawer-item-body {
+            margin-top: 1rem;
+        }
+
+        .drawer-item-body[hidden] {
+            display: none;
+        }
+
+        .drawer-item-body p {
+            margin-bottom: 1rem;
+        }
+
+        .drawer-item:focus-visible {
+            outline: 1px dotted var(--color-fg-muted);
+            outline-offset: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                height: auto;
+                padding: 1.25rem;
+            }
+
+            .content-left,
+            .drawer {
+                overflow: visible;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="main-content">
+        <section class="content-left">
+            <h2>Título del proyecto</h2>
+            <p>Texto de introducción por escribir.</p>
+            <p>Segundo párrafo por escribir.</p>
+        </section>
+
+        <section class="drawer" id="drawer"></section>
+    </main>
+
+    <script>
+        const items = [
+            { title: 'Elemento uno', subtitle: 'Subtítulo por escribir', body: 'Descripción por escribir.' },
+            { title: 'Elemento dos', subtitle: 'Subtítulo por escribir', body: 'Descripción por escribir.' },
+            { title: 'Elemento tres', subtitle: 'Subtítulo por escribir', body: 'Descripción por escribir.' }
+        ];
+
+        const drawer = document.getElementById('drawer');
+
+        items.forEach((item) => {
+            const card = document.createElement('article');
+            card.className = 'drawer-item';
+            card.tabIndex = 0;
+            card.innerHTML = `
+                <h3>${item.title}</h3>
+                <p class="drawer-item-subtitle">${item.subtitle}</p>
+                <div class="drawer-item-body" hidden><p>${item.body}</p></div>`;
+            card.addEventListener('click', () => toggle(card));
+            card.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && e.target === card) {
+                    e.preventDefault();
+                    toggle(card);
+                }
+            });
+            drawer.appendChild(card);
+        });
+
+        function toggle(card) {
+            const body = card.querySelector('.drawer-item-body');
+            const open = body.hidden;
+            drawer.querySelectorAll('.drawer-item-body').forEach(b => { b.hidden = true; });
+            body.hidden = !open;
+        }
+    </script>
+</body>
+</html>
