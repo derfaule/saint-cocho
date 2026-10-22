@@ -92,11 +92,30 @@
             margin-bottom: 1rem;
         }
 
+        .ascii-frame {
+            display: inline-block;
+            max-width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        .ascii-frame pre {
+            font-family: ui-monospace, Menlo, monospace;
+            font-size: 1rem;
+            line-height: 1;
+            color: var(--color-fg);
+            white-space: pre;
+            margin: 0;
+        }
+
+        .ascii-row {
+            display: flex;
+            align-items: stretch;
+        }
+
         .drawer-item-image {
-            width: 100%;
+            width: 55%;
             height: auto;
             display: block;
-            margin-bottom: 1rem;
         }
 
         .drawer-item-date,
@@ -164,13 +183,34 @@
             const open = body.hidden;
             drawer.querySelectorAll('.drawer-item-body').forEach(b => { b.hidden = true; });
             body.hidden = !open;
+            if (open) drawFrame(card);
+        }
+
+        function drawFrame(card) {
+            const frame = card.querySelector('.ascii-frame');
+            if (!frame) return;
+            const img = frame.querySelector('img');
+            const probe = document.createElement('span');
+            probe.textContent = '─';
+            probe.style.cssText = 'font-family: ui-monospace, Menlo, monospace; font-size: 1rem; position: absolute; visibility: hidden;';
+            frame.appendChild(probe);
+            const charW = probe.getBoundingClientRect().width || 8;
+            const lineH = charW * 1.6;
+            probe.remove();
+            const rect = img.getBoundingClientRect();
+            const cols = Math.max(4, Math.floor(rect.width / charW) - 2);
+            const rows = Math.max(2, Math.floor(rect.height / lineH));
+            frame.querySelector('.ascii-top').textContent = '┌' + '─'.repeat(cols) + '┐';
+            frame.querySelector('.ascii-bottom').textContent = '└' + '─'.repeat(cols) + '┘';
+            frame.querySelector('.ascii-left').textContent = Array(rows).fill('│').join('\n');
+            frame.querySelector('.ascii-right').textContent = Array(rows).fill('│').join('\n');
         }
 
         function renderItem(item) {
             const card = document.createElement('article');
             card.className = 'drawer-item';
             card.tabIndex = 0;
-            const img = item.image ? `<img class="drawer-item-image" src="${item.image}" alt="${item.title}">` : '';
+            const img = item.image ? `<div class="ascii-frame"><pre class="ascii-top"></pre><div class="ascii-row"><pre class="ascii-left"></pre><img class="drawer-item-image" src="${item.image}" alt="${item.title}"><pre class="ascii-right"></pre></div><pre class="ascii-bottom"></pre></div>` : '';
             const date = item.date ? `<p class="drawer-item-date">${item.date}</p>` : '';
             const source = item.source ? `<p class="drawer-item-source"><a href="${item.source}" target="_blank" rel="noopener">Fuente</a></p>` : '';
             card.innerHTML = `
