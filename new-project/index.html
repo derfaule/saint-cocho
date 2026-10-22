@@ -191,19 +191,27 @@
             if (!frame) return;
             const img = frame.querySelector('img');
             const probe = document.createElement('span');
-            probe.textContent = '─';
+            probe.textContent = '═';
             probe.style.cssText = 'font-family: ui-monospace, Menlo, monospace; font-size: 1rem; position: absolute; visibility: hidden;';
             frame.appendChild(probe);
             const charW = probe.getBoundingClientRect().width || 8;
             const lineH = charW * 1.6;
             probe.remove();
             const rect = img.getBoundingClientRect();
-            const cols = Math.max(4, Math.floor(rect.width / charW) - 2);
-            const rows = Math.max(2, Math.floor(rect.height / lineH));
-            frame.querySelector('.ascii-top').textContent = '┌' + '─'.repeat(cols) + '┐';
-            frame.querySelector('.ascii-bottom').textContent = '└' + '─'.repeat(cols) + '┘';
-            frame.querySelector('.ascii-left').textContent = Array(rows).fill('│').join('\n');
-            frame.querySelector('.ascii-right').textContent = Array(rows).fill('│').join('\n');
+            const cols = Math.max(12, Math.floor(rect.width / charW) - 2);
+            const rows = Math.max(4, Math.floor(rect.height / lineH));
+            const half = Math.floor((cols - 3) / 2);
+            const rule = '═'.repeat(half);
+            const shade = '░'.repeat(cols + 2);
+            frame.querySelector('.ascii-top').textContent = shade + '\n' + '╔' + rule + '╣ ✦ ╠' + rule + '╗';
+            frame.querySelector('.ascii-bottom').textContent = '╚' + rule + '╣ ❖ ╠' + rule + '╝' + '\n' + shade;
+            const side = [];
+            for (let i = 0; i < rows; i++) {
+                side.push(i % 6 === 3 ? '◆' : (i % 3 === 0 ? '╟' : '║'));
+            }
+            const sideText = side.join('\n');
+            frame.querySelector('.ascii-left').textContent = sideText;
+            frame.querySelector('.ascii-right').textContent = sideText;
         }
 
         function renderItem(item) {
