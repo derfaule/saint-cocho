@@ -92,6 +92,25 @@
             margin-bottom: 1rem;
         }
 
+        .drawer-item-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        .drawer-item-date,
+        .drawer-item-source {
+            font-size: 1rem;
+            color: var(--color-fg-muted);
+        }
+
+        .drawer-disclaimer {
+            margin-top: 2rem;
+            font-size: 1rem;
+            color: var(--color-fg-muted);
+        }
+
         .drawer-item:focus-visible {
             outline: 1px dotted var(--color-fg-muted);
             outline-offset: 4px;
@@ -138,31 +157,7 @@
     </main>
 
     <script>
-        const items = [
-            { title: 'Elemento uno', subtitle: 'Subtítulo por escribir', body: 'Descripción por escribir.' },
-            { title: 'Elemento dos', subtitle: 'Subtítulo por escribir', body: 'Descripción por escribir.' },
-            { title: 'Elemento tres', subtitle: 'Subtítulo por escribir', body: 'Descripción por escribir.' }
-        ];
-
         const drawer = document.getElementById('drawer');
-
-        items.forEach((item) => {
-            const card = document.createElement('article');
-            card.className = 'drawer-item';
-            card.tabIndex = 0;
-            card.innerHTML = `
-                <h3>${item.title}</h3>
-                <p class="drawer-item-subtitle">${item.subtitle}</p>
-                <div class="drawer-item-body" hidden><p>${item.body}</p></div>`;
-            card.addEventListener('click', () => toggle(card));
-            card.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' && e.target === card) {
-                    e.preventDefault();
-                    toggle(card);
-                }
-            });
-            drawer.appendChild(card);
-        });
 
         function toggle(card) {
             const body = card.querySelector('.drawer-item-body');
@@ -170,6 +165,44 @@
             drawer.querySelectorAll('.drawer-item-body').forEach(b => { b.hidden = true; });
             body.hidden = !open;
         }
+
+        function renderItem(item) {
+            const card = document.createElement('article');
+            card.className = 'drawer-item';
+            card.tabIndex = 0;
+            const img = item.image ? `<img class="drawer-item-image" src="${item.image}" alt="${item.title}">` : '';
+            const date = item.date ? `<p class="drawer-item-date">${item.date}</p>` : '';
+            const source = item.source ? `<p class="drawer-item-source"><a href="${item.source}" target="_blank" rel="noopener">Fuente</a></p>` : '';
+            card.innerHTML = `
+                <h3>${item.title}</h3>
+                ${date}
+                <div class="drawer-item-body" hidden>
+                    ${img}
+                    <p>${item.description}</p>
+                    ${source}
+                </div>`;
+            card.addEventListener('click', (e) => {
+                if (e.target.closest('a')) return;
+                toggle(card);
+            });
+            card.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && e.target === card) {
+                    e.preventDefault();
+                    toggle(card);
+                }
+            });
+            return card;
+        }
+
+        fetch('exhibit.json')
+            .then(r => r.json())
+            .then(items => {
+                items.forEach(item => drawer.appendChild(renderItem(item)));
+                const disclaimer = document.createElement('p');
+                disclaimer.className = 'drawer-disclaimer';
+                disclaimer.innerHTML = 'Aviso: Este sitio es una parodia y un ejercicio de crítica sobre el uso de contenido generado con IA en la comunicación política. Las imágenes de esta columna son publicaciones de redes sociales citadas como ejemplo. Este sitio no está afiliado a ninguna institución, partido ni persona mencionada.';
+                drawer.appendChild(disclaimer);
+            });
     </script>
 </body>
 </html>
