@@ -113,6 +113,12 @@
             align-items: stretch;
         }
 
+        .ascii-frame .ascii-top,
+        .ascii-frame .ascii-bottom {
+            width: 0;
+            min-width: 100%;
+        }
+
         .drawer-item-image {
             width: 55%;
             height: auto;
@@ -195,7 +201,7 @@
             const ctx = document.createElement('canvas').getContext('2d');
             const fontPx = parseFloat(getComputedStyle(frame.querySelector('pre')).fontSize) || 16;
             ctx.font = `${fontPx}px Menlo, Consolas, monospace`;
-            const charW = ctx.measureText('═'.repeat(50)).width / 50 || fontPx * 0.6;
+            const charW = Math.max(...'═░▒▓█✦❖◆╔╗╚╝║╟'.split('').map(ch => ctx.measureText(ch).width)) || fontPx * 0.6;
             const lineH = charW * 1.6;
             const rect = img.getBoundingClientRect();
             const total = Math.max(14, Math.floor(rect.width / charW) + 2);
