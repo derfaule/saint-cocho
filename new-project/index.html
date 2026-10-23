@@ -193,10 +193,10 @@
             if (!frame) return;
             const img = frame.querySelector('img');
             const probe = document.createElement('span');
-            probe.textContent = '═';
-            probe.style.cssText = 'font-family: ui-monospace, Menlo, monospace; font-size: 1rem; position: absolute; visibility: hidden;';
+            probe.textContent = '═'.repeat(50);
+            probe.style.cssText = 'font-family: ui-monospace, Menlo, monospace; font-size: 1rem; white-space: pre; position: absolute; visibility: hidden;';
             frame.appendChild(probe);
-            const charW = probe.getBoundingClientRect().width || 8;
+            const charW = (probe.getBoundingClientRect().width / 50) || 9.6;
             const lineH = charW * 1.6;
             probe.remove();
             const rect = img.getBoundingClientRect();
