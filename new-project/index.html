@@ -93,7 +93,8 @@
         }
 
         .ascii-frame {
-            display: inline-block;
+            display: block;
+            width: max-content;
             max-width: 100%;
             margin-bottom: 1rem;
         }
@@ -116,6 +117,7 @@
             width: 55%;
             height: auto;
             display: block;
+            flex: none;
         }
 
         .drawer-item-date,
@@ -198,13 +200,18 @@
             const lineH = charW * 1.6;
             probe.remove();
             const rect = img.getBoundingClientRect();
-            const cols = Math.max(12, Math.floor(rect.width / charW) - 2);
+            const total = Math.max(14, Math.floor(rect.width / charW) + 2);
+            const inner = total - 2;
             const rows = Math.max(4, Math.floor(rect.height / lineH));
-            const half = Math.floor((cols - 3) / 2);
-            const rule = '═'.repeat(half);
-            const shade = '░'.repeat(cols + 2);
-            frame.querySelector('.ascii-top').textContent = shade + '\n' + '╔' + rule + '╣ ✦ ╠' + rule + '╗';
-            frame.querySelector('.ascii-bottom').textContent = '╚' + rule + '╣ ❖ ╠' + rule + '╝' + '\n' + shade;
+            const band = (pattern, n) => Array.from({ length: n }, (_, i) => pattern[i % pattern.length]).join('');
+            const rule = (n, ornament) => {
+                const left = Math.floor((n - ornament.length) / 2);
+                return '═'.repeat(left) + ornament + '═'.repeat(n - ornament.length - left);
+            };
+            const shadeTop = band('░▒▓█▓▒', total);
+            const shadeBottom = band('█▓▒░▒▓', total);
+            frame.querySelector('.ascii-top').textContent = shadeTop + '\n' + '╔' + rule(inner, '✦❖✦') + '╗';
+            frame.querySelector('.ascii-bottom').textContent = '╚' + rule(inner, '✦❖✦') + '╝' + '\n' + shadeBottom;
             const side = [];
             for (let i = 0; i < rows; i++) {
                 side.push(i % 6 === 3 ? '◆' : (i % 3 === 0 ? '╟' : '║'));
