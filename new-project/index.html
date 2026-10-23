@@ -197,7 +197,6 @@
             ctx.font = `${fontPx}px ui-monospace, Menlo, monospace`;
             const charW = ctx.measureText('═'.repeat(50)).width / 50 || fontPx * 0.6;
             const lineH = charW * 1.6;
-            probe.remove();
             const rect = img.getBoundingClientRect();
             const total = Math.max(14, Math.floor(rect.width / charW) + 2);
             const inner = total - 2;
