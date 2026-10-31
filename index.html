@@ -290,7 +290,7 @@
 
             const view = document.getElementById('projectView');
             const label = document.querySelector(`.project-block[onclick*="'${slug}'"] .project-title`)?.textContent ?? '';
-            view.innerHTML = `<iframe src="${src}" title="${label}" allow="popup"></iframe>`;
+            view.innerHTML = `<iframe src="${src}${lang === 'en' ? '?lang=en' : ''}" title="${label}" allow="popup"></iframe>`;
             view.querySelector('iframe').addEventListener('load', (e) => e.target.classList.add('is-loaded'));
             document.getElementById('home').classList.add('is-hidden');
             view.classList.add('active');
