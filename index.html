@@ -248,34 +248,7 @@
     </main>
 
     <script>
-        const translations = {
-            es: {
-                'nav.ideas': 'Ideas',
-                'nav.perorata': 'Perorata',
-                'intro': 'Hola, este es mi espacio donde escribo y hago cosas porque me da la gana, ya saben: diseñar y perder el tiempo. Algunos ejemplos:',
-                'narrativas.title': 'Narrativas Futboleras',
-                'narrativas.desc': 'Pequeña construcción ficticia que imagina y delira, sobre todo, los problemas que aquejan al maltrecho fútbol profesional colombiano.',
-                'sancocho.title': 'Sancocho Vallenato',
-                'sancocho.desc': 'Suerte de bestiario filosófico-musical para retratar los sonsos cándidos que nos llenan las esquinas perniciosas del Caribe colombiano.',
-                'mixtape.title': 'La ciudad no tan podrida',
-                'mixtape.desc': 'Mixtape #1 de punk de Medellín: sin Spotify, sin algoritmos, solo decadencia pura.',
-                'museo.title': 'Museo de la Memoria Corregida',
-                'museo.desc': 'Obras retiradas por decreto, exhibidas de nuevo.'
-            },
-            en: {
-                'nav.ideas': 'Ideas',
-                'nav.perorata': 'Rant',
-                'intro': 'Hello, this is my space where I write and make things because I feel like it, you know: design and waste time. Some examples:',
-                'narrativas.title': 'Football Narratives',
-                'narrativas.desc': 'A small fictional construction that imagines and raves, above all, about the problems plaguing Colombian professional football.',
-                'sancocho.title': 'Sancocho Vallenato',
-                'sancocho.desc': 'A kind of philosophical-musical bestiary that portrays the naive fools who fill the pernicious corners of the Colombian Caribbean.',
-                'mixtape.title': 'The City Isn\'t That Rotten',
-                'mixtape.desc': 'Medellín punk mixtape #1: no Spotify, no algorithms, pure decay.',
-                'museo.title': 'Museo de la Memoria Corregida',
-                'museo.desc': 'Works removed by decree, shown again.'
-            }
-        };
+        const translations = {};
 
         const lang = location.pathname === '/en' || location.pathname.startsWith('/en/') ? 'en' : 'es';
         const prefix = lang === 'en' ? '/en' : '';
@@ -343,9 +316,14 @@
             else showHome(null, { push: false });
         });
 
-        applyLanguage();
-        const initialSlug = slugFromPath();
-        if (projects[initialSlug]) openProject(initialSlug, null, { push: false });
+        fetch(`/locales/${lang}.json`)
+            .then(r => r.json())
+            .then(data => {
+                translations[lang] = data;
+                applyLanguage();
+                const initialSlug = slugFromPath();
+                if (projects[initialSlug]) openProject(initialSlug, null, { push: false });
+            });
     </script>
 </body>
 </html>
