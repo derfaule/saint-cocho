@@ -1,0 +1,242 @@
+// Sancocho Vallenato - Main Script (English)
+
+// Story data (embedded for simplicity)
+const stories = [
+    {
+        id: 1,
+        title: "El Chicharrón",
+        artist: "Omar Geles",
+        content: "This personification, in which a rather harmful pork skin fried at high and scalding temperatures is credited with the chores and details of a complex and toxic relationship. What a chicharrón, one might say.",
+        image: '/sancocho-vallenato/imagenes-artistas-transparent/omargelesblanco2.png',
+        youtubeUrl: 'https://www.youtube.com/watch?v=dBA1hMNptjs?si=lm2G54arifkqK81Q'
+    },
+    {
+        id: 2,
+        title: "La Yuca y La Tajada",
+        artist: "Ivan Villazon y Saul Lallemand",
+        content: "Written by Romualdo Brito, this inexplicable, tubercular love song is titled after two of our favorite starchy side dishes.",
+        image: '/sancocho-vallenato/imagenes-artistas-transparent/villalol.png',
+        youtubeUrl: 'https://www.youtube.com/watch?v=ropdwqJtrQ4'
+    },
+    {
+        id: 3,
+        title: "El Comelón",
+        artist: "Diomedes Diaz",
+        content: "Released on Fiesta Vallenata Vol. 20, this song gives us the eternal, continuous metaphor of a badly wounded lover ravenously making his muse a gift of his suicide.",
+        image: '/sancocho-vallenato/imagenes-artistas-transparent/diomedesblanco.png',
+        youtubeUrl: 'https://www.youtube.com/watch?v=GA2OYoq3gNo'
+    },
+    {
+        id: 4,
+        title: "Invitación Parrandera",
+        artist: "Tomas Alfonso Zuleta & Nicolas Elias Mendoza",
+        content: "A festive invitation to celebrate the joys of Caribbean life.",
+        image: '/sancocho-vallenato/imagenes-artistas-transparent/invitacion-parrandera.png',
+        youtubeUrl: 'https://www.youtube.com/watch?v=m4eJLjDMWe8'
+    },
+    {
+        id: 5,
+        title: "El Hambre del Liceo",
+        artist: "Carlos Vives",
+        content: "Written by the late maestro Escalona, it tells of the wandering and abject food hardships a boarding-school student of the era had to face.",
+        image: '/sancocho-vallenato/imagenes-artistas-transparent/el-hambre-del-liceo.svg',
+        youtubeUrl: 'https://www.youtube.com/watch?v=0XIqsybJg5o'
+    },
+    {
+        id: 6,
+        title: "Navidad",
+        artist: "El Binomio de Oro",
+        content: "From the opening of side B of the record 227 20928 on the Costeño label, we have this unforgettable ode to Christmas contrasts at the dawn of the family table, a sadness that inequality is the daily bread of these poems.",
+        image: '/sancocho-vallenato/imagenes-artistas-transparent/navidad.svg',
+        youtubeUrl: 'https://www.youtube.com/watch?v=t0rTDZNWIyU'
+    },
+    {
+        id: 7,
+        title: "Las Frutas del Amor",
+        artist: "Los Corraleros de Majagual",
+        content: "From Fuentes's LP Volvimos, Los Corraleros invite us to ride along in their cart carrying the famous fruits of love or passion, a colorful symbol of the region.",
+        image: '/sancocho-vallenato/imagenes-artistas-transparent/corralerosblanco.png',
+        youtubeUrl: 'https://www.youtube.com/watch?v=vvfI2gOqOLw'
+    },
+    {
+        id: 8,
+        title: "Cumbia Campesina",
+        artist: "Andrés Landero",
+        content: "An ancestral rhythm that mixes African, Spanish and Indigenous heritage. Cumbia is the voice of the people, the music that resonates in the streets of Colombia.",
+        image: '/sancocho-vallenato/imagenes-artistas-transparent/landerocolorblanco2.png',
+        youtubeUrl: 'https://www.youtube.com/watch?v=GQ9Gje94tgQ'
+    },
+    {
+        id: 9,
+        title: "El Limoncito",
+        artist: "Diomedes Díaz",
+        content: "With his signature satirical style, Diomedes Díaz plays with the symbols and metaphors of our region, making us laugh at our own realities.",
+        image: '/sancocho-vallenato/imagenes-artistas-transparent/diomedesdosblanco.png',
+        youtubeUrl: 'https://www.youtube.com/watch?v=X3NS47rVvVE'
+    },
+    {
+        id: 10,
+        title: "La Empanadita",
+        artist: "Calixto Ochoa",
+        content: "The empanada as an expression of identity and tradition, a symbol of the cultural resistance of our Caribbean people.",
+        image: '/sancocho-vallenato/imagenes-artistas-transparent/calixto2.png',
+        youtubeUrl: 'https://www.youtube.com/watch?v=50mDGC34g_M'
+    }
+];
+
+// Initialize the site
+document.addEventListener('DOMContentLoaded', function() {
+    renderStories();
+    setupSmoothScroll();
+    setupParallaxScroll();
+});
+
+// Parallax scroll effect for intro image - sticks to top, oscillates left-to-right multiple times
+function setupParallaxScroll() {
+    const parallaxImage = document.querySelector('.parallax-image img');
+    if (!parallaxImage) return;
+
+    window.addEventListener('scroll', function() {
+        const scrollY = window.scrollY;
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = (scrollY / maxScroll);
+
+        // Oscillate left-to-right 3 times using sine wave (±150px movement)
+        const translateX = Math.sin(scrollPercent * Math.PI * 6) * 150;
+        // Shrink to 35% over the first 500px of scroll so the text stays readable
+        const shrink = window.innerWidth > 1024 ? Math.min(scrollY / 500, 1) : 0;
+        const scale = 1 - shrink * 0.65;
+        parallaxImage.style.transform = `translateX(${translateX}px) scale(${scale})`;
+    });
+}
+
+// Render stories grid
+function renderStories() {
+    const grid = document.getElementById('storiesGrid');
+    if (!grid) {
+        console.error('storiesGrid element not found');
+        return;
+    }
+    grid.innerHTML = '';
+
+    stories.forEach(story => {
+        const card = document.createElement('div');
+        card.className = 'story-card';
+        card.id = `story-${story.id}`;
+        card.innerHTML = `
+            <h3 class="story-card-title">${story.title}</h3>
+            <p class="story-card-artist">${story.artist}</p>
+            <div class="story-expanded-content" style="display: none; opacity: 0; margin-top: 1rem;">
+                <div class="story-image" style="margin-bottom: 1rem;"></div>
+                <div class="story-text" style="margin-bottom: 1rem;"></div>
+                <div class="spotify-embed"></div>
+            </div>
+        `;
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', function(e) {
+            // Don't expand if clicking on the embed or play button
+            if (e.target.closest('.spotify-embed') || e.target.closest('.youtube-play-btn')) {
+                return;
+            }
+            e.preventDefault();
+            e.stopPropagation();
+            expandStory(card, story);
+        });
+        grid.appendChild(card);
+    });
+}
+
+// Toggle story expansion
+function expandStory(card, story) {
+    const isExpanded = card.classList.contains('expanded');
+
+    // Close all other expanded cards
+    document.querySelectorAll('.story-card.expanded').forEach(c => {
+        if (c !== card) {
+            c.classList.remove('expanded');
+            const content = c.querySelector('.story-expanded-content');
+            content.style.opacity = '0';
+            setTimeout(() => {
+                content.style.display = 'none';
+            }, 300);
+            const img = c.querySelector('.story-image');
+            if (img) img.classList.remove('animate');
+        }
+    });
+
+    if (isExpanded) {
+        card.classList.remove('expanded');
+        const content = card.querySelector('.story-expanded-content');
+        content.style.opacity = '0';
+        const img = card.querySelector('.story-image');
+        if (img) img.classList.remove('animate');
+        setTimeout(() => {
+            content.style.display = 'none';
+        }, 300);
+    } else {
+        card.classList.add('expanded');
+        const content = card.querySelector('.story-expanded-content');
+        content.style.display = 'block';
+        setTimeout(() => {
+            content.style.opacity = '1';
+        }, 10);
+
+        // Populate content
+        const imageDiv = content.querySelector('.story-image');
+        if (story.image) {
+            imageDiv.innerHTML = `<img src="${story.image}" alt="${story.title}" loading="lazy" style="width: 100%; height: auto; display: block;">`;
+            imageDiv.classList.add('animate');
+        }
+
+        const textDiv = content.querySelector('.story-text');
+        textDiv.innerHTML = `<p>${story.content}</p>`;
+
+        // Add YouTube audio embed
+        const embedDiv = content.querySelector('.spotify-embed');
+        if (story.youtubeUrl) {
+            const videoId = extractYouTubeId(story.youtubeUrl);
+            if (videoId) {
+                embedDiv.innerHTML = `<iframe width="100%" height="200" src="https://www.youtube.com/embed/${videoId}" title="YouTube audio player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+            }
+        }
+
+        // Scroll card into view
+        setTimeout(() => {
+            card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 100);
+    }
+}
+
+
+// Extract YouTube video ID from URL
+function extractYouTubeId(url) {
+    const patterns = [
+        /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/,
+        /^([a-zA-Z0-9_-]{11})$/ // Direct video ID
+    ];
+
+    for (let pattern of patterns) {
+        const match = url.match(pattern);
+        if (match && match[1]) {
+            return match[1];
+        }
+    }
+    return null;
+}
+
+
+// Setup smooth scroll for CTA buttons
+function setupSmoothScroll() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+}
+
