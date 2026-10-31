@@ -7,7 +7,7 @@ const stories = [
         title: "El Chicharrón",
         artist: "Omar Geles",
         content: "This personification, in which a rather harmful pork skin fried at high and scalding temperatures is credited with the chores and details of a complex and toxic relationship. What a chicharrón, one might say.",
-        image: '/sancocho-vallenato/imagenes-artistas-transparent/omargelesblanco2.png',
+        image: '/sancocho-vallenato/imagenes-artistas-transparent/omargelesblanco2.webp',
         youtubeUrl: 'https://www.youtube.com/watch?v=dBA1hMNptjs?si=lm2G54arifkqK81Q'
     },
     {
@@ -15,7 +15,7 @@ const stories = [
         title: "La Yuca y La Tajada",
         artist: "Ivan Villazon y Saul Lallemand",
         content: "Written by Romualdo Brito, this inexplicable, tubercular love song is titled after two of our favorite starchy side dishes.",
-        image: '/sancocho-vallenato/imagenes-artistas-transparent/villalol.png',
+        image: '/sancocho-vallenato/imagenes-artistas-transparent/villalol.webp',
         youtubeUrl: 'https://www.youtube.com/watch?v=ropdwqJtrQ4'
     },
     {
@@ -23,7 +23,7 @@ const stories = [
         title: "El Comelón",
         artist: "Diomedes Diaz",
         content: "Released on Fiesta Vallenata Vol. 20, this song gives us the eternal, continuous metaphor of a badly wounded lover ravenously making his muse a gift of his suicide.",
-        image: '/sancocho-vallenato/imagenes-artistas-transparent/diomedesblanco.png',
+        image: '/sancocho-vallenato/imagenes-artistas-transparent/diomedesblanco.webp',
         youtubeUrl: 'https://www.youtube.com/watch?v=GA2OYoq3gNo'
     },
     {
@@ -31,7 +31,7 @@ const stories = [
         title: "Invitación Parrandera",
         artist: "Tomas Alfonso Zuleta & Nicolas Elias Mendoza",
         content: "A festive invitation to celebrate the joys of Caribbean life.",
-        image: '/sancocho-vallenato/imagenes-artistas-transparent/invitacion-parrandera.png',
+        image: '/sancocho-vallenato/imagenes-artistas-transparent/invitacion-parrandera.webp',
         youtubeUrl: 'https://www.youtube.com/watch?v=m4eJLjDMWe8'
     },
     {
@@ -55,7 +55,7 @@ const stories = [
         title: "Las Frutas del Amor",
         artist: "Los Corraleros de Majagual",
         content: "From Fuentes's LP Volvimos, Los Corraleros invite us to ride along in their cart carrying the famous fruits of love or passion, a colorful symbol of the region.",
-        image: '/sancocho-vallenato/imagenes-artistas-transparent/corralerosblanco.png',
+        image: '/sancocho-vallenato/imagenes-artistas-transparent/corralerosblanco.webp',
         youtubeUrl: 'https://www.youtube.com/watch?v=vvfI2gOqOLw'
     },
     {
@@ -63,7 +63,7 @@ const stories = [
         title: "Cumbia Campesina",
         artist: "Andrés Landero",
         content: "An ancestral rhythm that mixes African, Spanish and Indigenous heritage. Cumbia is the voice of the people, the music that resonates in the streets of Colombia.",
-        image: '/sancocho-vallenato/imagenes-artistas-transparent/landerocolorblanco2.png',
+        image: '/sancocho-vallenato/imagenes-artistas-transparent/landerocolorblanco2.webp',
         youtubeUrl: 'https://www.youtube.com/watch?v=GQ9Gje94tgQ'
     },
     {
@@ -71,7 +71,7 @@ const stories = [
         title: "El Limoncito",
         artist: "Diomedes Díaz",
         content: "With his signature satirical style, Diomedes Díaz plays with the symbols and metaphors of our region, making us laugh at our own realities.",
-        image: '/sancocho-vallenato/imagenes-artistas-transparent/diomedesdosblanco.png',
+        image: '/sancocho-vallenato/imagenes-artistas-transparent/diomedesdosblanco.webp',
         youtubeUrl: 'https://www.youtube.com/watch?v=X3NS47rVvVE'
     },
     {
@@ -79,7 +79,7 @@ const stories = [
         title: "La Empanadita",
         artist: "Calixto Ochoa",
         content: "The empanada as an expression of identity and tradition, a symbol of the cultural resistance of our Caribbean people.",
-        image: '/sancocho-vallenato/imagenes-artistas-transparent/calixto2.png',
+        image: '/sancocho-vallenato/imagenes-artistas-transparent/calixto2.webp',
         youtubeUrl: 'https://www.youtube.com/watch?v=50mDGC34g_M'
     }
 ];
@@ -93,6 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Parallax scroll effect for intro image - sticks to top, oscillates left-to-right multiple times
 function setupParallaxScroll() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const parallaxImage = document.querySelector('.parallax-image img');
     if (!parallaxImage) return;
 

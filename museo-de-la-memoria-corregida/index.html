@@ -325,9 +325,9 @@
             const card = document.createElement('article');
             card.className = 'drawer-item';
             const frameClass = partner ? 'ornate-frame pair-frame' : 'ornate-frame';
-            const overlay = partner ? `<img class="pair-next" src="${partner.image}" alt="">` : '';
+            const overlay = partner ? `<img class="pair-next" loading="lazy" src="${partner.image}" alt="">` : '';
             const text = textOf(item);
-            const img = item.image ? `<figure class="${frameClass}"><img class="drawer-item-image" src="${item.image}" alt="${text.title}">${overlay}</figure>` : '';
+            const img = item.image ? `<figure class="${frameClass}"><img class="drawer-item-image" loading="lazy" src="${item.image}" alt="${text.title}">${overlay}</figure>` : '';
             const button = partner ? `<button type="button" class="pair-button">${T['museum.button.show'] ?? 'Ver Obra Proscrita'}</button>` : '';
             const date = item.date ? `<p class="drawer-item-date">${item.date}</p>` : '';
             const source = item.source ? `<p class="drawer-item-source"><a href="${item.source}" target="_blank" rel="noopener">Fuente</a></p>` : '';
@@ -377,11 +377,39 @@
                 if (T[el.dataset.i18n]) el.textContent = T[el.dataset.i18n];
             });
             document.querySelectorAll('[data-i18n-html]').forEach(el => {
-                if (T[el.dataset.i18nHtml]) el.innerHTML = T[el.dataset.i18nHtml];
+                if (T[el.dataset.i18nHtml]) el.innerHTML = safeHTML(T[el.dataset.i18nHtml]);
             });
             document.querySelectorAll('[data-i18n-aria]').forEach(el => {
                 if (T[el.dataset.i18nAria]) el.setAttribute('aria-label', T[el.dataset.i18nAria]);
             });
+        }
+
+        // Translations may contain simple markup (links, bold, line breaks).
+        // Keep only those tags and only http(s) links, so a bad translation cannot inject script.
+        function safeHTML(html) {
+            const doc = new DOMParser().parseFromString(`<body>${html}</body>`, 'text/html');
+            const drop = ['SCRIPT', 'STYLE', 'IFRAME', 'OBJECT', 'EMBED'];
+            const allowed = ['A', 'STRONG', 'EM', 'BR'];
+            const walk = (node) => {
+                [...node.childNodes].forEach(child => {
+                    if (child.nodeType !== Node.ELEMENT_NODE) return;
+                    if (drop.includes(child.tagName)) return child.remove();
+                    if (!allowed.includes(child.tagName)) {
+                        child.replaceWith(...child.childNodes);
+                        return;
+                    }
+                    [...child.attributes].forEach(attr => {
+                        if (child.tagName !== 'A' || !['href', 'target', 'rel'].includes(attr.name)) child.removeAttribute(attr.name);
+                    });
+                    if (child.tagName === 'A') {
+                        if (!/^https?:\/\//.test(child.getAttribute('href') || '')) child.removeAttribute('href');
+                        child.setAttribute('rel', 'noopener');
+                    }
+                    walk(child);
+                });
+            };
+            walk(doc.body);
+            return doc.body.innerHTML;
         }
 
         function itemId(item) {
@@ -415,7 +443,7 @@
                 });
                 const disclaimer = document.createElement('p');
                 disclaimer.className = 'drawer-disclaimer';
-                disclaimer.innerHTML = T['museum.disclaimer'] ?? 'Todas las imágenes retiradas del Museo Nacional fueron documentadas por esferapública y tomé registro de <a href="https://drive.google.com/file/d/1Fr46Nd_mOVd7aIJc89mbkhzNTiC5mAyB/view" target="_blank" rel="noopener">este link</a>';
+                disclaimer.innerHTML = safeHTML(T['museum.disclaimer'] ?? 'Todas las imágenes retiradas del Museo Nacional fueron documentadas por esferapública y tomé registro de <a href="https://drive.google.com/file/d/1Fr46Nd_mOVd7aIJc89mbkhzNTiC5mAyB/view" target="_blank" rel="noopener">este link</a>');
                 drawer.appendChild(disclaimer);
             });
     </script>
