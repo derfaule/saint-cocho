@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Espacio de Saint.Cocho: escritura, parodias y proyectos satíricos sobre Colombia.">
+    <meta property="og:title" content="Saint.Cocho">
+    <meta property="og:description" content="Espacio de Saint.Cocho: escritura, parodias y proyectos satíricos sobre Colombia.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://saintcocho.org/">
+    <link rel="canonical" href="https://saintcocho.org/">
+    <link rel="alternate" hreflang="es" href="https://saintcocho.org/">
+    <link rel="alternate" hreflang="en" href="https://saintcocho.org/en/">
     <title>Saint.Cocho</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -324,6 +331,12 @@
             .then(data => {
                 translations[lang] = data;
                 applyLanguage();
+            })
+            .catch(() => {
+                // Keep the Spanish text already in the HTML if the locale file cannot be loaded.
+                console.error('Could not load locale file');
+            })
+            .finally(() => {
                 const initialSlug = slugFromPath();
                 if (projects[initialSlug]) openProject(initialSlug, null, { push: false });
             });

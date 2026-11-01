@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Un museo de parodia: obras retiradas por decreto, exhibidas de nuevo.">
+    <meta property="og:title" content="Museo de la Memoria Corregida">
+    <meta property="og:description" content="Obras retiradas por decreto, exhibidas de nuevo.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://saintcocho.org/museo-de-la-memoria-corregida/">
     <title>Museo de la Memoria Corregida</title>
     <link rel="stylesheet" href="/theme.css">
     <style>
@@ -73,11 +78,6 @@
 
         .content-left p {
             margin-bottom: 1rem;
-        }
-
-        .parody-note {
-            font-size: 1rem;
-            color: var(--color-fg-muted);
         }
 
         .drawer {
@@ -282,7 +282,9 @@
             const img = card.querySelector('.drawer-item-image');
             if (!frame || !img) return;
             img.style.maxHeight = '';
-            const top = Math.max(drawer.getBoundingClientRect().top, 0);
+            // On narrow screens the drawer flows below the intro, so the whole screen is available.
+            const narrow = window.matchMedia('(max-width: 768px)').matches;
+            const top = narrow ? 0 : Math.max(drawer.getBoundingClientRect().top, 0);
             const viewH = Math.min(drawer.clientHeight, window.innerHeight - top) - 16;
             const frameStyle = getComputedStyle(frame);
             const frameMargin = parseFloat(frameStyle.marginTop) + parseFloat(frameStyle.marginBottom);
@@ -445,6 +447,11 @@
                 disclaimer.className = 'drawer-disclaimer';
                 disclaimer.innerHTML = safeHTML(T['museum.disclaimer'] ?? 'Todas las imágenes retiradas del Museo Nacional fueron documentadas por esferapública y tomé registro de <a href="https://drive.google.com/file/d/1Fr46Nd_mOVd7aIJc89mbkhzNTiC5mAyB/view" target="_blank" rel="noopener">este link</a>');
                 drawer.appendChild(disclaimer);
+            })
+            .catch(() => {
+                const message = document.createElement('p');
+                message.textContent = 'No se pudo cargar la exposición. / The exhibition could not be loaded.';
+                drawer.appendChild(message);
             });
     </script>
 </body>
