@@ -22,6 +22,11 @@ Pushed to `main`.
 
 - **Initial release** (`a2c7470`): `theme.css` (copied unchanged from saint-cocho), accordion CSS, full-page layout CSS, and `story-grid.js` with `StoryGrid.accordion()` and `StoryGrid.mount()`, plus a README. The `v1.0.0` tag/release is not created yet.
 
+### derfaule/saint-cocho (follow-up)
+- **Sancocho Vallenato and nuevo-proyecto now load the story-grid component from saint-cocho-theme**, pinned to commit `a2c7470` on jsDelivr (no tag exists yet). The local `components/story-grid/` copy was removed. Both pages keep `../theme.css`, because that file is the live site theme (edited via `tokens.html`, shared with the home page, Mixtape, Narrativas and the visualizador).
+- The catalogue keeps its own vendored copy on purpose: it is a local, offline viewer.
+
 ### Open
-- Create the `v1.0.0` release on saint-cocho-theme.
-- Switch saint-cocho and the catalogue to load theme + component from saint-cocho-theme.
+- Create the `v1.0.0` release on saint-cocho-theme (tag creation was blocked from the session), then optionally repin to `@v1.0.0`.
+- Delete the merged `claude/*` branches (deletion was refused with HTTP 403 from the session).
+- The jsDelivr URLs could not be fetched from the session sandbox; open Sancocho once after deploy to confirm.

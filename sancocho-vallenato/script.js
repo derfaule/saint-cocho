@@ -1,4 +1,4 @@
-// Sancocho Vallenato — content only; layout/behavior lives in /components/story-grid
+// Sancocho Vallenato — content only; layout/behavior lives in derfaule/saint-cocho-theme (story-grid)
 const stories = [
     {
         title: "El Chicharrón",
