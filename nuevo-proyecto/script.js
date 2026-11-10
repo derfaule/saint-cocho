@@ -1,4 +1,4 @@
-// Nuevo Proyecto — content only; layout/behavior lives in /components/story-grid
+// Nuevo Proyecto — content only; layout/behavior lives in derfaule/saint-cocho-theme (story-grid)
 const stories = [
     {
         title: "Título uno",
