@@ -8,32 +8,28 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,200;0,400;0,500;0,600;0,700;0,800;1,200;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../theme.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/derfaule/saint-cocho-theme@a2c7470cd680a491f2ab71eecc3f6c077ee9d6a5/components/story-grid/story-grid.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/derfaule/saint-cocho-theme@a2c7470cd680a491f2ab71eecc3f6c077ee9d6a5/components/story-grid/story-grid-layout.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="site-wrapper">
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Home Section -->
-            <section id="home" class="section home-section active"><h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap">Sancocho Vallenato</h1>
-                <div class="home-container">
-                    <div class="title-block">
-                        <img src="sancocho-logo.svg" alt="Sancocho Vallenato" class="home-logo">
-                        <p class="subtitle">Un viaje por la corrupción, la música y el caos de Colombia</p>
-                        <div class="scroll-arrow">↓</div>
-                    </div>
+    <div class="sg-wrapper">
+        <main class="sg-main">
+            <section class="sg-hero">
+                <div>
+                    <img src="sancocho-logo.svg" alt="Sancocho Vallenato" class="sg-hero-logo">
+                    <p class="sg-hero-subtitle">Un viaje por la corrupción, la música y el caos de Colombia</p>
+                    <div class="sg-hero-arrow">↓</div>
                 </div>
             </section>
 
-            <!-- Introduction Section -->
-            <section id="intro" class="section intro-section" tabindex="0" aria-label="Introducción">
-                <div class="section-content intro-content">
-                    <h2 class="section-title">Introducción</h2>
-                    <div class="intro-wrapper">
-                        <div class="intro-image parallax-image">
-                            <img src="imagenes-artistas-transparent/mermeladablanco.webp" alt="La Mermelada" loading="lazy">
-                        </div>
-                        <div class="intro-text">
+            <section class="sg-intro">
+                <div class="sg-panel">
+                    <h2 class="sg-title">Introducción</h2>
+                    <div class="sg-intro-image">
+                        <img src="imagenes-artistas-transparent/mermeladablanco.png" alt="La Mermelada" loading="lazy">
+                    </div>
+                    <div class="sg-intro-text">
                             <p>Colombia es un sancocho, un cruel putrefacto, vil y desalmado menjurje cocido a las ígneas llamas del fuego de la idiosincracia patria, compuesta por esa execrable triada de la corrupción, la indolencia y la ignorancia que arropan lo ancho y lo largo de nuestro país.</p>
 
                             <p>Basta con ojear rápidamente cualquier diario y encontrarse perlas como magistrados de la corte suprema, intachables e impolutos impartidores de justicia, envueltos en una enmarañada y grotesca red de corrupción, pre-candidatos presidenciales investigados por la justicia, la salud cada día en condiciones más penosas, y para colmo de males, hay quienes apelan al amor a la patria en búsqueda de sus maquiavélicas intenciones; todo un concepto de estado y patria fallida.</p>
@@ -49,7 +45,7 @@
                             <p>Pero para no seguir acibarando los ánimos con estos funestas de la complicada actualidad nacional, hoy les tengo un bestiario, constituido de pies a cabeza por dos elementos que como la 'mermelada', perdón el 'sancocho' son tan arraigados a nuestro colorido pueblo caribe; la culinaria y el vallenato.</p>
 
                             <p>La escogencia de estos temas tiene como fin exponer la verdadera naturaleza de la región Caribe, la glotonería (al menos que estemos hablando de La Guajira porque ahí si nada que inventar), la bebida (de parrandas y reuniones entre cuarteles políticos de la región) y la música, tres elementos que coexisten en una cuasi-perfecta armonía de la cuál no se ha escrito lo suficiente hasta el día de hoy, y sobre todo, a ver si de una vez por todas nos regalamos un momento para reírnos entre tanto caos que nos ahoga día a día en este cruel y abúlico país.</p>
-                        </div>
+                        
                     </div>
                 </div>
             </section>
@@ -65,12 +61,12 @@
             </section>
         </main>
 
-<!-- Footer -->
-        <footer class="footer">
+        <footer class="sg-footer">
             <p>&copy; 2024 Sancocho Vallenato. Una sátira política sobre la corrupción colombiana.</p>
         </footer>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/gh/derfaule/saint-cocho-theme@a2c7470cd680a491f2ab71eecc3f6c077ee9d6a5/components/story-grid/story-grid.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
