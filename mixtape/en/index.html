@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE CITY *NOT SO* ROTTEN</title>
+    <link rel="stylesheet" href="/theme.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            background: var(--color-bg);
+            color: var(--color-fg);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow: hidden;
+        }
+
+        .wrapper {
+            height: 100%;
+        }
+
+        .jcard {
+            display: grid;
+            grid-template-columns: 80px 1fr 1fr 200px;
+            height: 100%;
+        }
+
+        .jcard-panel {
+            padding: 20px;
+            min-height: 0;
+            border-right: 1px solid var(--color-fg);
+        }
+
+        .jcard-panel:last-child {
+            border-right: none;
+        }
+
+        .spine {
+            writing-mode: vertical-rl;
+            background: var(--color-fg);
+            color: var(--color-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 10px;
+        }
+
+        .spine-left {
+            transform: rotate(180deg);
+        }
+
+        .front-cover {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .front-cover h1 {
+            font-family: var(--font-heading);
+            margin-bottom: 20px;
+        }
+
+        .front-cover .subtitle {
+            padding: 8px 20px;
+            margin: 10px 0;
+        }
+
+        .front-cover .tagline {
+            margin-top: 15px;
+            line-height: 1.8;
+        }
+
+        .front-cover {
+            justify-content: flex-start;
+            overflow: hidden;
+        }
+
+        .gallery {
+            flex: 1;
+            min-height: 0;
+            width: 100%;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .back-cover {
+            overflow-y: auto;
+        }
+
+        .side-section {
+            margin-bottom: 20px;
+        }
+
+        .side-label {
+            margin-bottom: 10px;
+        }
+
+        .story-card {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--color-border);
+            cursor: pointer;
+        }
+
+        .story-card-title {
+            display: inline;
+            background-image: linear-gradient(currentColor, currentColor);
+            background-repeat: no-repeat;
+            background-position: 0 100%;
+            background-size: 0% 0.06em;
+            transition: background-size 0.2s ease-out;
+        }
+
+        .story-card-artist {
+            margin-top: 0.2rem;
+        }
+
+        .story-card:hover .story-card-title,
+        .story-card.expanded .story-card-title {
+            background-size: 100% 0.06em;
+        }
+
+        .story-expanded-content {
+            margin-top: 1rem;
+        }
+
+        .story-expanded-content[hidden] {
+            display: none;
+        }
+
+        .story-text p {
+            margin-bottom: 1rem;
+        }
+
+        .spotify-embed iframe {
+            width: 100%;
+            height: 200px;
+            border: none;
+        }
+
+
+
+        .info-panel {
+            overflow-wrap: break-word;
+            line-height: 1.9;
+        }
+
+        .info-header {
+            margin-bottom: 10px;
+        }
+
+        .info-panel a {
+            color: var(--color-fg);
+        }
+
+        @media (max-width: 968px) and (min-width: 768px) {
+            .jcard {
+                grid-template-columns: 60px 1fr 1fr 180px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            body {
+                height: auto;
+                overflow: visible;
+            }
+
+            html, body, .wrapper {
+                height: auto;
+            }
+
+            .jcard {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+
+            .spine {
+                writing-mode: horizontal-tb;
+                transform: none;
+                padding: 12px;
+            }
+
+            .jcard-panel {
+                border-right: none;
+                border-bottom: 1px solid var(--color-fg);
+            }
+
+            .gallery {
+                overflow-y: visible;
+            }
+
+            .jcard-panel:last-child {
+                border-bottom: none;
+            }
+
+            .back-cover {
+                overflow-y: visible;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+    <div class="wrapper">
+        <div class="jcard" id="jcard">
+            <div class="spine spine-left jcard-panel">
+                <h2>THE CITY *NOT SO* ROTTEN - MIXTAPE #1 ★ 2025</h2>
+            </div>
+
+            <div class="front-cover jcard-panel">
+                <h1>THE CITY *NOT SO* ROTTEN</h1>
+                <h2 class="subtitle">★ MIXTAPE #1 ★</h2>
+                <div class="tagline">
+                    No Spotify<br>
+                    No algorithms<br>
+                    Only decay<br>
+                    Pure
+                </div>
+                <div class="gallery">
+                    <img src="/mixtape/gallery/1.webp" alt="">
+                    <img src="/mixtape/gallery/2.webp" alt="">
+                    <img src="/mixtape/gallery/3.webp" alt="">
+                    <img src="/mixtape/gallery/4.webp" alt="">
+                    <img src="/mixtape/gallery/5.webp" alt="">
+                </div>
+            </div>
+
+            <div class="back-cover jcard-panel">
+                <div class="side-section">
+                    <h2 class="side-label">Side A</h2>
+                    <div class="track-list" id="sideA"></div>
+                </div>
+
+                <div class="side-section">
+                    <h2 class="side-label">Side B</h2>
+                    <div class="track-list" id="sideB"></div>
+                </div>
+            </div>
+
+            <div class="info-panel jcard-panel">
+                <h3 class="info-header">Info</h3>
+                <strong>Curated by:</strong><br>
+                Marquis Saint Cocho<br><br>
+
+                <strong>Year:</strong><br>
+                2025<br><br>
+
+                <strong>Contact:</strong><br>
+                <a href="https://saintcocho.substack.com/p/la-ciudad-no-tan-podrida?r=1iykio&amp;utm_campaign=post-expanded-share&amp;utm_medium=web" target="_blank" rel="noopener">More info</a><br>
+                <br>Medellín punk city<br>
+                Against reactionaries
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const DEFAULT_DESCRIPTION = 'Short description of the song, to be written.';
+        let currentTrack = null;
+        let selectedTrack = 1;
+
+        const tracks = {
+            1: {
+                title: "Dinero - Peste Mutantex",
+description: [
+                    "Famous for echoing the gloomy, powerful Rodrigo D. No Futuro, its ode to renouncing the hoarding of material resources (not only money) is quite notable, given Medellín's consolidation in the regional imagination of prosperity, so such fortunes don't always choose the best possible future.",
+                ],
+                type: "Soundcloud",
+                embed: '<iframe title="Reproductor de SoundCloud" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A124408323&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe><div style="font-size: 1rem; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/ms-p-s" title="PUNK´S" target="_blank" rel="noopener" style="color: #cccccc; text-decoration: none;">PUNK´S</a> · <a href="https://soundcloud.com/ms-p-s/dinero-peste-mutantex" title="Dinero - PESTE MUTANTEX" target="_blank" rel="noopener" style="color: #cccccc; text-decoration: none;">Dinero - PESTE MUTANTEX</a></div>'
+            },
+            2: {
+                title: "Payasos de Acero - I.R.A.",
+description: [
+                    "This anthem couldn't be missing, or rather this declaration of mocking criticism of the machinery that in 1993 prided itself on being solid: the army and the national militia. Pure power.",
+                ],
+                type: "youtube",
+                id: "VIDEO_ID_HERE",
+                embed: '<iframe width="560" height="315" src="https://www.youtube.com/embed/bzNp2JVl9m4?si=4dCSyvzlDZI8jeSW" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>'
+            },
+            3: {
+                title: "Sociedad - HPHC",
+description: [
+                    "<a href=\"https://youtu.be/cNnv9QtI60A\" target=\"_blank\">youtu.be/cNnv9QtI60A</a>",
+                    "Maybe not one of the most famous, but the bands of that era always fascinate me, because they moved in a three-way intersection between the most chaotic noise, the most militant punk and the darkest extreme metal. This track is no exception, and it's really worth hearing for its disorganized, punky chaos.",
+                ],
+                type: "youtube",
+                id: "VIDEO_ID_HERE",
+                embed: '<iframe width="560" height="315" src="https://www.youtube.com/embed/Fi_8mYLWEFA?si=2xG-wj487yZRWKxK" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>'
+            },
+            4: {
+                title: "Segregación - Averno",
+description: [
+                    "The almost involuntary synthesis of the most extreme music always raises a genuine doubt in me: songs that condense, in a few seconds, a statement more complex than metal heads could even imagine. From Itagüí come these 34 seconds of pure grindcore chaos.",
+                ],
+                type: "youtube",
+                id: "VIDEO_ID_HERE",
+                embed: '<iframe width="560" height="315" src="https://www.youtube.com/embed/GWP_3y5y6wU?si=A-1pp5yNP_rHwZg2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>'
+            },
+            5: {
+                title: "Libertad sin Censura - Censura",
+description: [
+                    "This one is odd. John Jairo Martínez's pick work is especially canonical when it comes to the extreme music of the Aburrá valley. Guerra Total by Blasfemia and Sacrilegio by Parabellum are already famous.",
+                    "This is without doubt its most punk side, as if the others didn't carry that imprint.",
+                ],
+                type: "youtube",
+                id: "VIDEO_ID_HERE",
+                embed: '<iframe width="560" height="315" src="https://www.youtube.com/embed/qiwJudxAR_U?si=PSvGlaGiINYuGtoC" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>'
+            },
+            6: {
+                title: "Miseria de Medallo - Fértil Miseria",
+description: [
+                    "The universe of the most extreme and militant music in Medellín produced every kind of heterogeneity that deserved distinction, in a setting framed by the rawest, most class-homogenizing violence, which opened gaps for personal gain.",
+                    "From that fertile scene (heh, a pun) came groups like Fértil Miseria, led and made up mostly of women, who leave us anthems where the scream is an essential part of the purest declaration of rebellious intent.",
+                ],
+                type: "bandcamp",
+                embed: '<iframe title="Reproductor de Bandcamp" style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=800618024/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/track=3546916186/transparent=true/" seamless><a href="https://fertilmiseria.bandcamp.com/album/reacci-n">Reacción by Fértil Miseria</a></iframe>'
+            },
+            7: {
+                title: "Indefensa Humana - Ataque de Sonido",
+description: [
+                    "If you ask me and press me, I think this is one of my favorites of the whole scene: it's chaotic, it's pure noise, it's patronage in search of universal ruin. But it's also reflection. In the nineties, in the middle of cultural and sociopolitical ruin, its message feels utterly accurate, because it is true and immediate. I do recommend arming yourself with a sharp ear to untangle the magic of the noisiest sound.",
+                ],
+                type: "youtube",
+                id: "VIDEO_ID_HERE",
+                embed: '<iframe width="560" height="315" src="https://www.youtube.com/embed/F0hCnF-O4HE?si=klOjRJZgnXENUUEE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>'
+            },
+            8: {
+                title: "Sin Razón - Libra",
+description: [
+                    "It's incredible to think this is Cipriano's project; he was the drummer of Parabellum's intellectual chaos. Here it shows that this scene also had room for more melodic sounds, but no less heavy.",
+                ],
+                type: "youtube",
+                id: "VIDEO_ID_HERE",
+                embed: '<iframe width="560" height="315" src="https://www.youtube.com/embed/6DlrhAb-Tog?si=HMbhjjo8B7oeqKv7" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>'
+            },
+            9: {
+                title: "Quiero Escapar - BSN",
+description: [
+                    "The Bastardos Sin Nombre, whom I boldly name, left some hymns of succinct, punky heaviness, like this one, which invites us to feel or embrace the idea of leaving behind the burdens of life back then in Antioquia.",
+                ],
+                type: "youtube",
+                id: "VIDEO_ID_HERE",
+                embed: '<iframe width="560" height="315" src="https://www.youtube.com/embed/eHtewowu5rg?si=5SlnHoebg2BfTmj4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>'
+            },
+            10: {
+                title: "Tao - Restos de Tragedia",
+description: [
+                    "We close with the product of a friendship between an ex-Maleficio and an ex-Parabellum, who sealed their most extreme intentions by embracing the budding hardcore punk movement of the time.",
+                    "The result is a pair of albums that embrace acceleration, a little further from the monolithic wall that is Paisa ultra metal, full of lyrics that never stop reminding us of the world we live in.",
+                ],
+                type: "youtube",
+                id: "VIDEO_ID_HERE",
+                embed: '<iframe width="560" height="315" src="https://www.youtube.com/embed/3N0Cq1EywQI?si=DtAGScfT5MRdK0Fb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>'
+            }
+        };
+
+        function renderTracks() {
+            Object.entries(tracks).forEach(([num, track]) => {
+                const [song, artist] = track.title.split(' - ');
+                const card = document.createElement('article');
+                card.className = 'story-card track-item';
+                card.dataset.track = num;
+                card.tabIndex = 0;
+                card.innerHTML = `
+                    <h3 class="story-card-title">${song}</h3>
+                    <p class="story-card-artist">${artist}</p>
+                    <div class="story-expanded-content" hidden>
+                        <div class="story-text">${(Array.isArray(track.description) ? track.description : [track.description || DEFAULT_DESCRIPTION]).map(p => `<p>${p}</p>`).join('')}</div>
+                        <div class="spotify-embed"></div>
+                    </div>`;
+                card.addEventListener('click', (e) => {
+                    if (e.target.closest('.spotify-embed')) return;
+                    toggleTrack(Number(num));
+                });
+                card.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && e.target === card) {
+                        e.preventDefault();
+                        toggleTrack(Number(num));
+                    }
+                });
+                document.getElementById(Number(num) <= 6 ? 'sideA' : 'sideB').appendChild(card);
+            });
+        }
+
+        function toggleTrack(num) {
+            const card = document.querySelector(`[data-track="${num}"]`);
+            if (card.classList.contains('expanded')) {
+                collapseAll();
+            } else {
+                expandTrack(num);
+            }
+        }
+
+        function expandTrack(num) {
+            const track = tracks[num];
+            if (!track) return;
+
+            collapseAll();
+            const card = document.querySelector(`[data-track="${num}"]`);
+            card.classList.add('expanded');
+            card.querySelector('.story-expanded-content').hidden = false;
+            card.querySelector('.spotify-embed').innerHTML = track.embed || '';
+            currentTrack = num;
+            selectedTrack = num;
+            highlightSelectedTrack();
+            card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function collapseAll() {
+            document.querySelectorAll('.track-item.expanded').forEach(card => {
+                card.classList.remove('expanded');
+                card.querySelector('.story-expanded-content').hidden = true;
+                card.querySelector('.spotify-embed').innerHTML = '';
+            });
+            currentTrack = null;
+        }
+
+        function nextTrack() {
+            const total = Object.keys(tracks).length;
+            expandTrack(currentTrack < total ? currentTrack + 1 : 1);
+        }
+
+        function previousTrack() {
+            const total = Object.keys(tracks).length;
+            expandTrack(currentTrack > 1 ? currentTrack - 1 : total);
+        }
+
+        function setupKeyboardControls() {
+            document.addEventListener('keydown', function(e) {
+                const total = Object.keys(tracks).length;
+
+                switch (e.key) {
+                    case 'ArrowDown':
+                    case 'j':
+                        e.preventDefault();
+                        selectedTrack = selectedTrack < total ? selectedTrack + 1 : 1;
+                        highlightSelectedTrack();
+                        break;
+                    case 'ArrowUp':
+                    case 'k':
+                        e.preventDefault();
+                        selectedTrack = selectedTrack > 1 ? selectedTrack - 1 : total;
+                        highlightSelectedTrack();
+                        break;
+                    case 'Enter':
+                        e.preventDefault();
+                        toggleTrack(selectedTrack);
+                        break;
+                    case 'Escape':
+                        e.preventDefault();
+                        collapseAll();
+                        break;
+                    case 'ArrowRight':
+                    case 'l':
+                        if (currentTrack) {
+                            e.preventDefault();
+                            nextTrack();
+                        }
+                        break;
+                    case 'ArrowLeft':
+                    case 'h':
+                        if (currentTrack) {
+                            e.preventDefault();
+                            previousTrack();
+                        }
+                        break;
+                }
+            });
+        }
+
+        function highlightSelectedTrack() {
+            const selected = document.querySelector(`[data-track="${selectedTrack}"]`);
+            if (selected) {
+                selected.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderTracks();
+            setupKeyboardControls();
+            highlightSelectedTrack();
+        });
+    </script>
+    </main>
+</body>
+</html>
