@@ -2,3 +2,6 @@
 .git
 .wrangler
 wrangler.jsonc
+**/.DS_Store
+**/README.md
+museo-de-la-memoria-corregida/transition-demo.html
